@@ -54,8 +54,8 @@ body {
 /* Kanbahn */
 
 :root {
-  --fullhd-viewport: 1824;
-  --default-margin: 8;
+  --fullhd-viewport: 1824px;
+  --default-margin: 4px;
 }
 
 .root-container {
@@ -75,12 +75,12 @@ body {
   box-sizing: border-box;
   background: rgb(197, 158, 158);
   box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
-  padding: 5px;
+  padding: var(--default-margin);
   flex-wrap: wrap; 
 }
 
 .flex-column {
-  margin: 5px;
+  margin: var(--default-margin);
   background: rgb(255, 255, 255);
   border: 1px solid rgb(194, 194, 194);
   flex: 1 1 0;
@@ -92,14 +92,14 @@ body {
   box-sizing: border-box;
   width: 100%;
   background: white;
-  padding: 0px;
+  padding: var(--default-margin);
   flex-wrap: wrap;
 }
 
 .task {
-  margin: 0px;
+  margin: var(--default-margin);
   padding: 10px;
-  width: 50%;
+  width: calc(50% - calc(2 * var(--default-margin)));
   max-width: 400px;
   box-sizing: border-box;
   background: rgb(255, 246, 196);
