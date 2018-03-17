@@ -89,10 +89,18 @@ body {
 .flex-column {
   margin: var(--default-margin);
   background: rgb(255, 255, 255);
-  flex: 1 1 0;
+  /*flex: 2 1 0;*/
   box-shadow: 1px 1px 3px rgba(0, 0, 0, .5);
   background: linear-gradient(to top left, rgb(243, 243, 243), rgb(250, 250, 250));
   border-radius: 2px;
+}
+
+.flex-column.double {
+  flex: 2 1 0;
+}
+
+.flex-column.single {
+  flex: 1 1 0;
 }
 
 .flex-card-wrapper {
@@ -118,6 +126,10 @@ body {
   overflow: hidden;
   overflow-wrap: break-word;
   border-radius: 2px;
+}
+
+.flex-column.single .task {
+  width: calc(100% - calc(2 * var(--default-margin)));
 }
 
 /*Simple stuff*/
