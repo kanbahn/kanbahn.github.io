@@ -64,7 +64,7 @@ body {
   display: block;
   background: white;
   height: 100%;
-  width: var(--medium-viewport);
+  width: var(--fullhd-viewport);
   box-sizing: border-box;
   padding: 10px;
   margin: auto;
@@ -76,6 +76,7 @@ body {
   box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
   padding: var(--default-margin);
   border-radius: 2px;
+  margin-bottom: calc(2 * var(--default-margin));
 } 
 
 .flex-container {
