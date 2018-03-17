@@ -89,11 +89,13 @@ body {
 .flex-card-box {
   position: relative;
   display: flex;
+  flex-direction: column;
+  flex-wrap: wrap-reverse;
   box-sizing: border-box;
   width: 100%;
   background: white;
   padding: var(--default-margin);
-  flex-wrap: wrap;
+  height: 200px;
 }
 
 .task {
