@@ -66,19 +66,20 @@ body {
   display: block;
   background: white;
   height: 100%;
-  width: var(--small-viewport);
+  /*width: var(--small-viewport);*/
+  width: 100%;
   box-sizing: border-box;
   padding: 10px;
   margin: auto;
 }
-
+/*
 @media screen and (min-width: 1280px) {
   .root-container {
     position: relative;
     display: block;
     background: white;
     height: 100%;
-    width: var(--medium-viewport);
+    width: 100%;
     box-sizing: border-box;
     padding: 10px;
     margin: auto;
@@ -109,7 +110,7 @@ body {
     padding: 10px;
     margin: auto;
   }
-}
+}*/
 
 .feature-lane {
   position: relative;
@@ -152,20 +153,23 @@ body {
   box-sizing: border-box;
   width: 100%;
   padding: var(--default-margin);
-  height: 200; /*Adjust with JS!*/
+  height: 200px; /*Adjust with JS!*/
   overflow: hidden; /*This should not be needed!*/
 }
 
 .task {
+  /* Layout */
   margin: var(--default-margin);
   padding: 10px;
   width: calc(50% - calc(2 * var(--default-margin)));
+  min-width: 175px;
   box-sizing: border-box;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  /* Visual */
   background: linear-gradient(to top left, rgb(255, 246, 196), rgb(252, 247, 221));
   border: 0px solid rgb(211, 204, 163);
   box-shadow: 2px 2px 6px rgba(0, 0, 0, .5);
-  overflow: hidden;
-  overflow-wrap: break-word;
   border-radius: 2px;
 }
 
