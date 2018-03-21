@@ -4,7 +4,7 @@ class Task extends Component {
   render() {
     const content = this.props.content
     return (
-      <p class="task">{content}</p>
+      <p className="task">{content}</p>
     )
   }
 }

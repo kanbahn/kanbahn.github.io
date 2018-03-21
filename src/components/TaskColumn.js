@@ -6,14 +6,14 @@ class TaskColumn extends Component {
     const columnType = "flex-column " + this.props.columnType
     const columnName = this.props.columnName
     const tasks = this.props.tasks
-    
+
     return (
-      <div class={ columnType } >
-        <p class="column-header">{columnName}</p>
-        <div class="flex-card-wrapper">
+      <div className={ columnType } >
+        <p className="column-header">{columnName}</p>
+        <div className="flex-card-wrapper">
           {tasks
             .map(task =>
-              <Task content={task} />
+              <Task key={task} content={task} />
             )
           }
         </div>
