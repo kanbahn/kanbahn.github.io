@@ -173,6 +173,10 @@ body {
   border-radius: 2px;
 }
 
+.task.placeholder {
+  background: rgb(226, 226, 226);
+}
+
 .flex-column.single .task {
   width: calc(100% - calc(2 * var(--default-margin)));
 }

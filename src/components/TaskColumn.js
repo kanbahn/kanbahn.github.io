@@ -16,6 +16,7 @@ class TaskColumn extends Component {
               <Task key={task} content={task} />
             )
           }
+          <p className="task placeholder">Add new</p>
         </div>
       </div>
     )
