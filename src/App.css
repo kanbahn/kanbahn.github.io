@@ -157,7 +157,7 @@ body {
   box-sizing: border-box;
   width: 100%;
   padding: var(--default-margin);
-  height: 200px; /*Adjust with JS!*/
+  height: 200px; /*Adjust with JS!
   overflow: hidden; /*This should not be needed!*/
 }
 
