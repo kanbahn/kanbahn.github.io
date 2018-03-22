@@ -41,11 +41,22 @@ const initalState = {
 
 const taskReducer = (state = initalState, action) => {
   console.log('in taskReducer. ACTION: ', action)
-  const newState = state
+  const newState = {...state}
   const newTask = { title: 'empty task', id: generateId() }
   switch (action.type) {
     case 'NEW-TASK':
       newState[action.lane][action.column].push(newTask)
+      return newState
+    case 'EDIT-TASK':
+      console.log('task edit reducer')
+      const taskToEdit = state[action.lane][action.column].find(task => task.id === action.id)
+      const editedTask = { ...taskToEdit, title: action.title }
+
+      const editedTaskSet = state[action.lane][action.column].map(task => 
+        task.id === action.id ? editedTask : task
+      )
+
+      newState[action.lane][action.column] = editedTaskSet
       return newState
     default:
       return state
@@ -62,6 +73,17 @@ export const taskCreation = (laneName, columnName) => {
     type: 'NEW-TASK',
     lane: laneName,
     column: columnName.toLowerCase()
+  }
+}
+
+export const taskEdit = (taskObj) => {
+  console.log(taskObj)
+  return {
+    type: 'EDIT-TASK',
+    id: taskObj.id,
+    title: taskObj.title,
+    lane: taskObj.lane,
+    column: taskObj.column
   }
 }
 

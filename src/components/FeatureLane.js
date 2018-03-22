@@ -25,7 +25,6 @@ class FeatureLane extends Component {
 
   addTaskToRedux = (event) => {
     event.preventDefault()
-    //console.log(event.target.name)
     const columnName = event.target.name
     const laneName = this.props.featureName
     this.context.store.dispatch(
@@ -42,18 +41,21 @@ class FeatureLane extends Component {
         <div className="flex-container">
           <TaskColumn
             columnType='double'
+            laneName={this.props.featureName}
             columnName='Todo'
             tasks={reduxTasks.todo}
             addNewTask={this.addTaskToRedux}
           />
           <TaskColumn
             columnType='single'
+            laneName={this.props.featureName}
             columnName='InProgress'
             tasks={reduxTasks.inprogress}
             addNewTask={this.addTaskToRedux}
           />
           <TaskColumn
             columnType='double'
+            laneName={this.props.featureName}
             columnName='Done'
             tasks={reduxTasks.done}
             addNewTask={this.addTaskToRedux}

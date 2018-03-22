@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import Task from './Task'
+import { taskEdit } from '../reducers/taskReducer'
 
 class TaskColumn extends Component {
   addNew = () => {
     console.log('new added! ' + this.props.columnName)
   }
 
-  handleChangedText = (id) => {
+  handleChangedText = (taskId) => {
     return (event) => {
-      console.log('this will save to redux:')
-      console.log(event.target)
-      console.log(id)
+      event.preventDefault()
+      console.log(this.props.columnName)
+      console.log(this.props.laneName)
+      this.context.store.dispatch(
+        taskEdit({ id: taskId, title: event.target.value, lane: this.props.laneName, column: this.props.columnName.toLowerCase() })
+      )
     }
   }
 
@@ -35,6 +40,10 @@ class TaskColumn extends Component {
       </div>
     )
   }
+}
+
+TaskColumn.contextTypes = {
+  store: PropTypes.object
 }
 
 export default TaskColumn;
