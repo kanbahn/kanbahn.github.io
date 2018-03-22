@@ -26,7 +26,7 @@ class FeatureLane extends Component {
 
   addNewTodoTask = (newTask) => {
     return () => {
-      const newState = { ...this.state.tasks }
+      const newState = this.context.store.getState()[this.props.featureName]
       newState.todoTasks.push(newTask)
       this.setState({ tasks: newState })
     }
@@ -34,7 +34,7 @@ class FeatureLane extends Component {
 
   addNewInprogressTask = (newTask) => {
     return () => {
-      const newState = { ...this.state.tasks }
+      const newState = this.context.store.getState()[this.props.featureName]
       newState.inprogressTasks.push(newTask)
       this.setState({ tasks: newState })
     }
@@ -42,21 +42,23 @@ class FeatureLane extends Component {
 
   addNewDoneTask = (newTask) => {
     return () => {
-      const newState = { ...this.state.tasks }
+      const newState = this.context.store.getState()[this.props.featureName]
       newState.doneTasks.push(newTask)
       this.setState({ tasks: newState })
     }
   }
 
   addTaskToRedux = (event) => {
-    event.preventDefault()  
+    event.preventDefault()
+    //console.log(event.target.name)
+    
     this.context.store.dispatch(
-      taskCreation('fooTaskValue')
+      taskCreation(event.target.name)
     )
   }
 
   render() {
-    const tasks = this.context.store.getState().featureX
+    const reduxTasks = this.context.store.getState()[this.props.featureName]
     return (
       <div className="feature-lane">
         <h1 className="text-box">{this.state.featureName}</h1>
@@ -65,23 +67,23 @@ class FeatureLane extends Component {
           <TaskColumn
             columnType='double'
             columnName='Todo'
-            tasks={tasks.todoTasks}
-            addNewTask={this.addNewTodoTask('foocontent')}
+            tasks={reduxTasks.todoTasks}
+            addNewTask={this.addTaskToRedux}
           />
           <TaskColumn
             columnType='single'
-            columnName='In Progress'
-            tasks={tasks.inprogressTasks}
-            addNewTask={this.addNewInprogressTask('foocontent')}
+            columnName='InProgress'
+            tasks={reduxTasks.inprogressTasks}
+            addNewTask={this.addTaskToRedux}
           />
           <TaskColumn
             columnType='double'
             columnName='Done'
-            tasks={tasks.doneTasks}
-            addNewTask={this.addNewDoneTask('foocontent')}
+            tasks={reduxTasks.doneTasks}
+            addNewTask={this.addTaskToRedux}
           />
         </div>
-      <button onClick={this.addTaskToRedux}>New task to redux</button>
+      <button onClick={this.addTaskToRedux}>Mock button, new task to redux</button>
       </div>
     )
   }

@@ -11,6 +11,7 @@ class TaskColumn extends Component {
     const columnName = this.props.columnName
     const tasks = this.props.tasks
     const addNewTask = this.props.addNewTask
+    const buttonName = 'new-' + this.props.columnName + '-task'
 
     return (
       <div className={ columnType } >
@@ -18,10 +19,10 @@ class TaskColumn extends Component {
         <div className="flex-card-wrapper">
           {tasks
             .map(task =>
-              <Task key={task} content={task} />
+              <Task key={task.id} content={task.title} />
             )
           }
-          <button onClick={addNewTask} className="task placeholder">Add new</button>
+          <button name={buttonName} onClick={addNewTask} className="task placeholder">Add new</button>
         </div>
       </div>
     )
