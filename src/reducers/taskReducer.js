@@ -46,7 +46,7 @@ const taskReducer = (state = initalState, action) => {
     const newState = state
     //newState.featureX.todoTasks.push(action.content)
     newState.featureX.todoTasks.push('Task New')
-    console.log('New state: ', newState)
+    //console.log('New state: ', newState)
     return newState
   default:
     return state

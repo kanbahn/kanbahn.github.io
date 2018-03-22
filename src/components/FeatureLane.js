@@ -49,13 +49,14 @@ class FeatureLane extends Component {
   }
 
   addTaskToRedux = (event) => {
-    event.preventDefault()
+    event.preventDefault()  
     this.context.store.dispatch(
       taskCreation('fooTaskValue')
     )
   }
 
   render() {
+    const tasks = this.context.store.getState().featureX
     return (
       <div className="feature-lane">
         <h1 className="text-box">{this.state.featureName}</h1>
@@ -64,19 +65,19 @@ class FeatureLane extends Component {
           <TaskColumn
             columnType='double'
             columnName='Todo'
-            tasks={this.state.tasks.todoTasks}
+            tasks={tasks.todoTasks}
             addNewTask={this.addNewTodoTask('foocontent')}
           />
           <TaskColumn
             columnType='single'
             columnName='In Progress'
-            tasks={this.state.tasks.inprogressTasks}
+            tasks={tasks.inprogressTasks}
             addNewTask={this.addNewInprogressTask('foocontent')}
           />
           <TaskColumn
             columnType='double'
             columnName='Done'
-            tasks={this.state.tasks.doneTasks}
+            tasks={tasks.doneTasks}
             addNewTask={this.addNewDoneTask('foocontent')}
           />
         </div>
