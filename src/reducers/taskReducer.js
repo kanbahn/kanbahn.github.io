@@ -1,6 +1,6 @@
 const initalState = {
   featureX: {
-    todoTasks: [
+    todo: [
       { title: 'Task 7b', id: 7123895348954 },
       { title: 'Task 8', id: 9487319478394 },
       { title: 'Task 9', id: 7584923593475 },
@@ -8,10 +8,10 @@ const initalState = {
       { title: 'Task 11', id: 42384723894523 },
       { title: 'Task 12', id: 8742317834 }
     ],
-    inprogressTasks: [
+    inprogress: [
       { title: 'Task 6', id: 74829763420 }
     ],
-    doneTasks: [
+    done: [
       { title: 'Task 1', id: 14789489 },
       { title: 'Task 2', id: 1478230597923 },
       { title: 'Task 3', id: 1543784728 },
@@ -20,16 +20,16 @@ const initalState = {
     ]
   },
   featureY: {
-    todoTasks: [
+    todo: [
       { title: 'Task 8', id: 12347904 },
       { title: 'Task 9', id: 4327689421 },
       { title: 'Task 10', id: 748923789472 }
     ],
-    inprogressTasks: [
+    inprogress: [
       { title: 'Task 6', id: 8942793424 },
       { title: 'Task 7', id: 7489237842 }
     ],
-    doneTasks: [
+    done: [
       { title: 'Task 1 has some loooong text', id: 78592347592 },
       { title: 'Task 2', id: 235782034 },
       { title: 'Task 3', id: 52387903482 },
@@ -44,14 +44,8 @@ const taskReducer = (state = initalState, action) => {
   const newState = state
   const newTask = { title: 'empty task', id: generateId() }
   switch (action.type) {
-    case 'NEW-TODO-TASK':
-      newState.featureX.todoTasks.push(newTask)
-      return newState
-    case 'NEW-INPROGRESS-TASK':
-      newState.featureX.inprogressTasks.push(newTask)
-      return newState
-    case 'NEW-DONE-TASK':
-      newState.featureX.doneTasks.push(newTask)
+    case 'NEW-TASK':
+      newState[action.lane][action.column].push(newTask)
       return newState
     default:
       return state
@@ -60,13 +54,14 @@ const taskReducer = (state = initalState, action) => {
 
 const generateId = () => Number((Math.random() * 1000000).toFixed(0))
 
-export const taskCreation = (taskContext) => {
+export const taskCreation = (laneName, columnName) => {
   console.log('hello from taskCreation')
-  console.log('content:', taskContext)
-  taskContext = taskContext.toUpperCase();
-  console.log(taskContext)
+  console.log('content:', columnName)
+  console.log(columnName)
   return {
-    type: taskContext
+    type: 'NEW-TASK',
+    lane: laneName,
+    column: columnName.toLowerCase()
   }
 }
 

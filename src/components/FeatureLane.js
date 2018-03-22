@@ -7,7 +7,6 @@ class FeatureLane extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      tasks: this.props.tasks,
       featureName: this.props.featureName
     }
 
@@ -51,9 +50,10 @@ class FeatureLane extends Component {
   addTaskToRedux = (event) => {
     event.preventDefault()
     //console.log(event.target.name)
-    
+    const columnName = event.target.name
+    const laneName = this.props.featureName
     this.context.store.dispatch(
-      taskCreation(event.target.name)
+      taskCreation(laneName, columnName)
     )
   }
 
@@ -67,19 +67,19 @@ class FeatureLane extends Component {
           <TaskColumn
             columnType='double'
             columnName='Todo'
-            tasks={reduxTasks.todoTasks}
+            tasks={reduxTasks.todo}
             addNewTask={this.addTaskToRedux}
           />
           <TaskColumn
             columnType='single'
             columnName='InProgress'
-            tasks={reduxTasks.inprogressTasks}
+            tasks={reduxTasks.inprogress}
             addNewTask={this.addTaskToRedux}
           />
           <TaskColumn
             columnType='double'
             columnName='Done'
-            tasks={reduxTasks.doneTasks}
+            tasks={reduxTasks.done}
             addNewTask={this.addTaskToRedux}
           />
         </div>

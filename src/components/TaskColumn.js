@@ -11,7 +11,7 @@ class TaskColumn extends Component {
     const columnName = this.props.columnName
     const tasks = this.props.tasks
     const addNewTask = this.props.addNewTask
-    const buttonName = 'new-' + this.props.columnName + '-task'
+    const buttonName = this.props.columnName
 
     return (
       <div className={ columnType } >
