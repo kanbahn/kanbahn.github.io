@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import TaskColumn from './TaskColumn'
+import { taskCreation } from '../reducers/taskReducer'
 
 class FeatureLane extends Component {
   constructor(props) {
@@ -9,6 +11,17 @@ class FeatureLane extends Component {
       featureName: this.props.featureName
     }
 
+  }
+
+  componentDidMount() {
+    const { store } = this.context
+    this.unsubscribe = store.subscribe(() =>
+      this.forceUpdate()
+    )
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe()
   }
 
   addNewTodoTask = (newTask) => {
@@ -33,6 +46,13 @@ class FeatureLane extends Component {
       newState.doneTasks.push(newTask)
       this.setState({ tasks: newState })
     }
+  }
+
+  addTaskToRedux = (event) => {
+    event.preventDefault()
+    this.context.store.dispatch(
+      taskCreation('fooTaskValue')
+    )
   }
 
   render() {
@@ -60,10 +80,14 @@ class FeatureLane extends Component {
             addNewTask={this.addNewDoneTask('foocontent')}
           />
         </div>
-
+      <button onClick={this.addTaskToRedux}>New task to redux</button>
       </div>
     )
   }
+}
+
+FeatureLane.contextTypes = {
+  store: PropTypes.object
 }
 
 export default FeatureLane
