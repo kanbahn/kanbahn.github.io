@@ -5,27 +5,10 @@ class FeatureLane extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      tasks: {
-        todoTasks: [
-          'Task 7a',
-          'Task 8',
-          'Task 9',
-          'Task 10',
-          'Task 11',
-          'Task 12'
-        ],
-        inprogressTasks: [
-          'Task 6'
-        ],
-        doneTasks: [
-          'Task 1',
-          'Task 2',
-          'Task 3',
-          'Task 4 has a very long text to demonstate how different heights behave',
-          'Task 5'
-        ]
-      }
+      tasks: this.props.tasks,
+      featureName: this.props.featureName
     }
+
   }
 
   addNewTodoTask = (newTask) => {
@@ -55,7 +38,7 @@ class FeatureLane extends Component {
   render() {
     return (
       <div className="feature-lane">
-        <h1 className="text-box">Feature X</h1>
+        <h1 className="text-box">{this.state.featureName}</h1>
 
         <div className="flex-container">
           <TaskColumn
