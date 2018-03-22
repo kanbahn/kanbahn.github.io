@@ -23,30 +23,6 @@ class FeatureLane extends Component {
     this.unsubscribe()
   }
 
-  addNewTodoTask = (newTask) => {
-    return () => {
-      const newState = this.context.store.getState()[this.props.featureName]
-      newState.todoTasks.push(newTask)
-      this.setState({ tasks: newState })
-    }
-  }
-
-  addNewInprogressTask = (newTask) => {
-    return () => {
-      const newState = this.context.store.getState()[this.props.featureName]
-      newState.inprogressTasks.push(newTask)
-      this.setState({ tasks: newState })
-    }
-  }
-
-  addNewDoneTask = (newTask) => {
-    return () => {
-      const newState = this.context.store.getState()[this.props.featureName]
-      newState.doneTasks.push(newTask)
-      this.setState({ tasks: newState })
-    }
-  }
-
   addTaskToRedux = (event) => {
     event.preventDefault()
     //console.log(event.target.name)
