@@ -192,6 +192,13 @@ body {
   border: none !important;
 }
 
+.task input {
+  background: rgba(255, 255, 255, 0);
+  border-width: 0px;
+  font: 400 16px Arial;
+  width: 100%;
+}
+
 .flex-column.single .task {
   width: calc(100% - calc(2 * var(--default-margin)));
 }
