@@ -192,11 +192,12 @@ body {
   border: none !important;
 }
 
-.task input {
+.task textarea {
   background: rgba(255, 255, 255, 0);
   border-width: 0px;
   font: 400 16px Arial;
   width: 100%;
+  resize: vertical; 
 }
 
 .flex-column.single .task {

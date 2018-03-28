@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import TaskColumn from './TaskColumn'
 import { taskCreation } from '../reducers/taskReducer'
 
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
+
 class FeatureLane extends Component {
   constructor(props) {
     super(props)
@@ -71,4 +74,6 @@ FeatureLane.contextTypes = {
   store: PropTypes.object
 }
 
-export default FeatureLane
+//export default FeatureLane
+
+export default DragDropContext(HTML5Backend)(FeatureLane);

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import FeatureLane from './components/FeatureLane'
+import HTML5Backend from 'react-dnd-html5-backend';
 
 class App extends Component {
   render() {
@@ -10,7 +11,6 @@ class App extends Component {
 
         <div className="App">
           <FeatureLane featureName='featureX'/>
-          <FeatureLane featureName='featureY'/>
         </div>
 
       </div>
