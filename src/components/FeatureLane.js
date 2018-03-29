@@ -36,7 +36,10 @@ class FeatureLane extends Component {
   }
 
   render() {
-    const reduxTasks = this.context.store.getState()[this.props.featureName]
+    const lanesTasks = this.context.store.getState()
+      .tasks
+      .filter(task => task.position.lane === this.state.featureName.toLowerCase())
+      
     return (
       <div className="feature-lane">
         <h1 className="text-box">{this.state.featureName}</h1>
@@ -46,21 +49,21 @@ class FeatureLane extends Component {
             columnType='double'
             laneName={this.props.featureName}
             columnName='Todo'
-            tasks={reduxTasks.todo}
+            tasks={lanesTasks.filter(task => task.position.column === 'todo')}
             addNewTask={this.addTaskToRedux}
           />
           <TaskColumn
             columnType='single'
             laneName={this.props.featureName}
             columnName='InProgress'
-            tasks={reduxTasks.inprogress}
+            tasks={lanesTasks.filter(task => task.position.column === 'inprogress')}
             addNewTask={this.addTaskToRedux}
           />
           <TaskColumn
             columnType='double'
             laneName={this.props.featureName}
             columnName='Done'
-            tasks={reduxTasks.done}
+            tasks={lanesTasks.filter(task => task.position.column === 'done')}
             addNewTask={this.addTaskToRedux}
           />
         </div>
@@ -73,7 +76,5 @@ class FeatureLane extends Component {
 FeatureLane.contextTypes = {
   store: PropTypes.object
 }
-
-//export default FeatureLane
 
 export default DragDropContext(HTML5Backend)(FeatureLane);

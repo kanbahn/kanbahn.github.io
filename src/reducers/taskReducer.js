@@ -1,62 +1,30 @@
 const initalState = {
-  featureX: {
-    todo: [
-      { title: 'Task 7b', id: 7123895348954 },
-      { title: 'Task 8', id: 9487319478394 },
-      { title: 'Task 9', id: 7584923593475 },
-      { title: 'Task 10', id: 4237876189231 },
-      { title: 'Task 11', id: 42384723894523 },
-      { title: 'Task 12', id: 8742317834 }
-    ],
-    inprogress: [
-      { title: 'Task 6', id: 74829763420 }
-    ],
-    done: [
-      { title: 'Task 1', id: 14789489 },
-      { title: 'Task 2', id: 1478230597923 },
-      { title: 'Task 3', id: 1543784728 },
-      { title: 'Task 4 has a very long text to demonstate how different heights behave', id: 1 },
-      { title: 'Task 5', id: 7482793204 }
-    ]
-  },
-  featureY: {
-    todo: [
-      { title: 'Task 8', id: 12347904 },
-      { title: 'Task 9', id: 4327689421 },
-      { title: 'Task 10', id: 748923789472 }
-    ],
-    inprogress: [
-      { title: 'Task 6', id: 8942793424 },
-      { title: 'Task 7', id: 7489237842 }
-    ],
-    done: [
-      { title: 'Task 1 has some loooong text', id: 78592347592 },
-      { title: 'Task 2', id: 235782034 },
-      { title: 'Task 3', id: 52387903482 },
-      { title: 'Task 4', id: 9472083957 },
-      { title: 'Task 5', id: 17048923942 }
-    ]
-  }
+  tasks: [
+    { title: 'Task 7', id: 7123895348954, position: { lane: 'featurex', column: 'todo'} },
+    { title: 'Task 8', id: 9487319478394, position: { lane: 'featurex', column: 'todo'} },
+    { title: 'Task 9', id: 7584923593475, position: { lane: 'featurex', column: 'todo'} },
+    { title: 'Task 10', id: 4237876189251, position: { lane: 'featurex', column: 'todo'} },
+    { title: 'Task 11', id: 4238472368945, position: { lane: 'featurex', column: 'todo'} },
+    { title: 'Task 12', id: 8742317834736, position: { lane: 'featurex', column: 'todo'} },
+    { title: 'Task 6', id: 7482976342078, position: { lane: 'featurex', column: 'inprogress'} },
+    { title: 'Task 8', id: 1234790456454, position: { lane: 'featurey', column: 'todo'} }
+  ]
 }
-
 const taskReducer = (state = initalState, action) => {
   console.log('in taskReducer. ACTION: ', action)
   const newState = {...state}
-  const newTask = { title: 'empty task', id: generateId() }
+  
   switch (action.type) {
     case 'NEW-TASK':
-      newState[action.lane][action.column].push(newTask)
+      newState.tasks.push(action.newTask)
       return newState
     case 'EDIT-TASK':
       console.log('task edit reducer')
-      const taskToEdit = state[action.lane][action.column].find(task => task.id === action.id)
+      const taskToEdit = state.tasks.find(task => task.id === action.id)
       const editedTask = { ...taskToEdit, title: action.title }
 
-      const editedTaskSet = state[action.lane][action.column].map(task => 
-        task.id === action.id ? editedTask : task
-      )
-
-      newState[action.lane][action.column] = editedTaskSet
+      newState.tasks = newState.tasks.map(task => task.id !== action.id ? task : editedTask)
+      console.log(newState.tasks)
       return newState
     default:
       return state
@@ -67,12 +35,13 @@ const generateId = () => Number((Math.random() * 1000000).toFixed(0))
 
 export const taskCreation = (laneName, columnName) => {
   console.log('hello from taskCreation')
-  console.log('content:', columnName)
-  console.log(columnName)
+  laneName = laneName.toLowerCase()
+  columnName = columnName.toLowerCase()
+  const newTaskObject = { title: 'empty task', id: generateId(), position: { lane: laneName, column: columnName } }
+
   return {
     type: 'NEW-TASK',
-    lane: laneName,
-    column: columnName.toLowerCase()
+    newTask: newTaskObject
   }
 }
 
@@ -81,9 +50,7 @@ export const taskEdit = (taskObj) => {
   return {
     type: 'EDIT-TASK',
     id: taskObj.id,
-    title: taskObj.title,
-    lane: taskObj.lane,
-    column: taskObj.column
+    title: taskObj.title
   }
 }
 

@@ -33,8 +33,7 @@ class Task extends Component {
   }
   
   render() {
-    const { isDragging, connectDragSource, text } = this.props;
-    console.log('isDragging', isDragging)
+    const { isDragging, connectDragSource } = this.props;
 
     const content = this.props.content
     return connectDragSource(
