@@ -27,11 +27,6 @@ function collect(connect, monitor) {
 
 class Task extends Component {
 
-  handleChange = (event) => {
-    console.log('changed!')
-    console.log(event.target)
-  }
-  
   render() {
     const { isDragging, connectDragSource } = this.props;
 

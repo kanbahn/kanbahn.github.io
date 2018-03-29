@@ -6,6 +6,8 @@ import { taskCreation } from '../reducers/taskReducer'
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 
+import { connect } from 'react-redux'
+
 class FeatureLane extends Component {
   constructor(props) {
     super(props)
@@ -15,29 +17,18 @@ class FeatureLane extends Component {
 
   }
 
-  componentDidMount() {
-    const { store } = this.context
-    this.unsubscribe = store.subscribe(() =>
-      this.forceUpdate()
-    )
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe()
-  }
 
   addTaskToRedux = (event) => {
     event.preventDefault()
     const columnName = event.target.name
     const laneName = this.props.featureName
-    this.context.store.dispatch(
-      taskCreation(laneName, columnName)
-    )
+    this.props.taskCreation(laneName, columnName)
   }
 
   render() {
-    const lanesTasks = this.context.store.getState()
-      .tasks
+    console.log(this.props)
+
+    const lanesTasks = this.props.tasks
       .filter(task => task.position.lane === this.state.featureName.toLowerCase())
       
     return (
@@ -73,8 +64,19 @@ class FeatureLane extends Component {
   }
 }
 
-FeatureLane.contextTypes = {
-  store: PropTypes.object
+const mapStateToProps = (state) => {
+  return {
+    tasks: state.tasks
+  }
+}
+const mapDispatchToProps = {
+  taskCreation
 }
 
-export default DragDropContext(HTML5Backend)(FeatureLane);
+const ConnectedFeatureLane = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FeatureLane)
+
+
+export default DragDropContext(HTML5Backend)(ConnectedFeatureLane)

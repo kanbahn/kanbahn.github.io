@@ -4,15 +4,10 @@ import Task from './Task'
 import { taskEdit } from '../reducers/taskReducer'
 
 class TaskColumn extends Component {
-  addNew = () => {
-    console.log('new added! ' + this.props.columnName)
-  }
 
   handleChangedText = (taskId) => {
     return (event) => {
       event.preventDefault()
-      console.log(this.props.columnName)
-      console.log(this.props.laneName)
       this.context.store.dispatch(
         taskEdit({ id: taskId, title: event.target.value, lane: this.props.laneName, column: this.props.columnName.toLowerCase() })
       )
@@ -32,7 +27,11 @@ class TaskColumn extends Component {
         <div className="flex-card-wrapper">
           {tasks
             .map(task =>
-              <Task handleChange={this.handleChangedText(task.id)} key={task.id} content={task.title} />
+              <Task 
+                handleChange={this.handleChangedText(task.id)} 
+                key={task.id} 
+                content={task.title}
+              />
             )
           }
           <button name={buttonName} onClick={addNewTask} className="task placeholder">Add new</button>
