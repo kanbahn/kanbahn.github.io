@@ -5,6 +5,9 @@ Kanban-board with multiple lanes. Tasks can be then grouped to different lanes e
 Preview:
 ![feature-lane-preview](/img/two-feature-lanes.png)
 
+## Live demo
+
+_coming soon_
 
 ## Installation
 
@@ -14,6 +17,15 @@ Preview:
 - Run application `npm start`
 - Open browser [http://localhost:3000/](http://localhost:3000/)
 
----
+## Tech
+
+- Frontend
+  - React+Redux
+  - Drag'n'Drop with [React DnD](https://react-dnd.github.io/react-dnd/)
+  - CSS with flexboxes, no framework
+- Backend/db
+  - _not implemented_
+
+## Licence
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
