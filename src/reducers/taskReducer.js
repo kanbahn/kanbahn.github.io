@@ -12,20 +12,15 @@ const initalState = {
 }
 const taskReducer = (state = initalState, action) => {
   console.log('in taskReducer. ACTION: ', action)
-  const newState = {...state}
-  
+
   switch (action.type) {
     case 'NEW-TASK':
-      newState.tasks.push(action.newTask)
-      return newState
+      return { ...state, tasks: state.tasks.concat(action.newTask) }
     case 'EDIT-TASK':
       console.log('task edit reducer')
       const taskToEdit = state.tasks.find(task => task.id === action.id)
       const editedTask = { ...taskToEdit, title: action.title }
-
-      newState.tasks = newState.tasks.map(task => task.id !== action.id ? task : editedTask)
-      console.log(newState.tasks)
-      return newState
+      return { ...state, tasks: state.tasks.map(task => task.id !== action.id ? task : editedTask) }
     default:
       return state
   }
