@@ -28,8 +28,7 @@ _coming soon_
   
 ## Development
 
-Nice React Drag'n'Drop tutorial: (https://react-dnd.github.io/react-dnd/docs-tutorial.html)[https://react-dnd.github.io/react-dnd/docs-tutorial.html]
-
+Nice React Drag'n'Drop tutorial: [https://react-dnd.github.io/react-dnd/docs-tutorial.html](https://react-dnd.github.io/react-dnd/docs-tutorial.html)
 ## Licence
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
