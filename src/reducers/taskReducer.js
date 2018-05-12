@@ -21,6 +21,11 @@ const taskReducer = (state = initalState, action) => {
       const taskToEdit = state.tasks.find(task => task.id === action.id)
       const editedTask = { ...taskToEdit, title: action.title }
       return { ...state, tasks: state.tasks.map(task => task.id !== action.id ? task : editedTask) }
+    case 'MOVE-TASK':
+      const taskToMove = state.tasks.find(task => task.id === action.id)
+      const newPosition = { ...taskToMove.position, column: action.column }
+      const movedTask = { ...taskToMove, position: newPosition }
+      return { ...state, tasks: state.tasks.map(task => task.id !== action.id ? task : movedTask) }
     default:
       return state
   }
@@ -46,6 +51,15 @@ export const taskEdit = (taskObj) => {
     type: 'EDIT-TASK',
     id: taskObj.id,
     title: taskObj.title
+  }
+}
+
+export const moveTask = (taskId, column) => {
+  console.log('hello from moveTaskReducer')
+  return {
+    type: 'MOVE-TASK',
+    id: taskId,
+    column: column
   }
 }
 

@@ -2,6 +2,22 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import Task from './Task'
 import { taskEdit } from '../reducers/taskReducer'
+import { DropTarget } from 'react-dnd';
+
+const columnTarget = {
+  drop(props, monitor) {
+    const task = monitor.getItem()
+    console.log('task droped to', props.columnName)
+    props.moveTask(task.taskId)
+  }
+};
+
+function collect(connect, monitor) {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver()
+  };
+}
 
 class TaskColumn extends Component {
 
@@ -14,6 +30,15 @@ class TaskColumn extends Component {
     }
   }
 
+  handleTaskMoving = (taskId) => {
+    return (event) => {
+      event.preventDefault()
+      this.context.store.dispatch(
+        taskEdit({ id: taskId, title: 'Someone tried to move this!', lane: this.props.laneName, column: this.props.columnName.toLowerCase() })
+      )
+    }
+  }
+
   render() {
     const columnType = "flex-column " + this.props.columnType
     const columnName = this.props.columnName
@@ -21,16 +46,24 @@ class TaskColumn extends Component {
     const addNewTask = this.props.addNewTask
     const buttonName = this.props.columnName
 
-    return (
+    const connectDropTarget = this.props.connectDropTarget
+    const isOver = this.props.isOver
+
+    if (isOver) {
+      console.log('task over', columnName)
+    }
+
+    return connectDropTarget(
       <div className={columnType} >
         <p className="column-header">{columnName}</p>
         <div className="flex-card-wrapper">
           {tasks
             .map(task =>
               <Task 
-                handleChange={this.handleChangedText(task.id)} 
+                handleChange={this.handleChangedText(task.id)}
                 key={task.id} 
                 content={task.title}
+                taskId={task.id}
               />
             )
           }
@@ -45,4 +78,4 @@ TaskColumn.contextTypes = {
   store: PropTypes.object
 }
 
-export default TaskColumn;
+export default DropTarget('task', columnTarget, collect)(TaskColumn);

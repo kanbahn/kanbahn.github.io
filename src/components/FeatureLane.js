@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
 import TaskColumn from './TaskColumn'
-import { taskCreation } from '../reducers/taskReducer'
-
+import { taskCreation, moveTask } from '../reducers/taskReducer'
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
-
 import { connect } from 'react-redux'
 
 class FeatureLane extends Component {
@@ -25,6 +22,12 @@ class FeatureLane extends Component {
     this.props.taskCreation(laneName, columnName)
   }
 
+  moveTask = (toColumn) => {
+    return (taskId) => {
+      this.props.moveTask(taskId, toColumn)
+    }
+  }
+
   render() {
     console.log(this.props)
 
@@ -42,6 +45,7 @@ class FeatureLane extends Component {
             columnName='Todo'
             tasks={lanesTasks.filter(task => task.position.column === 'todo')}
             addNewTask={this.addTaskToRedux}
+            moveTask={this.moveTask('todo')}
           />
           <TaskColumn
             columnType='single'
@@ -49,6 +53,7 @@ class FeatureLane extends Component {
             columnName='InProgress'
             tasks={lanesTasks.filter(task => task.position.column === 'inprogress')}
             addNewTask={this.addTaskToRedux}
+            moveTask={this.moveTask('inprogress')}
           />
           <TaskColumn
             columnType='double'
@@ -56,6 +61,7 @@ class FeatureLane extends Component {
             columnName='Done'
             tasks={lanesTasks.filter(task => task.position.column === 'done')}
             addNewTask={this.addTaskToRedux}
+            moveTask={this.moveTask('done')}
           />
         </div>
       <button onClick={this.addTaskToRedux}>Mock button, new task to redux</button>
@@ -69,8 +75,10 @@ const mapStateToProps = (state) => {
     tasks: state.tasks
   }
 }
+
 const mapDispatchToProps = {
-  taskCreation
+  taskCreation,
+  moveTask
 }
 
 const ConnectedFeatureLane = connect(

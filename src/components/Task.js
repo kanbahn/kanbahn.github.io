@@ -9,7 +9,7 @@ import { DragSource } from 'react-dnd';
 const cardSource = {
   beginDrag(props) {
     console.log('Begin drag!')
-    return {}
+    return {taskId: props.taskId}
   }
 };
 
