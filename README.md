@@ -25,6 +25,10 @@ _coming soon_
   - CSS with flexboxes, no framework
 - Backend/db
   - _not implemented_
+  
+## Development
+
+Nice React Drag'n'Drop tutorial: (https://react-dnd.github.io/react-dnd/docs-tutorial.html)[https://react-dnd.github.io/react-dnd/docs-tutorial.html]
 
 ## Licence
 
