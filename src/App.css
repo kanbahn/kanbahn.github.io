@@ -1,4 +1,4 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
+/* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
 */
@@ -12,8 +12,8 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
 	margin: 0;
@@ -24,7 +24,7 @@ time, mark, audio, video {
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
+article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
@@ -123,7 +123,7 @@ body {
   padding: var(--default-margin);
   border-radius: 2px;
   margin-bottom: calc(2 * var(--default-margin));
-} 
+}
 
 .flex-container {
   position: relative;
@@ -152,13 +152,10 @@ body {
 .flex-card-wrapper {
   position: relative;
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap-reverse;
+  flex-wrap: wrap;
   box-sizing: border-box;
   width: 100%;
   padding: var(--default-margin);
-  height: 300px; /*Adjust with JS!
-  overflow: hidden; /*This should not be needed!*/
 }
 
 .task {
@@ -182,7 +179,7 @@ body {
   box-shadow: 0px 0px 0px rgba(0, 0, 0, .5);
 }
 
-.task.placeholder:hover { 
+.task.placeholder:hover {
   background: linear-gradient(to top left, rgb(255, 246, 196), rgb(252, 247, 221));
   box-shadow: 2px 2px 6px rgba(0, 0, 0, .5);
 }
@@ -197,7 +194,7 @@ body {
   border-width: 0px;
   font: 400 16px Arial;
   width: 100%;
-  resize: vertical; 
+  resize: vertical;
 }
 
 .flex-column.single .task {
