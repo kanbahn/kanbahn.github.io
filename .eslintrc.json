@@ -1,0 +1,26 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "impliedStrict": true
+    }
+  },
+  "env": {
+    "browser": true
+  },
+  "rules": {
+    "eol-last": ["error", "always"],
+    "no-case-declarations": 0,
+    "no-console": 0,
+    "quotes": ["error", "single"],
+    "jsx-quotes": ["error", "prefer-single"],
+    "semi": ["error", "never"],
+    "react/prop-types": 0
+  }
+}

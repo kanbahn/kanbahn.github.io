@@ -12,6 +12,9 @@
     "redux": "^3.7.2"
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.5",
+    "eslint": "^5.0.1",
+    "eslint-plugin-react": "^7.10.0",
     "react-scripts": "1.1.1"
   },
   "scripts": {

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Task from './Task'
 import { taskEdit } from '../reducers/taskReducer'
-import { DropTarget } from 'react-dnd';
+import { DropTarget } from 'react-dnd'
 
 const columnTarget = {
   drop(props, monitor) {
@@ -10,13 +10,13 @@ const columnTarget = {
     console.log('task droped to', props.columnName)
     props.moveTask(task.taskId)
   }
-};
+}
 
 function collect(connect, monitor) {
   return {
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver()
-  };
+  }
 }
 
 class TaskColumn extends Component {
@@ -40,7 +40,7 @@ class TaskColumn extends Component {
   }
 
   render() {
-    const columnType = "flex-column " + this.props.columnType
+    const columnType = 'flex-column ' + this.props.columnType
     const columnName = this.props.columnName
     const tasks = this.props.tasks
     const addNewTask = this.props.addNewTask
@@ -55,19 +55,19 @@ class TaskColumn extends Component {
 
     return connectDropTarget(
       <div className={columnType} >
-        <p className="column-header">{columnName}</p>
-        <div className="flex-card-wrapper">
+        <p className='column-header'>{columnName}</p>
+        <div className='flex-card-wrapper'>
           {tasks
             .map(task =>
-              <Task 
+              <Task
                 handleChange={this.handleChangedText(task.id)}
-                key={task.id} 
+                key={task.id}
                 content={task.title}
                 taskId={task.id}
               />
             )
           }
-          <button name={buttonName} onClick={addNewTask} className="task placeholder">Add new</button>
+          <button name={buttonName} onClick={addNewTask} className='task placeholder'>Add new</button>
         </div>
       </div>
     )
@@ -78,4 +78,4 @@ TaskColumn.contextTypes = {
   store: PropTypes.object
 }
 
-export default DropTarget('task', columnTarget, collect)(TaskColumn);
+export default DropTarget('task', columnTarget, collect)(TaskColumn)

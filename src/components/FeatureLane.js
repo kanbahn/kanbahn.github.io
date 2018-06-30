@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import TaskColumn from './TaskColumn'
 import { taskCreation, moveTask } from '../reducers/taskReducer'
-import HTML5Backend from 'react-dnd-html5-backend';
-import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend'
+import { DragDropContext } from 'react-dnd'
 import { connect } from 'react-redux'
 
 class FeatureLane extends Component {
@@ -33,12 +33,12 @@ class FeatureLane extends Component {
 
     const lanesTasks = this.props.tasks
       .filter(task => task.position.lane === this.state.featureName.toLowerCase())
-      
-    return (
-      <div className="feature-lane">
-        <h1 className="text-box">{this.state.featureName}</h1>
 
-        <div className="flex-container">
+    return (
+      <div className='feature-lane'>
+        <h1 className='text-box'>{this.state.featureName}</h1>
+
+        <div className='flex-container'>
           <TaskColumn
             columnType='double'
             laneName={this.props.featureName}
