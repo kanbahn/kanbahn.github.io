@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "express": "^4.16.3",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-dnd": "^2.6.0",
@@ -13,20 +14,26 @@
   },
   "devDependencies": {
     "babel-eslint": "^8.2.5",
+    "concurrently": "^3.6.0",
     "eslint": "^5.0.1",
     "eslint-plugin-react": "^7.10.0",
     "husky": "^0.14.3",
     "lint-staged": "^7.2.0",
+    "nodemon": "^1.17.5",
     "react-scripts": "1.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently --kill-others-on-fail \"nodemon src-backend/server.js\" \"react-scripts start\"",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": ["eslint --fix", "git add"]
-  }
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "proxy": "http://localhost:3001"
 }
