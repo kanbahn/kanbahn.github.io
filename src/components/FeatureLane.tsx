@@ -1,29 +1,47 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import TaskColumn from './TaskColumn'
-import { taskCreation, moveTask } from '../reducers/taskReducer'
+import { taskCreation, moveTask, StoreState } from '../reducers/taskReducer'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 import { connect } from 'react-redux'
+import { TaskData } from '../../src-common/model'
 
-class FeatureLane extends Component {
-  constructor(props) {
+interface FeatureLaneOwnProps {
+  featureName: string
+}
+
+interface FeatureLaneDispatchProps {
+  taskCreation(laneName: string, columnName: string): void
+  moveTask(taskId: number, columnName: string): void
+}
+
+interface FeatureLaneStoreProps {
+  tasks: TaskData[]
+}
+
+type FeatureLaneProps = FeatureLaneOwnProps & FeatureLaneDispatchProps & FeatureLaneStoreProps
+
+interface FeatureLaneState {
+  featureName: string
+}
+
+class FeatureLane extends React.Component<FeatureLaneProps, FeatureLaneState> {
+  constructor(props: FeatureLaneProps) {
     super(props)
     this.state = {
       featureName: this.props.featureName
     }
-
   }
 
-
-  addTaskToRedux = (event) => {
+  addTaskToRedux = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
-    const columnName = event.target.name
+    const columnName = (event.target as any).name as string
     const laneName = this.props.featureName
     this.props.taskCreation(laneName, columnName)
   }
 
-  moveTask = (toColumn) => {
-    return (taskId) => {
+  moveTask = (toColumn: string) => {
+    return (taskId: number) => {
       this.props.moveTask(taskId, toColumn)
     }
   }
@@ -70,7 +88,7 @@ class FeatureLane extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: StoreState) => {
   return {
     tasks: state.tasks
   }
@@ -81,10 +99,9 @@ const mapDispatchToProps = {
   moveTask
 }
 
-const ConnectedFeatureLane = connect(
+const ConnectedFeatureLane = connect<StoreState, FeatureLaneDispatchProps, FeatureLaneOwnProps, StoreState>(
   mapStateToProps,
   mapDispatchToProps
 )(FeatureLane)
 
-
-export default DragDropContext(HTML5Backend)(ConnectedFeatureLane)
+export default DragDropContext<FeatureLaneOwnProps>(HTML5Backend)(ConnectedFeatureLane)

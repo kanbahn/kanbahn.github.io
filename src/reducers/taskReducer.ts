@@ -1,8 +1,15 @@
-const initialState = {
+import { Reducer } from 'redux'
+import { TaskData } from '../../src-common/model'
+
+export interface StoreState {
+  tasks: TaskData[]
+}
+
+const initialState: StoreState = {
   tasks: []
 }
 
-const taskReducer = (state = initialState, action) => {
+const taskReducer: Reducer<StoreState> = (state = initialState, action) => {
   console.log('in taskReducer. ACTION: ', action)
 
   switch (action.type) {
@@ -11,12 +18,14 @@ const taskReducer = (state = initialState, action) => {
     case 'EDIT-TASK':
       console.log('task edit reducer')
       const taskToEdit = state.tasks.find(task => task.id === action.id)
-      const editedTask = { ...taskToEdit, title: action.title }
+      if (!taskToEdit) return state
+      const editedTask: TaskData = { ...taskToEdit, title: action.title }
       return { ...state, tasks: state.tasks.map(task => task.id !== action.id ? task : editedTask) }
     case 'MOVE-TASK':
       const taskToMove = state.tasks.find(task => task.id === action.id)
+      if (!taskToMove) return state
       const newPosition = { ...taskToMove.position, column: action.column }
-      const movedTask = { ...taskToMove, position: newPosition }
+      const movedTask: TaskData = { ...taskToMove, position: newPosition }
       return { ...state, tasks: state.tasks.map(task => task.id !== action.id ? task : movedTask) }
     case 'RECEIVE-TASKS':
       return { ...state, tasks: action.tasks }
@@ -27,7 +36,7 @@ const taskReducer = (state = initialState, action) => {
 
 const generateId = () => Number((Math.random() * 1000000).toFixed(0))
 
-export const taskCreation = (laneName, columnName) => {
+export const taskCreation = (laneName: string, columnName: string) => {
   console.log('hello from taskCreation')
   laneName = laneName.toLowerCase()
   columnName = columnName.toLowerCase()
@@ -39,7 +48,7 @@ export const taskCreation = (laneName, columnName) => {
   }
 }
 
-export const taskEdit = (taskObj) => {
+export const taskEdit = (taskObj: { id: number, title: string }) => {
   console.log(taskObj)
   return {
     type: 'EDIT-TASK',
@@ -48,12 +57,12 @@ export const taskEdit = (taskObj) => {
   }
 }
 
-export const moveTask = (taskId, column) => {
+export const moveTask = (taskId: number, column: string) => {
   console.log('hello from moveTaskReducer')
   return {
     type: 'MOVE-TASK',
     id: taskId,
-    column: column
+    column
   }
 }
 

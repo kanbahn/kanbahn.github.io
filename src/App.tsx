@@ -1,9 +1,13 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import * as React from 'react'
+import * as PropTypes from 'prop-types'
 import './App.css'
 import FeatureLane from './components/FeatureLane'
 
-class App extends Component {
+class App extends React.Component {
+  static contextTypes = {
+    store: PropTypes.object
+  }
+
   async componentDidMount() {
     const response = await fetch('/tasks')
     const { tasks } = await response.json()
@@ -18,14 +22,9 @@ class App extends Component {
         <div className='App'>
           <FeatureLane featureName='featureX'/>
         </div>
-
       </div>
     )
   }
-}
-
-App.contextTypes = {
-  store: PropTypes.object
 }
 
 export default App
