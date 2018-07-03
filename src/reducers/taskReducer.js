@@ -37,7 +37,7 @@ export const taskCreation = (laneName, columnName) => {
   console.log('hello from taskCreation')
   laneName = laneName.toLowerCase()
   columnName = columnName.toLowerCase()
-  const newTaskObject = { title: 'empty task', id: generateId(), position: { lane: laneName, column: columnName } }
+  const newTaskObject = { title: 'empty task', id: generateId(), position: { lane: laneName, column: columnName } }
 
   return {
     type: 'NEW-TASK',
