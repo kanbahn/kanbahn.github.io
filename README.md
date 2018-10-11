@@ -19,13 +19,13 @@ _coming soon_
 
 ## Tech
 
+- TypeScript
 - Frontend
   - React+Redux
   - Drag'n'Drop with [React DnD](https://react-dnd.github.io/react-dnd/)
   - CSS with flexboxes, no framework
 - Backend/db
-  - Express
-  - PostgreSQL (not implemented yet)
+  - _not implemented_
 
 ## Development
 

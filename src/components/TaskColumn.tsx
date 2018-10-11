@@ -1,40 +1,50 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import * as React from 'react'
+import * as PropTypes from 'prop-types'
 import Task from './Task'
 import { taskEdit } from '../reducers/taskReducer'
-import { DropTarget } from 'react-dnd'
+import { DropTarget, DropTargetSpec, DropTargetConnector, DropTargetMonitor, ConnectDropTarget } from 'react-dnd'
+import { TaskData } from '../../src-common/model'
 
-const columnTarget = {
+const columnTarget: DropTargetSpec<TaskColumnProps> = {
   drop(props, monitor) {
-    const task = monitor.getItem()
+    if (!monitor) return
+    const task = monitor.getItem() as { taskId: number }
     console.log('task droped to', props.columnName)
     props.moveTask(task.taskId)
   }
 }
 
-function collect(connect, monitor) {
+function collect(connect: DropTargetConnector, monitor: DropTargetMonitor) {
   return {
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver()
   }
 }
 
-class TaskColumn extends Component {
+interface TaskColumnProps {
+  laneName: string
+  columnName: string
+  columnType: string
+  tasks: TaskData[]
+  addNewTask: React.EventHandler<any>
+  moveTask(taskId: number): void
+}
 
-  handleChangedText = (taskId) => {
-    return (event) => {
-      event.preventDefault()
-      this.context.store.dispatch(
-        taskEdit({ id: taskId, title: event.target.value, lane: this.props.laneName, column: this.props.columnName.toLowerCase() })
-      )
-    }
+interface TaskColumnDropTargetProps {
+  connectDropTarget: ConnectDropTarget
+  isOver: boolean
+}
+
+class TaskColumn extends React.Component<TaskColumnProps & TaskColumnDropTargetProps> {
+  static contextTypes = {
+    store: PropTypes.object
   }
 
-  handleTaskMoving = (taskId) => {
-    return (event) => {
+  handleChangedText = (taskId: number): React.ChangeEventHandler<HTMLTextAreaElement> => {
+    return event => {
       event.preventDefault()
       this.context.store.dispatch(
-        taskEdit({ id: taskId, title: 'Someone tried to move this!', lane: this.props.laneName, column: this.props.columnName.toLowerCase() })
+        taskEdit({ id: taskId, title: event.target.value })
       )
     }
   }
@@ -74,8 +84,4 @@ class TaskColumn extends Component {
   }
 }
 
-TaskColumn.contextTypes = {
-  store: PropTypes.object
-}
-
-export default DropTarget('task', columnTarget, collect)(TaskColumn)
+export default DropTarget<TaskColumnProps>('task', columnTarget, collect)(TaskColumn as any)
