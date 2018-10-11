@@ -12,12 +12,16 @@
     }
   },
   "env": {
-    "browser": true
+    "browser": true,
+    "node": true
   },
   "rules": {
+    "array-bracket-spacing": ["error", "never"],
+    "comma-spacing": ["error", { "before": false, "after": true }],
     "eol-last": ["error", "always"],
     "no-case-declarations": 0,
     "no-console": 0,
+    "object-curly-spacing": ["error", "always"],
     "quotes": ["error", "single"],
     "jsx-quotes": ["error", "prefer-single"],
     "semi": ["error", "never"],
