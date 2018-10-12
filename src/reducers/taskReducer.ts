@@ -1,5 +1,5 @@
 import { Reducer } from 'redux'
-import { TaskData } from '../../src-common/model'
+import { Task as TaskData } from '../../src-common/entity/Task'
 
 export interface StoreState {
   tasks: TaskData[]
@@ -24,8 +24,7 @@ const taskReducer: Reducer<StoreState> = (state = initialState, action) => {
     case 'MOVE-TASK':
       const taskToMove = state.tasks.find(task => task.id === action.id)
       if (!taskToMove) return state
-      const newPosition = { ...taskToMove.position, column: action.column }
-      const movedTask: TaskData = { ...taskToMove, position: newPosition }
+      const movedTask: TaskData = { ...taskToMove, column: action.column }
       return { ...state, tasks: state.tasks.map(task => task.id !== action.id ? task : movedTask) }
     case 'RECEIVE-TASKS':
       return { ...state, tasks: action.tasks }

@@ -4,7 +4,7 @@ import { taskCreation, moveTask, StoreState } from '../reducers/taskReducer'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 import { connect } from 'react-redux'
-import { TaskData } from '../../src-common/model'
+import { Task as TaskData } from '../../src-common/entity/Task'
 
 interface FeatureLaneOwnProps {
   featureName: string
@@ -50,7 +50,7 @@ class FeatureLane extends React.Component<FeatureLaneProps, FeatureLaneState> {
     console.log(this.props)
 
     const lanesTasks = this.props.tasks
-      .filter(task => task.position.lane === this.state.featureName.toLowerCase())
+      .filter(task => task.lane === this.state.featureName.toLowerCase())
 
     return (
       <div className='feature-lane'>
@@ -61,7 +61,7 @@ class FeatureLane extends React.Component<FeatureLaneProps, FeatureLaneState> {
             columnType='double'
             laneName={this.props.featureName}
             columnName='Todo'
-            tasks={lanesTasks.filter(task => task.position.column === 'todo')}
+            tasks={lanesTasks.filter(task => task.column === 'todo')}
             addNewTask={this.addTaskToRedux}
             moveTask={this.moveTask('todo')}
           />
@@ -69,7 +69,7 @@ class FeatureLane extends React.Component<FeatureLaneProps, FeatureLaneState> {
             columnType='single'
             laneName={this.props.featureName}
             columnName='InProgress'
-            tasks={lanesTasks.filter(task => task.position.column === 'inprogress')}
+            tasks={lanesTasks.filter(task => task.column === 'inprogress')}
             addNewTask={this.addTaskToRedux}
             moveTask={this.moveTask('inprogress')}
           />
@@ -77,7 +77,7 @@ class FeatureLane extends React.Component<FeatureLaneProps, FeatureLaneState> {
             columnType='double'
             laneName={this.props.featureName}
             columnName='Done'
-            tasks={lanesTasks.filter(task => task.position.column === 'done')}
+            tasks={lanesTasks.filter(task => task.column === 'done')}
             addNewTask={this.addTaskToRedux}
             moveTask={this.moveTask('done')}
           />

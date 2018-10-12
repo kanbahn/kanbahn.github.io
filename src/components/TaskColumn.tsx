@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types'
 import Task from './Task'
 import { taskEdit } from '../reducers/taskReducer'
 import { DropTarget, DropTargetSpec, DropTargetConnector, DropTargetMonitor, ConnectDropTarget } from 'react-dnd'
-import { TaskData } from '../../src-common/model'
+import { Task as TaskData } from '../../src-common/entity/Task'
 
 const columnTarget: DropTargetSpec<TaskColumnProps> = {
   drop(props, monitor) {
