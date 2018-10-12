@@ -25,7 +25,9 @@ _coming soon_
   - Drag'n'Drop with [React DnD](https://react-dnd.github.io/react-dnd/)
   - CSS with flexboxes, no framework
 - Backend/db
-  - _not implemented_
+  - Express
+  - PostgreSQL
+  - [TypeORM](http://typeorm.io/#/)
 
 ## Development
 
