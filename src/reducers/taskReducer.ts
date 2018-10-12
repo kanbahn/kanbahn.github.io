@@ -1,5 +1,7 @@
-import { Reducer } from 'redux'
+import { Omit } from 'ramda'
+import { Dispatch, Reducer } from 'redux'
 import { Task } from '../../src-common/entity/Task'
+import { postJSON } from '../fetch'
 
 export interface StoreState {
   tasks: Task[]
@@ -33,17 +35,18 @@ const taskReducer: Reducer<StoreState> = (state = initialState, action) => {
   }
 }
 
-const generateId = () => Number((Math.random() * 1000000).toFixed(0))
-
 export const taskCreation = (laneName: string, columnName: string) => {
   console.log('hello from taskCreation')
   laneName = laneName.toLowerCase()
   columnName = columnName.toLowerCase()
-  const newTaskObject: Task = { title: 'empty task', id: generateId(), lane: laneName, column: columnName }
+  const newTaskObject: Omit<Task, 'id'> = { title: 'empty task', lane: laneName, column: columnName }
 
-  return {
-    type: 'NEW-TASK',
-    newTask: newTaskObject
+  return async (dispatch: Dispatch) => {
+    const newTask: Task = await postJSON('/tasks', newTaskObject)
+    return dispatch({
+      type: 'NEW-TASK',
+      newTask
+    })
   }
 }
 

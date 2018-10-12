@@ -10,4 +10,11 @@ router.get('/tasks', async (request: Request, response: Response) => {
   response.send({ tasks })
 })
 
+router.post('/tasks', async (request: Request, response: Response) => {
+  const tasksRepository = getRepository(Task)
+  const entity = tasksRepository.create(request.body)
+  await tasksRepository.insert(entity)
+  response.send(entity)
+})
+
 export default router

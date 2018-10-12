@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as PropTypes from 'prop-types'
 import './App.css'
 import FeatureLane from './components/FeatureLane'
+import { getJSON } from './fetch'
 
 class App extends React.Component {
   static contextTypes = {
@@ -9,8 +10,7 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-    const response = await fetch('/tasks')
-    const { tasks } = await response.json()
+    const { tasks } = await getJSON('/tasks')
     this.context.store.dispatch({ type: 'RECEIVE-TASKS', tasks })
   }
 
