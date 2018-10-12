@@ -40,8 +40,8 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": [
-      "eslint --fix",
+    "*.ts": [
+      "tslint --fix",
       "git add"
     ]
   },
