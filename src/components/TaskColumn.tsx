@@ -1,9 +1,9 @@
 import * as React from 'react'
 import * as PropTypes from 'prop-types'
-import Task from './Task'
+import Card from './Card'
 import { taskEdit } from '../reducers/taskReducer'
 import { DropTarget, DropTargetSpec, DropTargetConnector, DropTargetMonitor, ConnectDropTarget } from 'react-dnd'
-import { Task as TaskData } from '../../src-common/entity/Task'
+import { Task } from '../../src-common/entity/Task'
 
 const columnTarget: DropTargetSpec<TaskColumnProps> = {
   drop(props, monitor) {
@@ -25,7 +25,7 @@ interface TaskColumnProps {
   laneName: string
   columnName: string
   columnType: string
-  tasks: TaskData[]
+  tasks: Task[]
   addNewTask: React.EventHandler<any>
   moveTask(taskId: number): void
 }
@@ -69,7 +69,7 @@ class TaskColumn extends React.Component<TaskColumnProps & TaskColumnDropTargetP
         <div className='flex-card-wrapper'>
           {tasks
             .map(task =>
-              <Task
+              <Card
                 handleChange={this.handleChangedText(task.id)}
                 key={task.id}
                 content={task.title}
@@ -77,11 +77,11 @@ class TaskColumn extends React.Component<TaskColumnProps & TaskColumnDropTargetP
               />
             )
           }
-          <button name={buttonName} onClick={addNewTask} className='task placeholder'>Add new</button>
+          <button name={buttonName} onClick={addNewTask} className='card placeholder'>Add new</button>
         </div>
       </div>
     )
   }
 }
 
-export default DropTarget<TaskColumnProps>('task', columnTarget, collect)(TaskColumn as any)
+export default DropTarget<TaskColumnProps>('Card', columnTarget, collect)(TaskColumn as any)

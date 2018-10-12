@@ -4,7 +4,7 @@ import { taskCreation, moveTask, StoreState } from '../reducers/taskReducer'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 import { connect } from 'react-redux'
-import { Task as TaskData } from '../../src-common/entity/Task'
+import { Task } from '../../src-common/entity/Task'
 
 interface FeatureLaneOwnProps {
   featureName: string
@@ -16,7 +16,7 @@ interface FeatureLaneDispatchProps {
 }
 
 interface FeatureLaneStoreProps {
-  tasks: TaskData[]
+  tasks: Task[]
 }
 
 type FeatureLaneProps = FeatureLaneOwnProps & FeatureLaneDispatchProps & FeatureLaneStoreProps

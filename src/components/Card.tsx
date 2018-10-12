@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { ConnectDragSource, DragSource, DragSourceSpec, DragSourceCollector } from 'react-dnd'
 
-const cardSource: DragSourceSpec<TaskProps> = {
+const cardSource: DragSourceSpec<CardProps> = {
   beginDrag(props) {
     console.log('Begin drag!')
     return { taskId: props.taskId }
@@ -15,25 +15,25 @@ const collect: DragSourceCollector = (connect, monitor) => {
   }
 }
 
-interface TaskProps {
+interface CardProps {
   taskId: number
   content: string
   handleChange: React.ChangeEventHandler<HTMLTextAreaElement>
 }
 
-interface TaskDragSourceProps {
+interface CardDragSourceProps {
   isDragging: boolean
   connectDragSource: ConnectDragSource
 }
 
-class Task extends React.Component<TaskProps & TaskDragSourceProps> {
+class Card extends React.Component<CardProps & CardDragSourceProps> {
   render() {
     const { isDragging, connectDragSource } = this.props
 
     const content = this.props.content
     return connectDragSource(
       <div
-        className='task'
+        className='card'
         style={{
           opacity: isDragging ? 0.5 : 1,
           cursor: 'move'
@@ -50,4 +50,4 @@ class Task extends React.Component<TaskProps & TaskDragSourceProps> {
   }
 }
 
-export default DragSource<TaskProps>('task', cardSource, collect)(Task as any)
+export default DragSource<CardProps>('Card', cardSource, collect)(Card as any)
