@@ -38,7 +38,7 @@ export const taskCreation = (laneName: string, columnName: string) => {
   const newTaskObject: Omit<Task, 'id'> = { title: 'empty task', lane: laneName, column: columnName }
 
   return async (dispatch: Dispatch) => {
-    const newTask: Task = await postJSON('/tasks', newTaskObject)
+    const newTask: Task = await postJSON('/api/tasks', newTaskObject)
     return dispatch({
       type: 'NEW-TASK',
       newTask
@@ -50,7 +50,7 @@ export const taskEdit = (taskObj: { id: number, title: string }) => {
   const { id, title } = taskObj
 
   return async (dispatch: Dispatch) => {
-    await debouncedPatchJSON(`/tasks/${id}`, { title })
+    await debouncedPatchJSON(`/api/tasks/${id}`, { title })
     return dispatch({
       type: 'EDIT-TASK',
       id,
@@ -61,7 +61,7 @@ export const taskEdit = (taskObj: { id: number, title: string }) => {
 
 export const moveTask = (taskId: number, column: string) => {
   return async (dispatch: Dispatch) => {
-    await patchJSON(`/tasks/${taskId}`, { column })
+    await patchJSON(`/api/tasks/${taskId}`, { column })
     return dispatch({
       type: 'MOVE-TASK',
       id: taskId,

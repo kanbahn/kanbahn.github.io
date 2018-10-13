@@ -10,7 +10,7 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-    const { tasks } = await getJSON('/tasks')
+    const { tasks } = await getJSON('/api/tasks')
     this.context.store.dispatch({ type: 'RECEIVE-TASKS', tasks })
   }
 
