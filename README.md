@@ -7,7 +7,7 @@ Preview:
 
 ## Live demo
 
-_coming soon_
+https://kanbahn.herokuapp.com
 
 ## Installation
 
