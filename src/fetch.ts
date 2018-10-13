@@ -1,3 +1,5 @@
+import { debounce } from 'lodash'
+
 type HTTPMethod = 'GET' | 'POST' | 'PATCH'
 
 const fetchJSON = (method: HTTPMethod) => async (url: string, body?: object) => {
@@ -16,3 +18,5 @@ const fetchJSON = (method: HTTPMethod) => async (url: string, body?: object) => 
 export const getJSON = fetchJSON('GET')
 export const postJSON = fetchJSON('POST')
 export const patchJSON = fetchJSON('PATCH')
+
+export const debouncedPatchJSON = debounce(patchJSON, 1000)
