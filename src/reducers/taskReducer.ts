@@ -12,13 +12,10 @@ const initialState: StoreState = {
 }
 
 const taskReducer: Reducer<StoreState> = (state = initialState, action) => {
-  console.log('in taskReducer. ACTION: ', action)
-
   switch (action.type) {
     case 'NEW-TASK':
       return { ...state, tasks: state.tasks.concat(action.newTask) }
     case 'EDIT-TASK':
-      console.log('task edit reducer')
       const taskToEdit = state.tasks.find(task => task.id === action.id)
       if (!taskToEdit) return state
       const editedTask: Task = { ...taskToEdit, title: action.title }
@@ -36,7 +33,6 @@ const taskReducer: Reducer<StoreState> = (state = initialState, action) => {
 }
 
 export const taskCreation = (laneName: string, columnName: string) => {
-  console.log('hello from taskCreation')
   laneName = laneName.toLowerCase()
   columnName = columnName.toLowerCase()
   const newTaskObject: Omit<Task, 'id'> = { title: 'empty task', lane: laneName, column: columnName }
@@ -52,7 +48,6 @@ export const taskCreation = (laneName: string, columnName: string) => {
 
 export const taskEdit = (taskObj: { id: number, title: string }) => {
   const { id, title } = taskObj
-  console.log(taskObj)
 
   return async (dispatch: Dispatch) => {
     await patchJSON(`/tasks/${id}`, { title })
@@ -65,8 +60,6 @@ export const taskEdit = (taskObj: { id: number, title: string }) => {
 }
 
 export const moveTask = (taskId: number, column: string) => {
-  console.log('hello from moveTaskReducer')
-
   return async (dispatch: Dispatch) => {
     await patchJSON(`/tasks/${taskId}`, { column })
     return dispatch({

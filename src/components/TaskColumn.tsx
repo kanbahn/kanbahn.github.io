@@ -9,7 +9,6 @@ const columnTarget: DropTargetSpec<TaskColumnProps> = {
   drop(props, monitor) {
     if (!monitor) return
     const task = monitor.getItem() as { taskId: number }
-    console.log('task droped to', props.columnName)
     props.moveTask(task.taskId)
   }
 }
@@ -55,13 +54,7 @@ class TaskColumn extends React.Component<TaskColumnProps & TaskColumnDropTargetP
     const tasks = this.props.tasks
     const addNewTask = this.props.addNewTask
     const buttonName = this.props.columnName
-
     const connectDropTarget = this.props.connectDropTarget
-    const isOver = this.props.isOver
-
-    if (isOver) {
-      console.log('task over', columnName)
-    }
 
     return connectDropTarget(
       <div className={columnType} >

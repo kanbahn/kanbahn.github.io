@@ -3,7 +3,6 @@ import { ConnectDragSource, DragSource, DragSourceSpec, DragSourceCollector } fr
 
 const cardSource: DragSourceSpec<CardProps> = {
   beginDrag(props) {
-    console.log('Begin drag!')
     return { taskId: props.taskId }
   }
 }

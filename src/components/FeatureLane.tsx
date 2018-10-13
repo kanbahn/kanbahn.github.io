@@ -47,8 +47,6 @@ class FeatureLane extends React.Component<FeatureLaneProps, FeatureLaneState> {
   }
 
   render() {
-    console.log(this.props)
-
     const lanesTasks = this.props.tasks
       .filter(task => task.lane === this.state.featureName.toLowerCase())
 
