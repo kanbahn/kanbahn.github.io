@@ -1,6 +1,5 @@
 import { ConnectionOptions, createConnection } from 'typeorm'
 
-const database = 'kanbahn_test'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 const options: ConnectionOptions = {
@@ -19,7 +18,13 @@ const options: ConnectionOptions = {
 
 export const connectToDatabase = async () => {
   const connection = await createConnection(options)
-  const queryRunner = connection.createQueryRunner()
-  await queryRunner.createDatabase(database)
+
+  if (process.env.DATABASE_URL) {
+    await connection.synchronize()
+  } else {
+    const queryRunner = connection.createQueryRunner()
+    await queryRunner.createDatabase('kanbahn_test')
+  }
+
   return connection
 }
