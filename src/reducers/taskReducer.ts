@@ -51,11 +51,16 @@ export const taskCreation = (laneName: string, columnName: string) => {
 }
 
 export const taskEdit = (taskObj: { id: number, title: string }) => {
+  const { id, title } = taskObj
   console.log(taskObj)
-  return {
-    type: 'EDIT-TASK',
-    id: taskObj.id,
-    title: taskObj.title
+
+  return async (dispatch: Dispatch) => {
+    await patchJSON(`/tasks/${id}`, { title })
+    return dispatch({
+      type: 'EDIT-TASK',
+      id,
+      title
+    })
   }
 }
 
