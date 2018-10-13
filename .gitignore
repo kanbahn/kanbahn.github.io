@@ -8,6 +8,7 @@ hours.md
 
 # production
 /build
+/build-backend
 
 # misc
 .DS_Store
