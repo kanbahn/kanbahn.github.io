@@ -1,7 +1,7 @@
 import { Omit } from 'ramda'
 import { Dispatch, Reducer } from 'redux'
 import { Task } from '../../src-common/entity/Task'
-import { postJSON } from '../fetch'
+import { patchJSON, postJSON } from '../fetch'
 
 export interface StoreState {
   tasks: Task[]
@@ -61,10 +61,14 @@ export const taskEdit = (taskObj: { id: number, title: string }) => {
 
 export const moveTask = (taskId: number, column: string) => {
   console.log('hello from moveTaskReducer')
-  return {
-    type: 'MOVE-TASK',
-    id: taskId,
-    column
+
+  return async (dispatch: Dispatch) => {
+    await patchJSON(`/tasks/${taskId}`, { column })
+    return dispatch({
+      type: 'MOVE-TASK',
+      id: taskId,
+      column
+    })
   }
 }
 

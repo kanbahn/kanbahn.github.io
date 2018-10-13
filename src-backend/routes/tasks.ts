@@ -17,4 +17,11 @@ router.post('/tasks', async (request: Request, response: Response) => {
   response.send(entity)
 })
 
+router.patch('/tasks/:id', async (request: Request, response: Response) => {
+  const id = Number(request.params.id)
+  const tasksRepository = getRepository(Task)
+  const entity = await tasksRepository.save({ ...request.body, id })
+  response.send(entity)
+})
+
 export default router
