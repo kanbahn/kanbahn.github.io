@@ -80,7 +80,6 @@ class FeatureLane extends React.Component<FeatureLaneProps, FeatureLaneState> {
             moveTask={this.moveTask('done')}
           />
         </div>
-      <button onClick={this.addTaskToRedux}>Mock button, new task to redux</button>
       </div>
     )
   }
