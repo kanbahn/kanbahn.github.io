@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Profile } from 'passport'
 import * as PropTypes from 'prop-types'
+import 'reset-css'
 import './App.css'
 import FeatureLane from './components/FeatureLane'
 import { getJSON } from './fetch'
