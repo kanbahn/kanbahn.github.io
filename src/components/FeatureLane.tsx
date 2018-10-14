@@ -4,7 +4,9 @@ import { taskCreation, moveTask, StoreState } from '../reducers/taskReducer'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
 import { Task } from '../../src-common/entity/Task'
+import { defaultMargin, Title } from './common'
 
 interface FeatureLaneOwnProps {
   featureName: string
@@ -51,12 +53,12 @@ class FeatureLane extends React.Component<FeatureLaneProps, FeatureLaneState> {
       .filter(task => task.lane === this.state.featureName.toLowerCase())
 
     return (
-      <div className='feature-lane'>
-        <h1 className='text-box'>{this.state.featureName}</h1>
+      <Container>
+        <Title>{this.state.featureName}</Title>
 
-        <div className='flex-container'>
+        <FlexContainer>
           <TaskColumn
-            columnType='double'
+            columnSpan={2}
             laneName={this.props.featureName}
             columnName='Todo'
             tasks={lanesTasks.filter(task => task.column === 'todo')}
@@ -64,7 +66,7 @@ class FeatureLane extends React.Component<FeatureLaneProps, FeatureLaneState> {
             moveTask={this.moveTask('todo')}
           />
           <TaskColumn
-            columnType='single'
+            columnSpan={1}
             laneName={this.props.featureName}
             columnName='InProgress'
             tasks={lanesTasks.filter(task => task.column === 'inprogress')}
@@ -72,18 +74,34 @@ class FeatureLane extends React.Component<FeatureLaneProps, FeatureLaneState> {
             moveTask={this.moveTask('inprogress')}
           />
           <TaskColumn
-            columnType='double'
+            columnSpan={2}
             laneName={this.props.featureName}
             columnName='Done'
             tasks={lanesTasks.filter(task => task.column === 'done')}
             addNewTask={this.addTaskToRedux}
             moveTask={this.moveTask('done')}
           />
-        </div>
-      </div>
+        </FlexContainer>
+      </Container>
     )
   }
 }
+
+const Container = styled.div`
+  position: relative;
+  background: linear-gradient(to top left, rgb(221, 221, 221), rgb(250, 250, 250));
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+  padding: ${defaultMargin};
+  border-radius: 2px;
+  margin-bottom: calc(2 * ${defaultMargin});
+`
+
+const FlexContainer = styled.div`
+  position: relative;
+  display: flex;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+`
 
 const mapStateToProps = (state: StoreState) => {
   return {

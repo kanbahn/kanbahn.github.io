@@ -4,6 +4,9 @@ import { taskEdit } from '../reducers/taskReducer'
 import { DropTarget, DropTargetSpec, DropTargetConnector, DropTargetMonitor, ConnectDropTarget } from 'react-dnd'
 import { Task } from '../../src-common/entity/Task'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
+import { Container as CardContainer } from './Card'
+import { defaultMargin, Title } from './common'
 
 const columnTarget: DropTargetSpec<OwnProps> = {
   drop(props, monitor) {
@@ -23,7 +26,7 @@ function collect(connector: DropTargetConnector, monitor: DropTargetMonitor) {
 interface OwnProps {
   laneName: string
   columnName: string
-  columnType: string
+  columnSpan: number
   tasks: Task[]
   addNewTask: React.EventHandler<any>
   moveTask(taskId: number): void
@@ -49,17 +52,16 @@ class TaskColumn extends React.Component<Props> {
   }
 
   render() {
-    const columnType = 'flex-column ' + this.props.columnType
+    const columnSpan = this.props.columnSpan
     const columnName = this.props.columnName
     const tasks = this.props.tasks
     const addNewTask = this.props.addNewTask
-    const buttonName = this.props.columnName
     const connectDropTarget = this.props.connectDropTarget
 
-    return connectDropTarget(
-      <div className={columnType} >
-        <p className='column-header'>{columnName}</p>
-        <div className='flex-card-wrapper'>
+    return (
+      <Container columnSpan={columnSpan} innerRef={connectDropTarget}>
+        <ColumnHeader>{columnName}</ColumnHeader>
+        <FlexCardWrapper>
           {tasks
             .map(task =>
               <Card
@@ -67,15 +69,59 @@ class TaskColumn extends React.Component<Props> {
                 key={task.id}
                 content={task.title}
                 taskId={task.id}
+                columnSpan={columnSpan}
               />
             )
           }
-          <button name={buttonName} onClick={addNewTask} className='card placeholder'>Add new</button>
-        </div>
-      </div>
+          <CardPlaceholder columnSpan={columnSpan} onClick={addNewTask}>Add new</CardPlaceholder>
+        </FlexCardWrapper>
+      </Container>
     )
   }
 }
+
+interface ContainerProps {
+  columnSpan: number
+}
+
+const Container = styled.div<ContainerProps>`
+  margin: ${defaultMargin};
+  background: rgb(255, 255, 255);
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, .5);
+  background: linear-gradient(to top left, rgb(243, 243, 243), rgb(250, 250, 250));
+  border-radius: 2px;
+  flex: ${props => props.columnSpan} 1 0;
+`
+
+const ColumnHeader = styled(Title)`
+  padding: 8px;
+  text-align: center;
+`
+
+const FlexCardWrapper = styled.div`
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  width: 100%;
+  padding: ${defaultMargin};
+`
+
+const CardPlaceholder = styled(CardContainer)`
+  background: rgb(226, 226, 226);
+  box-shadow: 0 0 0 rgba(0, 0, 0, .5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  :hover {
+    background: linear-gradient(to top left, rgb(255, 246, 196), rgb(252, 247, 221));
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, .5);
+  }
+  :active {
+    outline: none !important;
+    border: none !important;
+  }
+`
 
 const mapDispatchToProps = {
   taskEdit

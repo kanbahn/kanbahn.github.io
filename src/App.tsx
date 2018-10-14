@@ -1,11 +1,12 @@
 import * as React from 'react'
 import { Profile } from 'passport'
+import styled from 'styled-components'
 import 'reset-css'
-import './App.css'
 import FeatureLane from './components/FeatureLane'
 import { getJSON } from './fetch'
 import { receiveTasks } from './reducers/taskReducer'
 import { connect } from 'react-redux'
+import { Title } from './components/common'
 
 interface DispatchProps {
   receiveTasks: typeof receiveTasks
@@ -37,19 +38,35 @@ class App extends React.Component<Props, State> {
     const { user } = this.state
 
     return (
-      <div className='root-container'>
-        <header className='app-header'>
-          <h1 className='text-box'>Project name</h1>
+      <Container>
+        <Header>
+          <Title>Project name</Title>
           <LoginButton user={user} />
-        </header>
-
-        <div className='App'>
-          <FeatureLane featureName='featureX'/>
-        </div>
-      </div>
+        </Header>
+        <FeatureLane featureName='featureX'/>
+      </Container>
     )
   }
 }
+
+const Container = styled.div`
+  position: relative;
+  display: block;
+  background: white;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  margin: auto;
+  font-family: sans-serif;
+  font-size: 14px;
+  color: #333333;
+`
+
+const Header = styled.header`
+  display: flex;
+  justify-content: space-between;
+`
 
 const LoginButton = (props: { user?: Profile | null }) => {
   switch (props.user) {

@@ -21,6 +21,7 @@
     "redux-thunk": "^2.3.0",
     "reflect-metadata": "^0.1.12",
     "reset-css": "^4.0.1",
+    "styled-components": "^3.4.10",
     "typeorm": "^0.2.7"
   },
   "devDependencies": {
