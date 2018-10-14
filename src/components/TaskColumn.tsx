@@ -4,10 +4,10 @@ import { taskEdit, deleteTask } from '../reducers/taskReducer'
 import { DropTarget, DropTargetSpec, DropTargetConnector, DropTargetMonitor, ConnectDropTarget } from 'react-dnd'
 import { Task } from '../../src-common/entity/Task'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Plus } from 'react-feather'
 import { Container as CardContainer } from './Card'
-import { borderRadius, boxShadow, defaultMargin, gray, hoverBackground, lightGrayBackground, Title } from './common'
+import { borderRadius, boxShadow, defaultMargin, lightGrayBackground, Title, transparentButtonStyles } from './common'
 
 const columnTarget: DropTargetSpec<OwnProps> = {
   drop(props, monitor) {
@@ -90,8 +90,12 @@ interface ContainerProps {
   columnSpan: number
 }
 
-const Container = styled.div<ContainerProps>`
+export const columnMargin = css`
   margin: ${defaultMargin};
+`
+
+const Container = styled.div<ContainerProps>`
+  ${columnMargin};
   box-shadow: ${boxShadow};
   background: ${lightGrayBackground};
   border-radius: ${borderRadius};
@@ -113,16 +117,7 @@ const FlexCardWrapper = styled.div`
 `
 
 const CardPlaceholder = styled(CardContainer)`
-  background: transparent;
-  box-shadow: none;
-  color: ${gray};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  :hover {
-    background: ${hoverBackground};
-  }
+  ${transparentButtonStyles}
 `
 
 const mapDispatchToProps = {

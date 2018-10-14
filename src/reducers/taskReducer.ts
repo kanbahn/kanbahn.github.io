@@ -1,7 +1,8 @@
 import { Omit } from 'ramda'
-import { Dispatch, Reducer } from 'redux'
+import { Dispatch } from 'redux'
 import { Task } from '../../src-common/entity/Task'
 import { debouncedPatchJSON, deleteJSON, patchJSON, postJSON } from '../fetch'
+import { Stage } from '../../src-common/entity/Stage'
 
 interface NewTask {
   type: 'NEW-TASK'
@@ -17,7 +18,7 @@ interface EditTask {
 interface MoveTask {
   type: 'MOVE-TASK'
   id: number
-  column: string
+  stage: Stage
 }
 
 interface DeleteTask {
@@ -31,47 +32,38 @@ interface ReceiveTasks {
 }
 
 type TaskAction = NewTask | EditTask | MoveTask | DeleteTask | ReceiveTasks
+export type TasksState = Task[]
 
-export interface StoreState {
-  tasks: Task[]
-}
-
-const initialState: StoreState = {
-  tasks: []
-}
-
-const taskReducer: Reducer<StoreState, TaskAction> = (state = initialState, action) => {
+const taskReducer = (state: TasksState = [], action: TaskAction) => {
   switch (action.type) {
     case 'NEW-TASK':
-      return { ...state, tasks: state.tasks.concat(action.newTask) }
+      return state.concat(action.newTask)
 
     case 'EDIT-TASK':
-      const taskToEdit = state.tasks.find(task => task.id === action.id)
+      const taskToEdit = state.find(task => task.id === action.id)
       if (!taskToEdit) return state
       const editedTask: Task = { ...taskToEdit, title: action.title }
-      return { ...state, tasks: state.tasks.map(task => task.id !== action.id ? task : editedTask) }
+      return state.map(task => task.id !== action.id ? task : editedTask)
 
     case 'MOVE-TASK':
-      const taskToMove = state.tasks.find(task => task.id === action.id)
+      const taskToMove = state.find(task => task.id === action.id)
       if (!taskToMove) return state
-      const movedTask: Task = { ...taskToMove, column: action.column }
-      return { ...state, tasks: state.tasks.map(task => task.id !== action.id ? task : movedTask) }
+      const movedTask: Task = { ...taskToMove, stage: action.stage }
+      return state.map(task => task.id !== action.id ? task : movedTask)
 
     case 'DELETE-TASK':
-      return { ...state, tasks: state.tasks.filter(task => task.id !== action.id) }
+      return state.filter(task => task.id !== action.id)
 
     case 'RECEIVE-TASKS':
-      return { ...state, tasks: action.tasks }
+      return action.tasks
 
     default:
       return state
   }
 }
 
-export const taskCreation = (laneName: string, columnName: string) => {
-  laneName = laneName.toLowerCase()
-  columnName = columnName.toLowerCase()
-  const newTaskObject: Omit<Task, 'id'> = { title: '', lane: laneName, column: columnName }
+export const taskCreation = (stage: Stage) => {
+  const newTaskObject: Omit<Task, 'id'> = { title: '', stage }
 
   return async (dispatch: Dispatch<TaskAction>) => {
     const newTask: Task = await postJSON('/api/tasks', newTaskObject)
@@ -95,13 +87,13 @@ export const taskEdit = (taskObj: { id: number, title: string }) => {
   }
 }
 
-export const moveTask = (taskId: number, column: string) => {
+export const moveTask = (taskId: number, stage: Stage) => {
   return async (dispatch: Dispatch<TaskAction>) => {
-    await patchJSON(`/api/tasks/${taskId}`, { column })
+    await patchJSON(`/api/tasks/${taskId}`, { stage })
     return dispatch({
       type: 'MOVE-TASK',
       id: taskId,
-      column
+      stage
     })
   }
 }

@@ -6,7 +6,7 @@ const router = Router()
 
 router.get('/api/tasks', async (request: Request, response: Response) => {
   const tasksRepository = getRepository(Task)
-  const tasks = await tasksRepository.find()
+  const tasks = await tasksRepository.find({ relations: ['stage'] })
   response.send({ tasks })
 })
 

@@ -1,12 +1,16 @@
 import * as React from 'react'
-import TaskColumn from './TaskColumn'
-import { taskCreation, moveTask, StoreState, deleteTask } from '../reducers/taskReducer'
+import TaskColumn, { columnMargin } from './TaskColumn'
+import { addStage } from '../reducers/stageReducer'
+import { taskCreation, moveTask, deleteTask } from '../reducers/taskReducer'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Task } from '../../src-common/entity/Task'
-import { borderRadius, boxShadow, defaultMargin, Title } from './common'
+import { Stage } from '../../src-common/entity/Stage'
+import { borderRadius, boxShadow, defaultMargin, Title, transparentButtonStyles } from './common'
+import { Plus } from 'react-feather'
+import { StoreState } from '../index'
 
 interface FeatureLaneOwnProps {
   featureName: string
@@ -14,65 +18,60 @@ interface FeatureLaneOwnProps {
 
 interface FeatureLaneDispatchProps {
   deleteTask: typeof deleteTask
-  taskCreation(laneName: string, columnName: string): void
-  moveTask(taskId: number, columnName: string): void
+  addStage: typeof addStage
+  taskCreation(stage: Stage): void
+  moveTask(taskId: number, stage: Stage): void
 }
 
 interface FeatureLaneStoreProps {
+  stages: Stage[]
   tasks: Task[]
 }
 
 type FeatureLaneProps = FeatureLaneOwnProps & FeatureLaneDispatchProps & FeatureLaneStoreProps
 
 class FeatureLane extends React.Component<FeatureLaneProps> {
-  addTask = (columnName: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
+  addTask = (stage: Stage) => (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
-    const laneName = this.props.featureName
-    this.props.taskCreation(laneName, columnName)
+    this.props.taskCreation(stage)
   }
 
-  moveTask = (toColumn: string) => {
+  moveTask = (stage: Stage) => {
     return (taskId: number) => {
-      this.props.moveTask(taskId, toColumn)
+      this.props.moveTask(taskId, stage)
     }
   }
 
+  addStage = () => {
+    this.props.addStage(this.props.featureName)
+  }
+
   render() {
-    const { featureName, tasks } = this.props
-    const lanesTasks = tasks.filter(task => task.lane === featureName.toLowerCase())
+    const { featureName, stages, tasks } = this.props
+    // TODO: FeatureLane should receive only its own tasks in the props.
+    const lanesTasks = tasks.filter(task => task.stage.lane === featureName)
 
     return (
       <Container>
         <Title>{featureName}</Title>
 
         <FlexContainer>
-          <TaskColumn
-            columnSpan={2}
-            laneName={featureName}
-            columnName='Todo'
-            tasks={lanesTasks.filter(task => task.column === 'todo')}
-            addNewTask={this.addTask('todo')}
-            moveTask={this.moveTask('todo')}
-            deleteTask={this.props.deleteTask}
-          />
-          <TaskColumn
-            columnSpan={1}
-            laneName={featureName}
-            columnName='InProgress'
-            tasks={lanesTasks.filter(task => task.column === 'inprogress')}
-            addNewTask={this.addTask('inprogress')}
-            moveTask={this.moveTask('inprogress')}
-            deleteTask={this.props.deleteTask}
-          />
-          <TaskColumn
-            columnSpan={2}
-            laneName={featureName}
-            columnName='Done'
-            tasks={lanesTasks.filter(task => task.column === 'done')}
-            addNewTask={this.addTask('done')}
-            moveTask={this.moveTask('done')}
-            deleteTask={this.props.deleteTask}
-          />
+          {stages.map(stage => (
+            <TaskColumn
+              key={stage.id}
+              columnSpan={1}
+              laneName={featureName}
+              columnName={stage.name}
+              tasks={lanesTasks.filter(task => task.stage.id === stage.id)}
+              addNewTask={this.addTask(stage)}
+              moveTask={this.moveTask(stage)}
+              deleteTask={this.props.deleteTask}
+            />
+          ))}
+
+          <AddColumnButton onClick={this.addStage}>
+            <Plus/>
+          </AddColumnButton>
         </FlexContainer>
       </Container>
     )
@@ -95,8 +94,14 @@ const FlexContainer = styled.div`
   flex-wrap: wrap;
 `
 
+const AddColumnButton = styled.button`
+  ${transparentButtonStyles}
+  ${columnMargin};
+`
+
 const mapStateToProps = (state: StoreState) => {
   return {
+    stages: state.stages,
     tasks: state.tasks
   }
 }
@@ -104,7 +109,8 @@ const mapStateToProps = (state: StoreState) => {
 const mapDispatchToProps = {
   taskCreation,
   moveTask,
-  deleteTask
+  deleteTask,
+  addStage
 }
 
 const ConnectedFeatureLane = connect(mapStateToProps, mapDispatchToProps)(FeatureLane)

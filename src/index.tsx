@@ -1,12 +1,21 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, combineReducers, Reducer } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import App from './App'
-import taskReducer from './reducers/taskReducer'
+import stageReducer, { StagesState } from './reducers/stageReducer'
+import taskReducer, { TasksState } from './reducers/taskReducer'
 
-const reducer = taskReducer // later combined reducer
+export interface StoreState {
+  stages: StagesState
+  tasks: TasksState
+}
+
+const reducer: Reducer<StoreState> = combineReducers({
+  stages: stageReducer,
+  tasks: taskReducer,
+})
 
 const store = createStore(reducer, applyMiddleware(thunk))
 

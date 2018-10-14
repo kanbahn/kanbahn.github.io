@@ -1,9 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Stage } from './Stage'
 
 @Entity()
 export class Task {
   @PrimaryGeneratedColumn() id: number
   @Column() title: string
-  @Column() lane: string
-  @Column() column: string
+  @ManyToOne(type => Stage, stage => stage.tasks) stage: Stage
 }
