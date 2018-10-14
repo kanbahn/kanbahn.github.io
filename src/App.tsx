@@ -1,21 +1,24 @@
 import * as React from 'react'
 import { Profile } from 'passport'
-import * as PropTypes from 'prop-types'
 import 'reset-css'
 import './App.css'
 import FeatureLane from './components/FeatureLane'
 import { getJSON } from './fetch'
+import { receiveTasks } from './reducers/taskReducer'
+import { connect } from 'react-redux'
+
+interface DispatchProps {
+  receiveTasks: typeof receiveTasks
+}
 
 interface State {
   user?: Profile | null
 }
 
-class App extends React.Component<{}, State> {
-  static contextTypes = {
-    store: PropTypes.object
-  }
+type Props = DispatchProps
 
-  constructor(props: {}) {
+class App extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props)
     this.state = {}
   }
@@ -26,7 +29,7 @@ class App extends React.Component<{}, State> {
     })
 
     getJSON('/api/tasks').then(({ tasks }) => {
-      this.context.store.dispatch({ type: 'RECEIVE-TASKS', tasks })
+      this.props.receiveTasks(tasks)
     })
   }
 
@@ -59,4 +62,11 @@ const LoginButton = (props: { user?: Profile | null }) => {
   }
 }
 
-export default App
+const mapDispatchToProps = {
+  receiveTasks
+}
+
+export default connect<{}, DispatchProps>(
+  undefined,
+  mapDispatchToProps
+)(App)

@@ -1,11 +1,11 @@
 import * as React from 'react'
-import * as PropTypes from 'prop-types'
 import Card from './Card'
 import { taskEdit } from '../reducers/taskReducer'
 import { DropTarget, DropTargetSpec, DropTargetConnector, DropTargetMonitor, ConnectDropTarget } from 'react-dnd'
 import { Task } from '../../src-common/entity/Task'
+import { connect } from 'react-redux'
 
-const columnTarget: DropTargetSpec<TaskColumnProps> = {
+const columnTarget: DropTargetSpec<OwnProps> = {
   drop(props, monitor) {
     if (!monitor) return
     const task = monitor.getItem() as { taskId: number }
@@ -13,14 +13,14 @@ const columnTarget: DropTargetSpec<TaskColumnProps> = {
   }
 }
 
-function collect(connect: DropTargetConnector, monitor: DropTargetMonitor) {
+function collect(connector: DropTargetConnector, monitor: DropTargetMonitor) {
   return {
-    connectDropTarget: connect.dropTarget(),
+    connectDropTarget: connector.dropTarget(),
     isOver: monitor.isOver()
   }
 }
 
-interface TaskColumnProps {
+interface OwnProps {
   laneName: string
   columnName: string
   columnType: string
@@ -29,22 +29,22 @@ interface TaskColumnProps {
   moveTask(taskId: number): void
 }
 
+interface DispatchProps {
+  taskEdit: typeof taskEdit
+}
+
 interface TaskColumnDropTargetProps {
   connectDropTarget: ConnectDropTarget
   isOver: boolean
 }
 
-class TaskColumn extends React.Component<TaskColumnProps & TaskColumnDropTargetProps> {
-  static contextTypes = {
-    store: PropTypes.object
-  }
+type Props = OwnProps & DispatchProps & TaskColumnDropTargetProps
 
+class TaskColumn extends React.Component<Props> {
   handleChangedText = (taskId: number): React.ChangeEventHandler<HTMLTextAreaElement> => {
     return event => {
       event.preventDefault()
-      this.context.store.dispatch(
-        taskEdit({ id: taskId, title: event.target.value })
-      )
+      this.props.taskEdit({ id: taskId, title: event.target.value })
     }
   }
 
@@ -77,4 +77,13 @@ class TaskColumn extends React.Component<TaskColumnProps & TaskColumnDropTargetP
   }
 }
 
-export default DropTarget<TaskColumnProps>('Card', columnTarget, collect)(TaskColumn as any)
+const mapDispatchToProps = {
+  taskEdit
+}
+
+const ConnectedTaskColumn = connect<{}, DispatchProps>(
+  undefined,
+  mapDispatchToProps
+)(TaskColumn)
+
+export default DropTarget<OwnProps>('Card', columnTarget, collect)(ConnectedTaskColumn as any)

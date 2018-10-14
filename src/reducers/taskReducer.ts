@@ -70,4 +70,11 @@ export const moveTask = (taskId: number, column: string) => {
   }
 }
 
+export const receiveTasks = (tasks: Task[]) => {
+  return {
+    type: 'RECEIVE-TASKS',
+    tasks
+  }
+}
+
 export default taskReducer
