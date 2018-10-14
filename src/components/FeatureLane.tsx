@@ -24,9 +24,8 @@ interface FeatureLaneStoreProps {
 type FeatureLaneProps = FeatureLaneOwnProps & FeatureLaneDispatchProps & FeatureLaneStoreProps
 
 class FeatureLane extends React.Component<FeatureLaneProps> {
-  addTaskToRedux = (event: React.MouseEvent<HTMLButtonElement>) => {
+  addTask = (columnName: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
-    const columnName = (event.target as any).name as string
     const laneName = this.props.featureName
     this.props.taskCreation(laneName, columnName)
   }
@@ -51,7 +50,7 @@ class FeatureLane extends React.Component<FeatureLaneProps> {
             laneName={featureName}
             columnName='Todo'
             tasks={lanesTasks.filter(task => task.column === 'todo')}
-            addNewTask={this.addTaskToRedux}
+            addNewTask={this.addTask('todo')}
             moveTask={this.moveTask('todo')}
           />
           <TaskColumn
@@ -59,7 +58,7 @@ class FeatureLane extends React.Component<FeatureLaneProps> {
             laneName={featureName}
             columnName='InProgress'
             tasks={lanesTasks.filter(task => task.column === 'inprogress')}
-            addNewTask={this.addTaskToRedux}
+            addNewTask={this.addTask('inprogress')}
             moveTask={this.moveTask('inprogress')}
           />
           <TaskColumn
@@ -67,7 +66,7 @@ class FeatureLane extends React.Component<FeatureLaneProps> {
             laneName={featureName}
             columnName='Done'
             tasks={lanesTasks.filter(task => task.column === 'done')}
-            addNewTask={this.addTaskToRedux}
+            addNewTask={this.addTask('done')}
             moveTask={this.moveTask('done')}
           />
         </FlexContainer>
