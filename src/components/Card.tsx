@@ -2,8 +2,9 @@ import * as React from 'react'
 import { ConnectDragSource, DragSource, DragSourceSpec, DragSourceCollector } from 'react-dnd'
 import TextAreaAutoSize from 'react-textarea-autosize'
 import styled from 'styled-components'
-import { cardPadding, defaultMargin } from './common'
+import { borderRadius, boxShadow, cardPadding, defaultMargin } from './common'
 import MenuButton, { MenuIcon } from './MenuButton'
+import Menu, { MenuItem } from './Menu'
 
 const cardSource: DragSourceSpec<CardProps> = {
   beginDrag(props) {
@@ -23,6 +24,7 @@ interface CardProps {
   content: string
   columnSpan: number
   handleChange: React.ChangeEventHandler<HTMLTextAreaElement>
+  deleteTask: () => void
 }
 
 interface CardDragSourceProps {
@@ -32,7 +34,7 @@ interface CardDragSourceProps {
 
 class Card extends React.Component<CardProps & CardDragSourceProps> {
   render() {
-    const { content, columnSpan, handleChange, connectDragSource } = this.props
+    const { content, columnSpan, handleChange, deleteTask, connectDragSource } = this.props
 
     return (
       <Container columnSpan={columnSpan} innerRef={connectDragSource}>
@@ -43,7 +45,11 @@ class Card extends React.Component<CardProps & CardDragSourceProps> {
           wrap='soft'
           minRows={2}
         />
-        <MenuButton/>
+        <MenuButton>
+          <Menu>
+            <MenuItem onClick={deleteTask}>Delete</MenuItem>
+          </Menu>
+        </MenuButton>
       </Container>
     )
   }
@@ -59,12 +65,11 @@ export const Container = styled.div<ContainerProps>`
   width: calc(${props => 100 / props.columnSpan}% - calc(2 * ${defaultMargin}));
   min-width: 175px;
   box-sizing: border-box;
-  overflow: hidden;
   overflow-wrap: break-word;
   background: linear-gradient(to top left, rgb(255, 246, 196), rgb(252, 247, 221));
   border: 0 solid rgb(211, 204, 163);
-  box-shadow: 2px 2px 6px rgba(0, 0, 0, .5);
-  border-radius: 2px;
+  box-shadow: ${boxShadow};
+  border-radius: ${borderRadius};
   display: flex;
 
   &:not(:hover) ${MenuIcon} {

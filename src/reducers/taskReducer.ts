@@ -1,7 +1,7 @@
 import { Omit } from 'ramda'
 import { Dispatch, Reducer } from 'redux'
 import { Task } from '../../src-common/entity/Task'
-import { debouncedPatchJSON, patchJSON, postJSON } from '../fetch'
+import { debouncedPatchJSON, deleteJSON, patchJSON, postJSON } from '../fetch'
 
 interface NewTask {
   type: 'NEW-TASK'
@@ -20,12 +20,17 @@ interface MoveTask {
   column: string
 }
 
+interface DeleteTask {
+  type: 'DELETE-TASK'
+  id: number
+}
+
 interface ReceiveTasks {
   type: 'RECEIVE-TASKS'
   tasks: Task[]
 }
 
-type TaskAction = NewTask | EditTask | MoveTask | ReceiveTasks
+type TaskAction = NewTask | EditTask | MoveTask | DeleteTask | ReceiveTasks
 
 export interface StoreState {
   tasks: Task[]
@@ -51,6 +56,9 @@ const taskReducer: Reducer<StoreState, TaskAction> = (state = initialState, acti
       if (!taskToMove) return state
       const movedTask: Task = { ...taskToMove, column: action.column }
       return { ...state, tasks: state.tasks.map(task => task.id !== action.id ? task : movedTask) }
+
+    case 'DELETE-TASK':
+      return { ...state, tasks: state.tasks.filter(task => task.id !== action.id) }
 
     case 'RECEIVE-TASKS':
       return { ...state, tasks: action.tasks }
@@ -94,6 +102,16 @@ export const moveTask = (taskId: number, column: string) => {
       type: 'MOVE-TASK',
       id: taskId,
       column
+    })
+  }
+}
+
+export const deleteTask = (id: number) => {
+  return async (dispatch: Dispatch<TaskAction>) => {
+    await deleteJSON(`/api/tasks/${id}`, { id })
+    return dispatch({
+      type: 'DELETE-TASK',
+      id
     })
   }
 }

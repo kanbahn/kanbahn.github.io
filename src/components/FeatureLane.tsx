@@ -1,18 +1,19 @@
 import * as React from 'react'
 import TaskColumn from './TaskColumn'
-import { taskCreation, moveTask, StoreState } from '../reducers/taskReducer'
+import { taskCreation, moveTask, StoreState, deleteTask } from '../reducers/taskReducer'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Task } from '../../src-common/entity/Task'
-import { defaultMargin, Title } from './common'
+import { borderRadius, boxShadow, defaultMargin, Title } from './common'
 
 interface FeatureLaneOwnProps {
   featureName: string
 }
 
 interface FeatureLaneDispatchProps {
+  deleteTask: typeof deleteTask
   taskCreation(laneName: string, columnName: string): void
   moveTask(taskId: number, columnName: string): void
 }
@@ -52,6 +53,7 @@ class FeatureLane extends React.Component<FeatureLaneProps> {
             tasks={lanesTasks.filter(task => task.column === 'todo')}
             addNewTask={this.addTask('todo')}
             moveTask={this.moveTask('todo')}
+            deleteTask={this.props.deleteTask}
           />
           <TaskColumn
             columnSpan={1}
@@ -60,6 +62,7 @@ class FeatureLane extends React.Component<FeatureLaneProps> {
             tasks={lanesTasks.filter(task => task.column === 'inprogress')}
             addNewTask={this.addTask('inprogress')}
             moveTask={this.moveTask('inprogress')}
+            deleteTask={this.props.deleteTask}
           />
           <TaskColumn
             columnSpan={2}
@@ -68,6 +71,7 @@ class FeatureLane extends React.Component<FeatureLaneProps> {
             tasks={lanesTasks.filter(task => task.column === 'done')}
             addNewTask={this.addTask('done')}
             moveTask={this.moveTask('done')}
+            deleteTask={this.props.deleteTask}
           />
         </FlexContainer>
       </Container>
@@ -78,9 +82,9 @@ class FeatureLane extends React.Component<FeatureLaneProps> {
 const Container = styled.div`
   position: relative;
   background: linear-gradient(to top left, rgb(221, 221, 221), rgb(250, 250, 250));
-  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+  box-shadow: ${boxShadow};
   padding: ${defaultMargin};
-  border-radius: 2px;
+  border-radius: ${borderRadius};
   margin-bottom: calc(2 * ${defaultMargin});
 `
 
@@ -99,7 +103,8 @@ const mapStateToProps = (state: StoreState) => {
 
 const mapDispatchToProps = {
   taskCreation,
-  moveTask
+  moveTask,
+  deleteTask
 }
 
 const ConnectedFeatureLane = connect(mapStateToProps, mapDispatchToProps)(FeatureLane)

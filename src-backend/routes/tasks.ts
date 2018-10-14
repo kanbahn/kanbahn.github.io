@@ -24,4 +24,11 @@ router.patch('/api/tasks/:id', async (request: Request, response: Response) => {
   response.send(entity)
 })
 
+router.delete('/api/tasks/:id', async (request: Request, response: Response) => {
+  const id = Number(request.params.id)
+  const tasksRepository = getRepository(Task)
+  await tasksRepository.delete({ id })
+  response.send({})
+})
+
 export default router

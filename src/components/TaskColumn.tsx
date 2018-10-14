@@ -1,13 +1,13 @@
 import * as React from 'react'
 import Card from './Card'
-import { taskEdit } from '../reducers/taskReducer'
+import { taskEdit, deleteTask } from '../reducers/taskReducer'
 import { DropTarget, DropTargetSpec, DropTargetConnector, DropTargetMonitor, ConnectDropTarget } from 'react-dnd'
 import { Task } from '../../src-common/entity/Task'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Plus } from 'react-feather'
 import { Container as CardContainer } from './Card'
-import { defaultMargin, gray, Title } from './common'
+import { borderRadius, boxShadow, defaultMargin, gray, hoverBackground, lightGrayBackground, Title } from './common'
 
 const columnTarget: DropTargetSpec<OwnProps> = {
   drop(props, monitor) {
@@ -31,10 +31,12 @@ interface OwnProps {
   tasks: Task[]
   addNewTask: React.EventHandler<any>
   moveTask(taskId: number): void
+  deleteTask(taskId: number): void
 }
 
 interface DispatchProps {
   taskEdit: typeof taskEdit
+  deleteTask: typeof deleteTask
 }
 
 interface TaskColumnDropTargetProps {
@@ -52,6 +54,10 @@ class TaskColumn extends React.Component<Props> {
     }
   }
 
+  deleteTask = (id: number) => () => {
+    this.props.deleteTask(id)
+  }
+
   render() {
     const { columnName, columnSpan, tasks, addNewTask, connectDropTarget } = this.props
 
@@ -63,6 +69,7 @@ class TaskColumn extends React.Component<Props> {
             .map(task =>
               <Card
                 handleChange={this.handleChangedText(task.id)}
+                deleteTask={this.deleteTask(task.id)}
                 key={task.id}
                 content={task.title}
                 taskId={task.id}
@@ -85,10 +92,9 @@ interface ContainerProps {
 
 const Container = styled.div<ContainerProps>`
   margin: ${defaultMargin};
-  background: rgb(255, 255, 255);
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, .5);
-  background: linear-gradient(to top left, rgb(243, 243, 243), rgb(250, 250, 250));
-  border-radius: 2px;
+  box-shadow: ${boxShadow};
+  background: ${lightGrayBackground};
+  border-radius: ${borderRadius};
   flex: ${props => props.columnSpan} 1 0;
 `
 
@@ -115,7 +121,7 @@ const CardPlaceholder = styled(CardContainer)`
   justify-content: center;
   cursor: pointer;
   :hover {
-    background: rgba(0, 0, 0, .05);
+    background: ${hoverBackground};
   }
 `
 
