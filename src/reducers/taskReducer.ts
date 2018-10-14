@@ -71,7 +71,7 @@ const taskReducer: Reducer<StoreState, TaskAction> = (state = initialState, acti
 export const taskCreation = (laneName: string, columnName: string) => {
   laneName = laneName.toLowerCase()
   columnName = columnName.toLowerCase()
-  const newTaskObject: Omit<Task, 'id'> = { title: 'empty task', lane: laneName, column: columnName }
+  const newTaskObject: Omit<Task, 'id'> = { title: '', lane: laneName, column: columnName }
 
   return async (dispatch: Dispatch<TaskAction>) => {
     const newTask: Task = await postJSON('/api/tasks', newTaskObject)
