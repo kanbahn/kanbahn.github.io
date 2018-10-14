@@ -2,7 +2,8 @@ import * as React from 'react'
 import { ConnectDragSource, DragSource, DragSourceSpec, DragSourceCollector } from 'react-dnd'
 import TextAreaAutoSize from 'react-textarea-autosize'
 import styled from 'styled-components'
-import { defaultMargin } from './common'
+import { cardPadding, defaultMargin } from './common'
+import MenuButton, { MenuIcon } from './MenuButton'
 
 const cardSource: DragSourceSpec<CardProps> = {
   beginDrag(props) {
@@ -42,6 +43,7 @@ class Card extends React.Component<CardProps & CardDragSourceProps> {
           wrap='soft'
           minRows={2}
         />
+        <MenuButton/>
       </Container>
     )
   }
@@ -53,7 +55,7 @@ interface ContainerProps {
 
 export const Container = styled.div<ContainerProps>`
   margin: ${defaultMargin};
-  padding: 10px;
+  padding: ${cardPadding};
   width: calc(${props => 100 / props.columnSpan}% - calc(2 * ${defaultMargin}));
   min-width: 175px;
   box-sizing: border-box;
@@ -63,6 +65,11 @@ export const Container = styled.div<ContainerProps>`
   border: 0 solid rgb(211, 204, 163);
   box-shadow: 2px 2px 6px rgba(0, 0, 0, .5);
   border-radius: 2px;
+  display: flex;
+
+  &:not(:hover) ${MenuIcon} {
+    opacity: 0;
+  }
 `
 
 const TextArea = styled(TextAreaAutoSize)`
@@ -71,8 +78,9 @@ const TextArea = styled(TextAreaAutoSize)`
   font: inherit;
   color: inherit;
   width: 100%;
+  padding: 0;
   resize: none;
-	outline: none;
+  outline: none;
 `
 
 export default DragSource<CardProps>('Card', cardSource, collect)(Card as any)

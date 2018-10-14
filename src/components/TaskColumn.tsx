@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Plus } from 'react-feather'
 import { Container as CardContainer } from './Card'
-import { defaultMargin, Title } from './common'
+import { defaultMargin, gray, Title } from './common'
 
 const columnTarget: DropTargetSpec<OwnProps> = {
   drop(props, monitor) {
@@ -109,7 +109,7 @@ const FlexCardWrapper = styled.div`
 const CardPlaceholder = styled(CardContainer)`
   background: transparent;
   box-shadow: none;
-  color: #aaa;
+  color: ${gray};
   display: flex;
   align-items: center;
   justify-content: center;
