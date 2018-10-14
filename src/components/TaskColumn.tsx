@@ -5,6 +5,7 @@ import { DropTarget, DropTargetSpec, DropTargetConnector, DropTargetMonitor, Con
 import { Task } from '../../src-common/entity/Task'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { Plus } from 'react-feather'
 import { Container as CardContainer } from './Card'
 import { defaultMargin, Title } from './common'
 
@@ -69,7 +70,9 @@ class TaskColumn extends React.Component<Props> {
               />
             )
           }
-          <CardPlaceholder columnSpan={columnSpan} onClick={addNewTask}>Add new</CardPlaceholder>
+          <CardPlaceholder columnSpan={columnSpan} onClick={addNewTask}>
+            <Plus/>
+          </CardPlaceholder>
         </FlexCardWrapper>
       </Container>
     )
@@ -104,18 +107,15 @@ const FlexCardWrapper = styled.div`
 `
 
 const CardPlaceholder = styled(CardContainer)`
-  background: rgb(226, 226, 226);
-  box-shadow: 0 0 0 rgba(0, 0, 0, .5);
+  background: transparent;
+  box-shadow: none;
+  color: #aaa;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   :hover {
-    background: linear-gradient(to top left, rgb(255, 246, 196), rgb(252, 247, 221));
-    box-shadow: 2px 2px 6px rgba(0, 0, 0, .5);
-  }
-  :active {
-    outline: none !important;
-    border: none !important;
+    background: rgba(0, 0, 0, .05);
   }
 `
 
