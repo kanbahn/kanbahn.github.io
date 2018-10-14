@@ -62,7 +62,7 @@ class TaskColumn extends React.Component<Props> {
     const { columnName, columnSpan, tasks, addNewTask, connectDropTarget } = this.props
 
     return (
-      <Container columnSpan={columnSpan} innerRef={connectDropTarget}>
+      <Container columnSpan={columnSpan} ref={(ref: any) => connectDropTarget(ref)}>
         <ColumnHeader>{columnName}</ColumnHeader>
         <FlexCardWrapper>
           {tasks

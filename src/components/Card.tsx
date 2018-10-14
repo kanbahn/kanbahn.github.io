@@ -37,7 +37,7 @@ class Card extends React.Component<CardProps & CardDragSourceProps> {
     const { content, columnSpan, handleChange, deleteTask, connectDragSource } = this.props
 
     return (
-      <Container columnSpan={columnSpan} innerRef={connectDragSource}>
+      <Container columnSpan={columnSpan} ref={(ref: any) => connectDragSource(ref)}>
         <TextArea
           value={content}
           onChange={handleChange}
