@@ -96,9 +96,6 @@ const mapDispatchToProps = {
   moveTask
 }
 
-const ConnectedFeatureLane = connect<StoreState, FeatureLaneDispatchProps, FeatureLaneOwnProps, StoreState>(
-  mapStateToProps,
-  mapDispatchToProps
-)(FeatureLane)
+const ConnectedFeatureLane = connect(mapStateToProps, mapDispatchToProps)(FeatureLane)
 
 export default DragDropContext<FeatureLaneOwnProps>(HTML5Backend)(ConnectedFeatureLane)

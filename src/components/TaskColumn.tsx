@@ -81,9 +81,6 @@ const mapDispatchToProps = {
   taskEdit
 }
 
-const ConnectedTaskColumn = connect<{}, DispatchProps>(
-  undefined,
-  mapDispatchToProps
-)(TaskColumn)
+const ConnectedTaskColumn = connect(undefined, mapDispatchToProps)(TaskColumn)
 
 export default DropTarget<OwnProps>('Card', columnTarget, collect)(ConnectedTaskColumn as any)

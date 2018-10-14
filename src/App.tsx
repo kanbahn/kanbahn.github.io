@@ -66,7 +66,4 @@ const mapDispatchToProps = {
   receiveTasks
 }
 
-export default connect<{}, DispatchProps>(
-  undefined,
-  mapDispatchToProps
-)(App)
+export default connect(undefined, mapDispatchToProps)(App)
