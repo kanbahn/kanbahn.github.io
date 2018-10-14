@@ -23,18 +23,7 @@ interface FeatureLaneStoreProps {
 
 type FeatureLaneProps = FeatureLaneOwnProps & FeatureLaneDispatchProps & FeatureLaneStoreProps
 
-interface FeatureLaneState {
-  featureName: string
-}
-
-class FeatureLane extends React.Component<FeatureLaneProps, FeatureLaneState> {
-  constructor(props: FeatureLaneProps) {
-    super(props)
-    this.state = {
-      featureName: this.props.featureName
-    }
-  }
-
+class FeatureLane extends React.Component<FeatureLaneProps> {
   addTaskToRedux = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     const columnName = (event.target as any).name as string
@@ -49,17 +38,17 @@ class FeatureLane extends React.Component<FeatureLaneProps, FeatureLaneState> {
   }
 
   render() {
-    const lanesTasks = this.props.tasks
-      .filter(task => task.lane === this.state.featureName.toLowerCase())
+    const { featureName, tasks } = this.props
+    const lanesTasks = tasks.filter(task => task.lane === featureName.toLowerCase())
 
     return (
       <Container>
-        <Title>{this.state.featureName}</Title>
+        <Title>{featureName}</Title>
 
         <FlexContainer>
           <TaskColumn
             columnSpan={2}
-            laneName={this.props.featureName}
+            laneName={featureName}
             columnName='Todo'
             tasks={lanesTasks.filter(task => task.column === 'todo')}
             addNewTask={this.addTaskToRedux}
@@ -67,7 +56,7 @@ class FeatureLane extends React.Component<FeatureLaneProps, FeatureLaneState> {
           />
           <TaskColumn
             columnSpan={1}
-            laneName={this.props.featureName}
+            laneName={featureName}
             columnName='InProgress'
             tasks={lanesTasks.filter(task => task.column === 'inprogress')}
             addNewTask={this.addTaskToRedux}
@@ -75,7 +64,7 @@ class FeatureLane extends React.Component<FeatureLaneProps, FeatureLaneState> {
           />
           <TaskColumn
             columnSpan={2}
-            laneName={this.props.featureName}
+            laneName={featureName}
             columnName='Done'
             tasks={lanesTasks.filter(task => task.column === 'done')}
             addNewTask={this.addTaskToRedux}

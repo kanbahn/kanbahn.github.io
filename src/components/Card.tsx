@@ -30,14 +30,13 @@ interface CardDragSourceProps {
 
 class Card extends React.Component<CardProps & CardDragSourceProps> {
   render() {
-    const { columnSpan, connectDragSource } = this.props
+    const { content, columnSpan, handleChange, connectDragSource } = this.props
 
-    const content = this.props.content
     return (
       <Container columnSpan={columnSpan} innerRef={connectDragSource}>
         <TextArea
           value={content}
-          onChange={this.props.handleChange}
+          onChange={handleChange}
           autoFocus={true}
           wrap='soft'
         />

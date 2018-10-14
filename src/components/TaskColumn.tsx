@@ -52,11 +52,7 @@ class TaskColumn extends React.Component<Props> {
   }
 
   render() {
-    const columnSpan = this.props.columnSpan
-    const columnName = this.props.columnName
-    const tasks = this.props.tasks
-    const addNewTask = this.props.addNewTask
-    const connectDropTarget = this.props.connectDropTarget
+    const { columnName, columnSpan, tasks, addNewTask, connectDropTarget } = this.props
 
     return (
       <Container columnSpan={columnSpan} innerRef={connectDropTarget}>
