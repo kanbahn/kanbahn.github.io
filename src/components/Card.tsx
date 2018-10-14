@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { ConnectDragSource, DragSource, DragSourceSpec, DragSourceCollector } from 'react-dnd'
+import TextAreaAutoSize from 'react-textarea-autosize'
 import styled from 'styled-components'
 import { defaultMargin } from './common'
 
@@ -39,6 +40,7 @@ class Card extends React.Component<CardProps & CardDragSourceProps> {
           onChange={handleChange}
           autoFocus={true}
           wrap='soft'
+          minRows={2}
         />
       </Container>
     )
@@ -63,13 +65,13 @@ export const Container = styled.div<ContainerProps>`
   border-radius: 2px;
 `
 
-const TextArea = styled.textarea`
+const TextArea = styled(TextAreaAutoSize)`
   background: rgba(255, 255, 255, 0);
   border-width: 0;
   font: inherit;
   color: inherit;
   width: 100%;
-  resize: vertical;
+  resize: none;
 	outline: none;
 `
 
