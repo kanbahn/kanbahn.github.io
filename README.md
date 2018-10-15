@@ -11,7 +11,7 @@ https://kanbahn.herokuapp.com
 
 ## Installation
 
-- Clone project `git clone git@github.com:juhapekkamoilanen/kanbahn.git kanbahn`
+- Clone project `git clone git@github.com:kanbahn/kanbahn.github.io.git kanbahn`
 - Go to project root `cd kanbahn`
 - Install dependencies `npm install`
 - Run application `npm start`
