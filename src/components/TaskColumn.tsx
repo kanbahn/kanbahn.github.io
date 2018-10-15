@@ -1,17 +1,24 @@
 import * as React from 'react'
-import Card from './Card'
-import { deleteStage } from '../reducers/stageReducer'
-import { taskEdit, moveTask, deleteTask, taskCreation } from '../reducers/taskReducer'
-import { DropTarget, DropTargetSpec, DropTargetConnector, DropTargetMonitor, ConnectDropTarget } from 'react-dnd'
+import Card, { Container as CardContainer } from './Card'
+import { deleteStage, editStage } from '../reducers/stageReducer'
+import { deleteTask, moveTask, taskCreation, taskEdit } from '../reducers/taskReducer'
+import { ConnectDropTarget, DropTarget, DropTargetConnector, DropTargetMonitor, DropTargetSpec } from 'react-dnd'
 import { Task } from '../../src-common/entity/Task'
 import { connect } from 'react-redux'
 import styled, { css } from 'styled-components'
 import { Plus } from 'react-feather'
-import { Container as CardContainer } from './Card'
-import { borderRadius, boxShadow, defaultMargin, lightGrayBackground, Title, transparentButtonStyles } from './common'
-import MenuButton, { MenuIcon } from './MenuButton'
+import {
+  borderRadius,
+  boxShadow,
+  defaultMargin,
+  lightGrayBackground,
+  Title,
+  transparentButtonStyles
+} from './common'
+import MenuButton, { menuButtonSize, MenuIcon } from './MenuButton'
 import Menu, { MenuItem } from './Menu'
 import { Stage } from '../../src-common/entity/Stage'
+import EditableText from './EditableText'
 
 const columnTarget: DropTargetSpec<OwnProps> = {
   drop(props, monitor) {
@@ -40,6 +47,7 @@ interface DispatchProps {
   taskCreation: typeof taskCreation
   taskEdit: typeof taskEdit
   deleteTask: typeof deleteTask
+  editStage: typeof editStage
   deleteStage: typeof deleteStage
 }
 
@@ -50,7 +58,18 @@ interface TaskColumnDropTargetProps {
 
 type Props = OwnProps & DispatchProps & TaskColumnDropTargetProps
 
-class TaskColumn extends React.Component<Props> {
+interface State {
+  renaming: boolean
+}
+
+class TaskColumn extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props)
+    this.state = {
+      renaming: false
+    }
+  }
+
   addTask = () => {
     this.props.taskCreation(this.props.stage)
   }
@@ -66,19 +85,30 @@ class TaskColumn extends React.Component<Props> {
     this.props.deleteTask(id)
   }
 
+  startRenaming = () => {
+    this.setState({ renaming: true })
+  }
+
+  renameStage = async (newName: string) => {
+    await this.props.editStage(this.props.stage, { name: newName })
+    this.setState({ renaming: false })
+  }
+
   deleteStage = () => {
     this.props.deleteStage(this.props.stage)
   }
 
   render() {
     const { stage, columnSpan, tasks, connectDropTarget } = this.props
+    const { renaming } = this.state
 
     return (
       <Container columnSpan={columnSpan} ref={(ref: any) => connectDropTarget(ref)}>
         <ColumnHeader>
-          <Title>{stage.name}</Title>
+          <ColumnTitle><EditableText text={stage.name} editing={renaming} done={this.renameStage}/></ColumnTitle>
           <MenuButton>
             <Menu>
+              <MenuItem onClick={this.startRenaming}>Rename</MenuItem>
               <MenuItem onClick={this.deleteStage}>Delete</MenuItem>
             </Menu>
           </MenuButton>
@@ -127,9 +157,16 @@ const Container = styled.div<ContainerProps>`
 `
 
 const ColumnHeader = styled.div`
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
-  padding: 8px;
+  height: 40px;
+`
+
+const ColumnTitle = styled(Title)`
+  width: 100%;
+  margin: 0 ${menuButtonSize};
   text-align: center;
 `
 
@@ -150,6 +187,7 @@ const mapDispatchToProps: DispatchProps = {
   taskCreation,
   taskEdit,
   deleteTask,
+  editStage,
   deleteStage,
 }
 

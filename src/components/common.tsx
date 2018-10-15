@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components'
 
 export const gray = '#aaa'
+export const lightGray = '#ddd'
 
 export const lightGrayBackground = 'linear-gradient(to top left, rgb(243, 243, 243), rgb(250, 250, 250))'
 export const hoverBackground = 'rgba(0, 0, 0, .05)'
@@ -30,4 +31,6 @@ export const Title = styled.h1`
   font-size: 16px;
   margin: 0;
   padding: ${defaultMargin};
+  max-height: 100%;
+  overflow: hidden;
 `

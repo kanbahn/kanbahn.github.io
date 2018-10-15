@@ -1,11 +1,17 @@
 import { Omit } from 'ramda'
 import { Dispatch } from 'redux'
-import { deleteJSON, postJSON } from '../fetch'
+import { deleteJSON, patchJSON, postJSON } from '../fetch'
 import { Stage } from '../../src-common/entity/Stage'
 
 interface NewStage {
   type: 'NEW-STAGE'
   newStage: Stage
+}
+
+interface EditStage {
+  type: 'EDIT-STAGE'
+  stage: Stage
+  edits: Partial<Stage>
 }
 
 interface DeleteStage {
@@ -18,13 +24,16 @@ interface ReceiveStages {
   stages: Stage[]
 }
 
-type StageAction = NewStage | DeleteStage | ReceiveStages
+type StageAction = NewStage | EditStage | DeleteStage | ReceiveStages
 export type StagesState = Stage[]
 
 const stageReducer = (state: StagesState = [], action: StageAction) => {
   switch (action.type) {
     case 'NEW-STAGE':
       return state.concat(action.newStage)
+
+    case 'EDIT-STAGE':
+      return state.map(stage => stage.id !== action.stage.id ? stage : { ...stage, ...action.edits })
 
     case 'DELETE-STAGE':
       return state.filter(stage => stage.id !== action.stage.id)
@@ -45,6 +54,17 @@ export const addStage = (lane: string) => {
     return dispatch({
       type: 'NEW-STAGE',
       newStage
+    })
+  }
+}
+
+export const editStage = (stage: Stage, edits: Partial<Stage>) => {
+  return async (dispatch: Dispatch<StageAction>) => {
+    await patchJSON(`/api/stages/${stage.id}`, edits)
+    return dispatch({
+      type: 'EDIT-STAGE',
+      stage,
+      edits
     })
   }
 }
