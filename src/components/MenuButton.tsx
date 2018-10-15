@@ -2,7 +2,7 @@ import * as React from 'react'
 import { MoreHorizontal } from 'react-feather'
 import OutsideClickHandler from 'react-outside-click-handler'
 import styled from 'styled-components'
-import { cardPadding, gray } from './common'
+import { gray } from './common'
 
 interface State {
   isOpen: boolean
@@ -28,34 +28,42 @@ class MenuButton extends React.Component<{}, State> {
     const { isOpen } = this.state
 
     return (
-      <OutsideClickHandler onOutsideClick={this.handleClickOutside}>
-        <Container>
-          <MenuIcon size={26} onClick={this.toggleOpen} />
+      <Container onClick={this.toggleOpen}>
+        <OutsideClickHandler onOutsideClick={this.handleClickOutside}>
+          <MenuIcon>
+            <MoreHorizontal size={26}/>
+          </MenuIcon>
           {isOpen && (
             <ChildrenWrapper>
               {this.props.children}
             </ChildrenWrapper>
           )}
-        </Container>
-      </OutsideClickHandler>
+        </OutsideClickHandler>
+      </Container>
     )
   }
 }
 
+export const menuButtonSize = '40px'
+
 const Container = styled.div`
-  position: relative;
+  position: absolute;
+  right: 0;
+  top: 0;
 `
 
 const ChildrenWrapper = styled.div`
   position: absolute;
 `
 
-export const MenuIcon = styled(MoreHorizontal)`
+export const MenuIcon = styled.div`
   cursor: pointer;
+  width: ${menuButtonSize};
+  height: ${menuButtonSize};
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: ${gray};
-  padding: 4px 8px;
-  margin-right: -${cardPadding};
-  margin-top: -${cardPadding};
 
   &:hover {
     color: inherit;

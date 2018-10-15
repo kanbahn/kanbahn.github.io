@@ -5,5 +5,5 @@ import { Stage } from './Stage'
 export class Task {
   @PrimaryGeneratedColumn() id: number
   @Column() title: string
-  @ManyToOne(type => Stage, stage => stage.tasks) stage: Stage
+  @ManyToOne(type => Stage, stage => stage.tasks, { onDelete: 'CASCADE' }) stage: Stage
 }

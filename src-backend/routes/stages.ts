@@ -17,4 +17,11 @@ router.post('/api/stages', async (request: Request, response: Response) => {
   response.send(entity)
 })
 
+router.delete('/api/stages/:id', async (request: Request, response: Response) => {
+  const id = Number(request.params.id)
+  const stageRepository = getRepository(Stage)
+  await stageRepository.delete({ id })
+  response.send({})
+})
+
 export default router

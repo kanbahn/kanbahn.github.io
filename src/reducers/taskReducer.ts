@@ -100,7 +100,7 @@ export const moveTask = (taskId: number, stage: Stage) => {
 
 export const deleteTask = (id: number) => {
   return async (dispatch: Dispatch<TaskAction>) => {
-    await deleteJSON(`/api/tasks/${id}`, { id })
+    await deleteJSON(`/api/tasks/${id}`)
     return dispatch({
       type: 'DELETE-TASK',
       id

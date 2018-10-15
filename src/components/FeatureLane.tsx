@@ -17,10 +17,9 @@ interface FeatureLaneOwnProps {
 }
 
 interface FeatureLaneDispatchProps {
-  deleteTask: typeof deleteTask
   addStage: typeof addStage
-  taskCreation(stage: Stage): void
-  moveTask(taskId: number, stage: Stage): void
+  taskCreation: typeof taskCreation
+  moveTask: typeof moveTask
 }
 
 interface FeatureLaneStoreProps {
@@ -31,17 +30,6 @@ interface FeatureLaneStoreProps {
 type FeatureLaneProps = FeatureLaneOwnProps & FeatureLaneDispatchProps & FeatureLaneStoreProps
 
 class FeatureLane extends React.Component<FeatureLaneProps> {
-  addTask = (stage: Stage) => (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault()
-    this.props.taskCreation(stage)
-  }
-
-  moveTask = (stage: Stage) => {
-    return (taskId: number) => {
-      this.props.moveTask(taskId, stage)
-    }
-  }
-
   addStage = () => {
     this.props.addStage(this.props.featureName)
   }
@@ -59,13 +47,11 @@ class FeatureLane extends React.Component<FeatureLaneProps> {
           {stages.map(stage => (
             <TaskColumn
               key={stage.id}
+              stage={stage}
               columnSpan={1}
               laneName={featureName}
-              columnName={stage.name}
               tasks={lanesTasks.filter(task => task.stage.id === stage.id)}
-              addNewTask={this.addTask(stage)}
-              moveTask={this.moveTask(stage)}
-              deleteTask={this.props.deleteTask}
+              moveTask={this.props.moveTask}
             />
           ))}
 

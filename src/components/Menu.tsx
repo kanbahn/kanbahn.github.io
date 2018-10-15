@@ -13,6 +13,8 @@ const Menu = styled.div`
   background: ${lightGrayBackground};
   border-radius: ${borderRadius};
   box-shadow: ${boxShadow};
+  position: relative;
+  z-index: 100;
 `
 
 export default Menu

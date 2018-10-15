@@ -3,7 +3,7 @@ import { ConnectDragSource, DragSource, DragSourceSpec, DragSourceCollector } fr
 import TextAreaAutoSize from 'react-textarea-autosize'
 import styled from 'styled-components'
 import { borderRadius, boxShadow, cardPadding, defaultMargin } from './common'
-import MenuButton, { MenuIcon } from './MenuButton'
+import MenuButton, { menuButtonSize, MenuIcon } from './MenuButton'
 import Menu, { MenuItem } from './Menu'
 
 const cardSource: DragSourceSpec<CardProps> = {
@@ -71,6 +71,7 @@ export const Container = styled.div<ContainerProps>`
   box-shadow: ${boxShadow};
   border-radius: ${borderRadius};
   display: flex;
+  position: relative;
 
   &:not(:hover) ${MenuIcon} {
     opacity: 0;
@@ -84,6 +85,7 @@ const TextArea = styled(TextAreaAutoSize)`
   color: inherit;
   width: 100%;
   padding: 0;
+  margin-right: calc(${menuButtonSize} - ${cardPadding});
   resize: none;
   outline: none;
 `
