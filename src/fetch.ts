@@ -12,6 +12,10 @@ const fetchJSON = (method: HTTPMethod) => async (url: string, body?: object) => 
     body: JSON.stringify(body)
   })
 
+  if (!response.ok) {
+    throw Error(`${response.status} ${response.statusText} ${response.url}`)
+  }
+
   return await response.json()
 }
 
