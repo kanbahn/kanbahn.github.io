@@ -67,7 +67,7 @@
   },
   "lint-staged": {
     "*.ts": [
-      "tslint --fix"
+      "tslint --project ./tsconfig.json --fix"
     ]
   },
   "browserslist": [

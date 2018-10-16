@@ -27,17 +27,17 @@ class App extends React.Component<Props, State> {
   }
 
   async componentDidMount() {
-    getJSON('/api/auth/user').then(({ user }) => {
-      this.setState({ user })
-    })
-
-    getJSON('/api/stages').then(({ stages }) => {
-      this.props.receiveStages(stages)
-    })
-
-    getJSON('/api/tasks').then(({ tasks }) => {
-      this.props.receiveTasks(tasks)
-    })
+    await Promise.all([
+      getJSON('/api/auth/user').then(({ user }) => {
+        this.setState({ user })
+      }),
+      getJSON('/api/stages').then(({ stages }) => {
+        this.props.receiveStages(stages)
+      }),
+      getJSON('/api/tasks').then(({ tasks }) => {
+        this.props.receiveTasks(tasks)
+      })
+    ])
   }
 
   render() {
