@@ -23,7 +23,7 @@ https://kanbahn.herokuapp.com
 - Frontend
   - React+Redux
   - Drag'n'Drop with [React DnD](https://react-dnd.github.io/react-dnd/)
-  - CSS with flexboxes, no framework
+  - styled-components
 - Backend/db
   - Express
   - PostgreSQL
