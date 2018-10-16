@@ -57,6 +57,7 @@
   "scripts": {
     "start": "concurrently --kill-others-on-fail \"nodemon --watch src-backend --watch src-common --ext ts --exec ts-node src-backend/server.ts\" \"react-scripts-ts start\"",
     "start-production-server": "NODE_ENV=production node build-backend/src-backend/server.js",
+    "typeorm": "ts-node ./node_modules/.bin/typeorm",
     "heroku-postbuild": "npm run build && npm run build-backend",
     "build": "react-scripts-ts build",
     "build-backend": "tsc --project ./tsconfig.prod.json",
