@@ -63,11 +63,13 @@
     "build-backend": "tsc --project ./tsconfig.prod.json",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
+    "lint": "tslint --project ./tsconfig.json",
+    "format": "npm run lint -- --fix",
     "precommit": "lint-staged"
   },
   "lint-staged": {
     "*.ts": [
-      "tslint --project ./tsconfig.json --fix"
+      "npm run format"
     ]
   },
   "browserslist": [
