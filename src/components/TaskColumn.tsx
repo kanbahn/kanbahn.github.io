@@ -118,11 +118,10 @@ class TaskColumn extends React.Component<Props, State> {
           {tasks
             .map(task =>
               <Card
+                key={task.id}
+                task={task}
                 handleChange={this.handleChangedText(task.id)}
                 deleteTask={this.deleteTask(task.id)}
-                key={task.id}
-                content={task.title}
-                taskId={task.id}
                 columnSpan={columnSpan}
               />
             )

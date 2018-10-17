@@ -5,10 +5,11 @@ import styled from 'styled-components'
 import { borderRadius, boxShadow, cardPadding, defaultMargin } from './common'
 import MenuButton, { menuButtonSize, MenuIcon } from './MenuButton'
 import Menu, { MenuItem } from './Menu'
+import { Task } from '../../src-common/entity/Task'
 
 const cardSource: DragSourceSpec<CardProps> = {
   beginDrag(props) {
-    return { taskId: props.taskId }
+    return { taskId: props.task.id }
   }
 }
 
@@ -20,8 +21,7 @@ const collect: DragSourceCollector = (connect, monitor) => {
 }
 
 interface CardProps {
-  taskId: number
-  content: string
+  task: Task
   columnSpan: number
   handleChange: React.ChangeEventHandler<HTMLTextAreaElement>
   deleteTask: () => void
@@ -34,12 +34,12 @@ interface CardDragSourceProps {
 
 class Card extends React.Component<CardProps & CardDragSourceProps> {
   render() {
-    const { content, columnSpan, handleChange, deleteTask, connectDragSource } = this.props
+    const { task, columnSpan, handleChange, deleteTask, connectDragSource } = this.props
 
     return (
       <Container columnSpan={columnSpan} ref={(ref: any) => connectDragSource(ref)}>
         <TextArea
-          value={content}
+          value={task.title}
           onChange={handleChange}
           autoFocus={true}
           wrap='soft'
