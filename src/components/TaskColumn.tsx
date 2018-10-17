@@ -19,12 +19,14 @@ import MenuButton, { menuButtonSize, MenuIcon } from './MenuButton'
 import Menu, { MenuItem } from './Menu'
 import { Stage } from '../../src-common/entity/Stage'
 import EditableText from './EditableText'
+import { sortBy } from 'lodash'
 
 const columnTarget: DropTargetSpec<OwnProps> = {
   drop(props, monitor) {
     if (!monitor) return
-    const task = monitor.getItem() as { taskId: number }
-    props.moveTask(task.taskId, props.stage)
+    const task = monitor.getItem() as Task
+    if (task.stage.id === props.stage.id) return
+    props.moveTask(task, props.stage)
   }
 }
 
@@ -115,7 +117,7 @@ class TaskColumn extends React.Component<Props, State> {
         </ColumnHeader>
 
         <FlexCardWrapper>
-          {tasks
+          {sortBy(tasks, 'index')
             .map(task =>
               <Card
                 key={task.id}

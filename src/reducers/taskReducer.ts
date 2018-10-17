@@ -1,7 +1,7 @@
 import { Omit } from 'ramda'
 import { Dispatch } from 'redux'
 import { Task } from '../../src-common/entity/Task'
-import { debouncedPatchJSON, deleteJSON, patchJSON, postJSON } from '../fetch'
+import { debouncedPatchJSON, deleteJSON, getJSON, patchJSON, postJSON } from '../fetch'
 import { Stage } from '../../src-common/entity/Stage'
 
 interface NewTask {
@@ -15,12 +15,6 @@ interface EditTask {
   title: string
 }
 
-interface MoveTask {
-  type: 'MOVE-TASK'
-  id: number
-  stage: Stage
-}
-
 interface DeleteTask {
   type: 'DELETE-TASK'
   id: number
@@ -31,7 +25,7 @@ interface ReceiveTasks {
   tasks: Task[]
 }
 
-type TaskAction = NewTask | EditTask | MoveTask | DeleteTask | ReceiveTasks
+type TaskAction = NewTask | EditTask | DeleteTask | ReceiveTasks
 export type TasksState = Task[]
 
 const taskReducer = (state: TasksState = [], action: TaskAction) => {
@@ -45,12 +39,6 @@ const taskReducer = (state: TasksState = [], action: TaskAction) => {
       const editedTask: Task = { ...taskToEdit, title: action.title }
       return state.map(task => task.id !== action.id ? task : editedTask)
 
-    case 'MOVE-TASK':
-      const taskToMove = state.find(task => task.id === action.id)
-      if (!taskToMove) return state
-      const movedTask: Task = { ...taskToMove, stage: action.stage }
-      return state.map(task => task.id !== action.id ? task : movedTask)
-
     case 'DELETE-TASK':
       return state.filter(task => task.id !== action.id)
 
@@ -63,7 +51,7 @@ const taskReducer = (state: TasksState = [], action: TaskAction) => {
 }
 
 export const taskCreation = (stage: Stage) => {
-  const newTaskObject: Omit<Task, 'id'> = { title: '', stage }
+  const newTaskObject: Omit<Task, 'id' | 'index'> = { title: '', stage }
 
   return async (dispatch: Dispatch<TaskAction>) => {
     const newTask: Task = await postJSON('/api/tasks', newTaskObject)
@@ -87,13 +75,14 @@ export const taskEdit = (taskObj: { id: number, title: string }) => {
   }
 }
 
-export const moveTask = (taskId: number, stage: Stage) => {
+export const moveTask = (task: Task, stage: Stage) => {
   return async (dispatch: Dispatch<TaskAction>) => {
-    await patchJSON(`/api/tasks/${taskId}`, { stage })
+    await patchJSON(`/api/tasks/${task.id}`, { stage })
+    // Need to re-fetch tasks because their indices might have been modified.
+    const { tasks } = await getJSON('/api/tasks')
     return dispatch({
-      type: 'MOVE-TASK',
-      id: taskId,
-      stage
+      type: 'RECEIVE-TASKS',
+      tasks
     })
   }
 }

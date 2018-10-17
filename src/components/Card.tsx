@@ -9,7 +9,7 @@ import { Task } from '../../src-common/entity/Task'
 
 const cardSource: DragSourceSpec<CardProps> = {
   beginDrag(props) {
-    return { taskId: props.task.id }
+    return props.task
   }
 }
 
