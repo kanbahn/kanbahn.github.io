@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Card, { Container as CardContainer } from './Card'
-import { deleteStage, editStage } from '../reducers/stageReducer'
+import { deleteList, editList } from '../reducers/listReducer'
 import { deleteTask, moveTask, taskCreation, taskEdit } from '../reducers/taskReducer'
 import { ConnectDropTarget, DropTarget, DropTargetConnector, DropTargetMonitor, DropTargetSpec } from 'react-dnd'
 import { Task } from '../../src-common/entity/Task'
@@ -17,7 +17,7 @@ import {
 } from './common'
 import MenuButton, { menuButtonSize, MenuIcon } from './MenuButton'
 import Menu, { MenuItem } from './Menu'
-import { Stage } from '../../src-common/entity/Stage'
+import { List } from '../../src-common/entity/List'
 import EditableText from './EditableText'
 import { sortBy } from 'lodash'
 
@@ -25,8 +25,8 @@ const columnTarget: DropTargetSpec<OwnProps> = {
   drop(props, monitor) {
     if (!monitor) return
     const task = monitor.getItem() as Task
-    if (task.stage.id === props.stage.id) return
-    props.moveTask(task, props.stage)
+    if (task.list.id === props.list.id) return
+    props.moveTask(task, props.list)
   }
 }
 
@@ -38,7 +38,7 @@ function collect(connector: DropTargetConnector, monitor: DropTargetMonitor) {
 }
 
 interface OwnProps {
-  stage: Stage
+  list: List
   laneName: string
   columnSpan: number
   tasks: Task[]
@@ -49,8 +49,8 @@ interface DispatchProps {
   taskCreation: typeof taskCreation
   taskEdit: typeof taskEdit
   deleteTask: typeof deleteTask
-  editStage: typeof editStage
-  deleteStage: typeof deleteStage
+  editList: typeof editList
+  deleteList: typeof deleteList
 }
 
 interface TaskColumnDropTargetProps {
@@ -73,7 +73,7 @@ class TaskColumn extends React.Component<Props, State> {
   }
 
   addTask = () => {
-    this.props.taskCreation(this.props.stage)
+    this.props.taskCreation(this.props.list)
   }
 
   handleChangedText = (taskId: number): React.ChangeEventHandler<HTMLTextAreaElement> => {
@@ -91,27 +91,27 @@ class TaskColumn extends React.Component<Props, State> {
     this.setState({ renaming: true })
   }
 
-  renameStage = async (newName: string) => {
-    await this.props.editStage(this.props.stage, { name: newName })
+  renameList = async (newName: string) => {
+    await this.props.editList(this.props.list, { name: newName })
     this.setState({ renaming: false })
   }
 
-  deleteStage = () => {
-    this.props.deleteStage(this.props.stage)
+  deleteList = () => {
+    this.props.deleteList(this.props.list)
   }
 
   render() {
-    const { stage, columnSpan, tasks, connectDropTarget } = this.props
+    const { list, columnSpan, tasks, connectDropTarget } = this.props
     const { renaming } = this.state
 
     return (
       <Container columnSpan={columnSpan} ref={(ref: any) => connectDropTarget(ref)}>
         <ColumnHeader>
-          <ColumnTitle><EditableText text={stage.name} editing={renaming} done={this.renameStage}/></ColumnTitle>
+          <ColumnTitle><EditableText text={list.name} editing={renaming} done={this.renameList}/></ColumnTitle>
           <MenuButton>
             <Menu>
               <MenuItem onClick={this.startRenaming}>Rename</MenuItem>
-              <MenuItem onClick={this.deleteStage}>Delete</MenuItem>
+              <MenuItem onClick={this.deleteList}>Delete</MenuItem>
             </Menu>
           </MenuButton>
         </ColumnHeader>
@@ -188,8 +188,8 @@ const mapDispatchToProps: DispatchProps = {
   taskCreation,
   taskEdit,
   deleteTask,
-  editStage,
-  deleteStage,
+  editList,
+  deleteList,
 }
 
 const ConnectedTaskColumn = connect(undefined, mapDispatchToProps)(TaskColumn)

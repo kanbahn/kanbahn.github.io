@@ -6,14 +6,14 @@ const router = Router()
 
 router.get('/api/tasks', async (request: Request, response: Response) => {
   const tasksRepository = getRepository(Task)
-  const tasks = await tasksRepository.find({ order: { stage: 'ASC', index: 'ASC' } })
+  const tasks = await tasksRepository.find({ order: { list: 'ASC', index: 'ASC' } })
   response.send({ tasks })
 })
 
 router.post('/api/tasks', async (request: Request, response: Response) => {
   const entity = await getManager().transaction(async entityManager => {
     const tasksRepository = entityManager.getRepository(Task)
-    const index = await tasksRepository.count({ where: { stage: request.body.stage } })
+    const index = await tasksRepository.count({ where: { list: request.body.list } })
     const entity = tasksRepository.create({ ...request.body, index })
     await tasksRepository.insert(entity)
     return entity
@@ -32,11 +32,11 @@ router.patch('/api/tasks/:id', async (request: Request, response: Response) => {
       await tasksRepository.save({ id, title: body.title })
     }
 
-    if (body.stage !== undefined) {
+    if (body.list !== undefined) {
       const entity = await tasksRepository.findOneOrFail({ id })
-      await tasksRepository.decrement({ index: MoreThan(entity.index), stage: entity.stage }, 'index', 1)
-      const index = await tasksRepository.count({ where: { stage: body.stage } })
-      await tasksRepository.save({ id, index, stage: body.stage })
+      await tasksRepository.decrement({ index: MoreThan(entity.index), list: entity.list }, 'index', 1)
+      const index = await tasksRepository.count({ where: { list: body.list } })
+      await tasksRepository.save({ id, index, list: body.list })
     }
 
     return await tasksRepository.findOneOrFail({ id })
@@ -52,7 +52,7 @@ router.delete('/api/tasks/:id', async (request: Request, response: Response) => 
     const tasksRepository = entityManager.getRepository(Task)
     const entity = await tasksRepository.findOneOrFail({ id })
     await tasksRepository.delete({ id })
-    await tasksRepository.decrement({ index: MoreThan(entity.index), stage: entity.stage }, 'index', 1)
+    await tasksRepository.decrement({ index: MoreThan(entity.index), list: entity.list }, 'index', 1)
   })
 
   response.send({})

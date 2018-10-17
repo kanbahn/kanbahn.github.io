@@ -4,13 +4,13 @@ import styled from 'styled-components'
 import 'reset-css'
 import FeatureLane from './components/FeatureLane'
 import { getJSON } from './fetch'
-import { receiveStages } from './reducers/stageReducer'
+import { receiveLists } from './reducers/listReducer'
 import { receiveTasks } from './reducers/taskReducer'
 import { connect } from 'react-redux'
 import { Title } from './components/common'
 
 interface DispatchProps {
-  receiveStages: typeof receiveStages
+  receiveLists: typeof receiveLists
   receiveTasks: typeof receiveTasks
 }
 
@@ -31,8 +31,8 @@ class App extends React.Component<Props, State> {
       getJSON('/api/auth/user').then(({ user }) => {
         this.setState({ user })
       }),
-      getJSON('/api/stages').then(({ stages }) => {
-        this.props.receiveStages(stages)
+      getJSON('/api/lists').then(({ lists }) => {
+        this.props.receiveLists(lists)
       }),
       getJSON('/api/tasks').then(({ tasks }) => {
         this.props.receiveTasks(tasks)
@@ -86,7 +86,7 @@ const LoginButton = (props: { user?: Profile | null }) => {
 }
 
 const mapDispatchToProps = {
-  receiveStages,
+  receiveLists,
   receiveTasks
 }
 

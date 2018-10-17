@@ -6,7 +6,7 @@ import * as session from 'express-session'
 import * as bodyParser from 'body-parser'
 import * as passport from 'passport'
 import auth from './routes/auth'
-import stages from './routes/stages'
+import lists from './routes/lists'
 import tasks from './routes/tasks'
 import { connectToDatabase } from './database'
 
@@ -31,7 +31,7 @@ connectToDatabase().then(() => {
   }
 
   app.use(auth)
-  app.use(stages)
+  app.use(lists)
   app.use(tasks)
 
   app.listen(process.env.PORT || 3001)

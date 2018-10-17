@@ -2,7 +2,7 @@ import { Omit } from 'ramda'
 import { Dispatch } from 'redux'
 import { Task } from '../../src-common/entity/Task'
 import { debouncedPatchJSON, deleteJSON, getJSON, patchJSON, postJSON } from '../fetch'
-import { Stage } from '../../src-common/entity/Stage'
+import { List } from '../../src-common/entity/List'
 
 interface NewTask {
   type: 'NEW-TASK'
@@ -50,8 +50,8 @@ const taskReducer = (state: TasksState = [], action: TaskAction) => {
   }
 }
 
-export const taskCreation = (stage: Stage) => {
-  const newTaskObject: Omit<Task, 'id' | 'index'> = { title: '', stage }
+export const taskCreation = (list: List) => {
+  const newTaskObject: Omit<Task, 'id' | 'index'> = { title: '', list }
 
   return async (dispatch: Dispatch<TaskAction>) => {
     const newTask: Task = await postJSON('/api/tasks', newTaskObject)
@@ -75,9 +75,9 @@ export const taskEdit = (taskObj: { id: number, title: string }) => {
   }
 }
 
-export const moveTask = (task: Task, stage: Stage) => {
+export const moveTask = (task: Task, list: List) => {
   return async (dispatch: Dispatch<TaskAction>) => {
-    await patchJSON(`/api/tasks/${task.id}`, { stage })
+    await patchJSON(`/api/tasks/${task.id}`, { list })
     // Need to re-fetch tasks because their indices might have been modified.
     const { tasks } = await getJSON('/api/tasks')
     return dispatch({

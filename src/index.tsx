@@ -4,16 +4,16 @@ import { createStore, applyMiddleware, combineReducers, Reducer } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import App from './App'
-import stageReducer, { StagesState } from './reducers/stageReducer'
+import listReducer, { ListsState } from './reducers/listReducer'
 import taskReducer, { TasksState } from './reducers/taskReducer'
 
 export interface StoreState {
-  stages: StagesState
+  lists: ListsState
   tasks: TasksState
 }
 
 const reducer: Reducer<StoreState> = combineReducers({
-  stages: stageReducer,
+  lists: listReducer,
   tasks: taskReducer,
 })
 
