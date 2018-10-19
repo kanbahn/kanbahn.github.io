@@ -68,7 +68,7 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.ts": [
+    "*.{ts,tsx}": [
       "npm run format"
     ]
   },
