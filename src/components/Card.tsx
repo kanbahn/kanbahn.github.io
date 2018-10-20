@@ -41,7 +41,6 @@ class Card extends React.Component<CardProps & CardDragSourceProps> {
         <TextArea
           value={task.title}
           onChange={handleChange}
-          autoFocus={true}
           wrap='soft'
           minRows={2}
         />
