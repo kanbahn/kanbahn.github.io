@@ -14,8 +14,9 @@ https://kanbahn.herokuapp.com
 - Clone project `git clone git@github.com:kanbahn/kanbahn.github.io.git kanbahn`
 - Go to project root `cd kanbahn`
 - Install dependencies `npm install`
-- Run application `npm start`
+- Run development server `npm start`
 - Open browser [http://localhost:3000/](http://localhost:3000/)
+- Run tests `npm test` (the server must be running simultaneously)
 
 ## Tech
 

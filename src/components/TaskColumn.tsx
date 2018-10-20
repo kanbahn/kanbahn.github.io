@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Card, { Container as CardContainer } from './Card'
-import { deleteList, editList } from '../reducers/listReducer'
-import { deleteTask, moveTask, taskCreation, taskEdit } from '../reducers/taskReducer'
+import { deleteList, editList } from '../store/listReducer'
+import { deleteTask, moveTask, taskCreation, taskEdit } from '../store/taskReducer'
 import { ConnectDropTarget, DropTarget, DropTargetConnector, DropTargetMonitor, DropTargetSpec } from 'react-dnd'
 import { Task } from '../../src-common/entity/Task'
 import { connect } from 'react-redux'
@@ -180,7 +180,7 @@ const FlexCardWrapper = styled.div`
   padding: ${defaultMargin};
 `
 
-const AddCardButton = styled(CardContainer.withComponent('button'))`
+export const AddCardButton = styled(CardContainer.withComponent('button'))`
   ${transparentButtonStyles}
 `
 

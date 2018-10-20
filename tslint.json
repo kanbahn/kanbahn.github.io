@@ -12,6 +12,7 @@
     "jsx-no-multiline-js": false,
     "member-access": [true, "no-public"],
     "no-console": false,
+    "no-constant-condition": [true, { "checkLoops": false }],
     "no-floating-promises": true,
     "no-shadowed-variable": false,
     "object-curly-spacing": true,

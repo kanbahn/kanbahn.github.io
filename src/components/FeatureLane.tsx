@@ -1,7 +1,7 @@
 import * as React from 'react'
 import TaskColumn, { columnMargin } from './TaskColumn'
-import { addList } from '../reducers/listReducer'
-import { taskCreation, moveTask, deleteTask } from '../reducers/taskReducer'
+import { addList } from '../store/listReducer'
+import { taskCreation, moveTask, deleteTask } from '../store/taskReducer'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 import { connect } from 'react-redux'
@@ -10,7 +10,7 @@ import { Task } from '../../src-common/entity/Task'
 import { List } from '../../src-common/entity/List'
 import { borderRadius, boxShadow, defaultMargin, Title, transparentButtonStyles } from './common'
 import { Plus } from 'react-feather'
-import { StoreState } from '../index'
+import { StoreState } from '../store/store'
 
 interface FeatureLaneOwnProps {
   featureName: string
