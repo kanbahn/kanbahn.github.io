@@ -128,9 +128,9 @@ class TaskColumn extends React.Component<Props, State> {
               />
             )
           }
-          <CardPlaceholder columnSpan={columnSpan} onClick={this.addTask}>
+          <AddCardButton columnSpan={columnSpan} onClick={this.addTask}>
             <Plus/>
-          </CardPlaceholder>
+          </AddCardButton>
         </FlexCardWrapper>
       </Container>
     )
@@ -180,7 +180,7 @@ const FlexCardWrapper = styled.div`
   padding: ${defaultMargin};
 `
 
-const CardPlaceholder = styled(CardContainer)`
+const AddCardButton = styled(CardContainer.withComponent('button'))`
   ${transparentButtonStyles}
 `
 
