@@ -8,7 +8,7 @@ import * as passport from 'passport'
 import auth from './routes/auth'
 import lists from './routes/lists'
 import tasks from './routes/tasks'
-import { connectToDatabase } from './database'
+import { connectToDatabase } from './database/connection'
 
 connectToDatabase().then(() => {
   const app = express()

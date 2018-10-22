@@ -1,8 +1,7 @@
 import * as passport from 'passport'
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth'
 import { Router } from 'express'
-import { getRepository } from 'typeorm'
-import { User } from '../../src-common/entity/User'
+import { createUser } from '../database/userQueries'
 
 const baseURL = process.env.NODE_ENV === 'production' ? 'https://kanbahn.herokuapp.com' : 'http://localhost:3000'
 
@@ -23,8 +22,7 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        const userRepository = getRepository(User)
-        await userRepository.save({ googleId: profile.id })
+        await createUser(profile.id)
         done(null, profile)
       } catch (err) {
         done(err)
