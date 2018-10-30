@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import OutsideClickHandler from 'react-outside-click-handler'
 import styled from 'styled-components'
 import { borderRadius, lightGray } from './common'

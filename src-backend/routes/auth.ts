@@ -1,4 +1,4 @@
-import * as passport from 'passport'
+import passport from 'passport'
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth'
 import { Router } from 'express'
 import { createUser } from '../database/userQueries'

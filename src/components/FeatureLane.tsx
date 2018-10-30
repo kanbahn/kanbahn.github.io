@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import TaskColumn, { columnMargin } from './TaskColumn'
 import { addList } from '../store/listReducer'
 import { taskCreation, moveTask, deleteTask } from '../store/taskReducer'

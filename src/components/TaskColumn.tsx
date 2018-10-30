@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import Card, { Container as CardContainer } from './Card'
 import { deleteList, editList } from '../store/listReducer'
 import { deleteTask, moveTask, taskCreation, taskEdit } from '../store/taskReducer'

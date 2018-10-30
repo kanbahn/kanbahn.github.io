@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { ConnectDragSource, DragSource, DragSourceSpec, DragSourceCollector } from 'react-dnd'
 import TextAreaAutoSize from 'react-textarea-autosize'
 import styled from 'styled-components'
