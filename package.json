@@ -60,7 +60,7 @@
     "tslint-react": "^3.6.0"
   },
   "scripts": {
-    "start": "concurrently --kill-others-on-fail \"npm run start-development-server\" \"react-scripts start\"",
+    "start": "concurrently --kill-others-on-fail --names server,client \"npm run start-development-server\" \"react-scripts start\"",
     "start-development-server": "nodemon --watch src-backend --watch src-common --ext ts --exec \"ts-node -O '{\\\"module\\\": \\\"commonjs\\\"}'\" src-backend/server.ts",
     "start-production-server": "NODE_ENV=production node build-backend/src-backend/server.js",
     "typeorm": "ts-node -O '{\"module\": \"commonjs\"}' ./node_modules/.bin/typeorm",
