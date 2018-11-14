@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Profile } from 'passport'
 import styled from 'styled-components'
 import 'reset-css'
@@ -14,45 +14,26 @@ interface DispatchProps {
   receiveTasks: typeof receiveTasks
 }
 
-interface State {
-  user?: Profile | null
-}
-
 type Props = DispatchProps
 
-class App extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = {}
-  }
+const App = (props: Props) => {
+  const [user, setUser] = useState<Profile | null | undefined>(undefined)
 
-  async componentDidMount() {
-    await Promise.all([
-      getJSON('/api/auth/user').then(({ user }) => {
-        this.setState({ user })
-      }),
-      getJSON('/api/lists').then(({ lists }) => {
-        this.props.receiveLists(lists)
-      }),
-      getJSON('/api/tasks').then(({ tasks }) => {
-        this.props.receiveTasks(tasks)
-      })
-    ])
-  }
+  useEffect(() => {
+    getJSON('/api/auth/user').then(response => setUser(response.user)).catch(() => undefined)
+    getJSON('/api/lists').then(response => props.receiveLists(response.lists)).catch(() => undefined)
+    getJSON('/api/tasks').then(response => props.receiveTasks(response.tasks)).catch(() => undefined)
+  }, [])
 
-  render() {
-    const { user } = this.state
-
-    return (
-      <Container>
-        <Header>
-          <Title>Project name</Title>
-          <LoginButton user={user} />
-        </Header>
-        <FeatureLane featureName='featureX'/>
-      </Container>
-    )
-  }
+  return (
+    <Container>
+      <Header>
+        <Title>Project name</Title>
+        <LoginButton user={user} />
+      </Header>
+      <FeatureLane featureName='featureX'/>
+    </Container>
+  )
 }
 
 const Container = styled.div`

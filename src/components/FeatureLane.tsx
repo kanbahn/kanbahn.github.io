@@ -29,39 +29,36 @@ interface FeatureLaneStoreProps {
 
 type FeatureLaneProps = FeatureLaneOwnProps & FeatureLaneDispatchProps & FeatureLaneStoreProps
 
-class FeatureLane extends React.Component<FeatureLaneProps> {
-  addList = () => {
-    this.props.addList(this.props.featureName)
-  }
+const FeatureLane = (props: FeatureLaneProps) => {
+  const addList = () => props.addList(props.featureName)
 
-  render() {
-    const { featureName, lists, tasks } = this.props
-    // TODO: FeatureLane should receive only its own tasks in the props.
-    const lanesTasks = tasks.filter(task => task.list.lane === featureName)
+  const { featureName, lists, tasks } = props
 
-    return (
-      <Container>
-        <Title>{featureName}</Title>
+  // TODO: FeatureLane should receive only its own tasks in the props.
+  const lanesTasks = tasks.filter(task => task.list.lane === featureName)
 
-        <FlexContainer>
-          {lists.map(list => (
-            <TaskColumn
-              key={list.id}
-              list={list}
-              columnSpan={1}
-              laneName={featureName}
-              tasks={lanesTasks.filter(task => task.list.id === list.id)}
-              moveTask={this.props.moveTask}
-            />
-          ))}
+  return (
+    <Container>
+      <Title>{featureName}</Title>
 
-          <AddColumnButton onClick={this.addList}>
-            <Plus/>
-          </AddColumnButton>
-        </FlexContainer>
-      </Container>
-    )
-  }
+      <FlexContainer>
+        {lists.map(list => (
+          <TaskColumn
+            key={list.id}
+            list={list}
+            columnSpan={1}
+            laneName={featureName}
+            tasks={lanesTasks.filter(task => task.list.id === list.id)}
+            moveTask={props.moveTask}
+          />
+        ))}
+
+        <AddColumnButton onClick={addList}>
+          <Plus/>
+        </AddColumnButton>
+      </FlexContainer>
+    </Container>
+  )
 }
 
 const Container = styled.div`

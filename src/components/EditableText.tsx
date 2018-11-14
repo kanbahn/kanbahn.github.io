@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, Fragment } from 'react'
 import OutsideClickHandler from 'react-outside-click-handler'
 import styled from 'styled-components'
 import { borderRadius, lightGray } from './common'
@@ -9,57 +9,29 @@ interface Props {
   done: (newValue: string) => void
 }
 
-interface State {
-  value: string
-}
+const EditableText = (props: Props) => {
+  const [text, setText] = useState(props.text)
+  const finishEditing = () => props.done(text)
+  const onFocus = (event: React.FocusEvent<HTMLInputElement>) => event.target.select()
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => setText(event.target.value)
+  const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => event.key === 'Enter' && finishEditing()
 
-class EditableText extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = {
-      value: props.text
-    }
+  if (!props.editing) {
+    return <Fragment>{props.text}</Fragment>
   }
 
-  onFocus = (event: React.FocusEvent<HTMLInputElement>) => {
-    event.target.select()
-  }
-
-  onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ value: event.target.value })
-  }
-
-  onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      this.props.done(this.state.value)
-    }
-  }
-
-  onOutsideClick = () => {
-    this.props.done(this.state.value)
-  }
-
-  render() {
-    const { text, editing } = this.props
-    const { value } = this.state
-
-    if (!editing) {
-      return text
-    }
-
-    return (
-      <OutsideClickHandler onOutsideClick={this.onOutsideClick} display='block'>
-        <Input
-          type='text'
-          value={value}
-          onChange={this.onChange}
-          onKeyDown={this.onKeyDown}
-          autoFocus={true}
-          onFocus={this.onFocus}
-        />
-      </OutsideClickHandler>
-    )
-  }
+  return (
+    <OutsideClickHandler onOutsideClick={finishEditing} display='block'>
+      <Input
+        type='text'
+        value={text}
+        onChange={onChange}
+        onKeyDown={onKeyDown}
+        autoFocus={true}
+        onFocus={onFocus}
+      />
+    </OutsideClickHandler>
+  )
 }
 
 const Input = styled.input`

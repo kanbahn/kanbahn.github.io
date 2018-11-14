@@ -32,26 +32,24 @@ interface CardDragSourceProps {
   connectDragSource: ConnectDragSource
 }
 
-class Card extends React.Component<CardProps & CardDragSourceProps> {
-  render() {
-    const { task, columnSpan, handleChange, deleteTask, connectDragSource } = this.props
+const Card = (props: CardProps & CardDragSourceProps) => {
+  const { task, columnSpan, handleChange, deleteTask, connectDragSource } = props
 
-    return (
-      <Container columnSpan={columnSpan} ref={(ref: any) => connectDragSource(ref)}>
-        <TextArea
-          value={task.title}
-          onChange={handleChange}
-          wrap='soft'
-          minRows={2}
-        />
-        <MenuButton>
-          <Menu>
-            <MenuItem onClick={deleteTask}>Delete</MenuItem>
-          </Menu>
-        </MenuButton>
-      </Container>
-    )
-  }
+  return (
+    <Container columnSpan={columnSpan} ref={(ref: any) => connectDragSource(ref)}>
+      <TextArea
+        value={task.title}
+        onChange={handleChange}
+        wrap='soft'
+        minRows={2}
+      />
+      <MenuButton>
+        <Menu>
+          <MenuItem onClick={deleteTask}>Delete</MenuItem>
+        </Menu>
+      </MenuButton>
+    </Container>
+  )
 }
 
 interface ContainerProps {

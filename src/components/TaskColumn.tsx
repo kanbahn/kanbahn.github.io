@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Card, { Container as CardContainer } from './Card'
 import { deleteList, editList } from '../store/listReducer'
 import { deleteTask, moveTask, taskCreation, taskEdit } from '../store/taskReducer'
@@ -60,81 +60,67 @@ interface TaskColumnDropTargetProps {
 
 type Props = OwnProps & DispatchProps & TaskColumnDropTargetProps
 
-interface State {
-  renaming: boolean
-}
+const TaskColumn = (props: Props) => {
+  const [renaming, setRenaming] = useState(false)
 
-class TaskColumn extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = {
-      renaming: false
-    }
+  const addTask = () => {
+    props.taskCreation(props.list)
   }
 
-  addTask = () => {
-    this.props.taskCreation(this.props.list)
+  const handleChangedText = (taskId: number) => (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    event.preventDefault()
+    props.taskEdit({ id: taskId, title: event.target.value })
   }
 
-  handleChangedText = (taskId: number): React.ChangeEventHandler<HTMLTextAreaElement> => {
-    return event => {
-      event.preventDefault()
-      this.props.taskEdit({ id: taskId, title: event.target.value })
-    }
+  const deleteTask = (id: number) => () => {
+    props.deleteTask(id)
   }
 
-  deleteTask = (id: number) => () => {
-    this.props.deleteTask(id)
+  const startRenaming = () => {
+    setRenaming(true)
   }
 
-  startRenaming = () => {
-    this.setState({ renaming: true })
+  const renameList = async (newName: string) => {
+    await props.editList(props.list, { name: newName })
+    setRenaming(false)
   }
 
-  renameList = async (newName: string) => {
-    await this.props.editList(this.props.list, { name: newName })
-    this.setState({ renaming: false })
+  const deleteList = () => {
+    props.deleteList(props.list)
   }
 
-  deleteList = () => {
-    this.props.deleteList(this.props.list)
-  }
+  const { list, columnSpan, tasks, connectDropTarget } = props
 
-  render() {
-    const { list, columnSpan, tasks, connectDropTarget } = this.props
-    const { renaming } = this.state
+  return (
+    <Container columnSpan={columnSpan} ref={(ref: any) => connectDropTarget(ref)}>
+      <ColumnHeader>
+        <ColumnTitle><EditableText text={list.name} editing={renaming} done={renameList}/></ColumnTitle>
+        <MenuButton>
+          <Menu>
+            <MenuItem onClick={startRenaming}>Rename</MenuItem>
+            <MenuItem onClick={deleteList}>Delete</MenuItem>
+          </Menu>
+        </MenuButton>
+      </ColumnHeader>
 
-    return (
-      <Container columnSpan={columnSpan} ref={(ref: any) => connectDropTarget(ref)}>
-        <ColumnHeader>
-          <ColumnTitle><EditableText text={list.name} editing={renaming} done={this.renameList}/></ColumnTitle>
-          <MenuButton>
-            <Menu>
-              <MenuItem onClick={this.startRenaming}>Rename</MenuItem>
-              <MenuItem onClick={this.deleteList}>Delete</MenuItem>
-            </Menu>
-          </MenuButton>
-        </ColumnHeader>
-
-        <FlexCardWrapper>
-          {sortBy(tasks, 'index')
-            .map(task =>
-              <Card
-                key={task.id}
-                task={task}
-                handleChange={this.handleChangedText(task.id)}
-                deleteTask={this.deleteTask(task.id)}
-                columnSpan={columnSpan}
-              />
-            )
-          }
-          <AddCardButton columnSpan={columnSpan} onClick={this.addTask}>
-            <Plus/>
-          </AddCardButton>
-        </FlexCardWrapper>
-      </Container>
-    )
-  }
+      <FlexCardWrapper>
+        {sortBy(tasks, 'index')
+          .map(task =>
+            <Card
+              key={task.id}
+              task={task}
+              handleChange={handleChangedText(task.id)}
+              deleteTask={deleteTask(task.id)}
+              columnSpan={columnSpan}
+            />
+          )
+        }
+        <AddCardButton columnSpan={columnSpan} onClick={addTask}>
+          <Plus/>
+        </AddCardButton>
+      </FlexCardWrapper>
+    </Container>
+  )
 }
 
 interface ContainerProps {

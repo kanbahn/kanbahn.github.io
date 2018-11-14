@@ -1,47 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { MoreHorizontal } from 'react-feather'
 import OutsideClickHandler from 'react-outside-click-handler'
 import styled from 'styled-components'
 import { gray } from './common'
 
-interface State {
-  isOpen: boolean
-}
+const MenuButton = (props: {children: any}) => {
+  const [isOpen, setOpen] = useState(false)
+  const toggleOpen = () => setOpen(!isOpen)
+  const close = () => setOpen(false)
 
-class MenuButton extends React.Component<{}, State> {
-  constructor(props: {}) {
-    super(props)
-    this.state = {
-      isOpen: false
-    }
-  }
-
-  toggleOpen = () => {
-    this.setState({ isOpen: !this.state.isOpen })
-  }
-
-  handleClickOutside = () => {
-    this.setState({ isOpen: false })
-  }
-
-  render() {
-    const { isOpen } = this.state
-
-    return (
-      <Container onClick={this.toggleOpen}>
-        <OutsideClickHandler onOutsideClick={this.handleClickOutside}>
-          <MenuIcon>
-            <MoreHorizontal size={26}/>
-          </MenuIcon>
-          {isOpen && (
-            <ChildrenWrapper>
-              {this.props.children}
-            </ChildrenWrapper>
-          )}
-        </OutsideClickHandler>
-      </Container>
-    )
-  }
+  return (
+    <Container onClick={toggleOpen}>
+      <OutsideClickHandler onOutsideClick={close}>
+        <MenuIcon>
+          <MoreHorizontal size={26}/>
+        </MenuIcon>
+        {isOpen && (
+          <ChildrenWrapper>
+            {props.children}
+          </ChildrenWrapper>
+        )}
+      </OutsideClickHandler>
+    </Container>
+  )
 }
 
 export const menuButtonSize = '40px'
