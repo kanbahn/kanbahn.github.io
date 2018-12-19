@@ -89,6 +89,7 @@ export const deleteList = (list: List) => {
 
 export const deleteLane = (laneName: string) => {
   return async (dispatch: Dispatch<ListAction>) => {
+    await deleteJSON(`/api/lane/${laneName}`)
     return dispatch({
       type: 'DELETE-LANE',
       laneName

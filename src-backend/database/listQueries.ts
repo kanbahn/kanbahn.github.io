@@ -1,4 +1,4 @@
-import { getManager, getRepository } from 'typeorm'
+import { getConnection, getManager, getRepository } from 'typeorm'
 import { List } from '../../src-common/entity/List'
 
 export async function getLists() {
@@ -31,5 +31,15 @@ export async function updateList(id: number, updates: Partial<List>) {
 
 export async function deleteList(id: number) {
   const listRepository = getRepository(List)
+  console.log(listRepository)
   await listRepository.delete({ id })
+}
+
+export async function deleteLists(laneName: string) {
+  await getConnection()
+    .createQueryBuilder()
+    .delete()
+    .from(List)
+    .where('lane = :laneToDelete', { laneToDelete: laneName })
+    .execute()
 }
