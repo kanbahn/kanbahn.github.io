@@ -34,7 +34,7 @@ connectToDatabase().then(() => {
   app.use(lists)
   app.use(tasks)
 
-  app.listen(process.env.PORT || 80)
+  app.listen(process.env.PORT || 8001)
 }).catch(error => {
   console.log(error)
   process.exit(1)
