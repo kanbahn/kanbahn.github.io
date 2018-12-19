@@ -1,0 +1,11 @@
+language: node_js
+
+services:
+  - postgresql
+
+before_script:
+  - createdb kanbahn_test
+
+script:
+  - npm start &
+  - npm test

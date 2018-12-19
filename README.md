@@ -15,7 +15,7 @@ https://kanbahn.herokuapp.com
 - Go to project root `cd kanbahn`
 - Install dependencies `npm install`
 - Start local Postgres server `pg_ctl -D /usr/local/var/postgres start`
-  - Create a test db `createdb -O kanbahner kanbahn_test`
+  - Create a test db `createdb kanbahn_test`
 - Run development server `npm start`
 - Open browser [http://localhost:3000/](http://localhost:3000/)
 - Run tests `npm test` (the server must be running simultaneously)
