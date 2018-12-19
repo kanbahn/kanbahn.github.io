@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Task } from '../../src-common/entity/Task'
 import { List } from '../../src-common/entity/List'
-import { borderRadius, boxShadow, defaultMargin, Title, transparentButtonStyles } from './common'
+import { GradientContainer, Title, transparentButtonStyles } from './common'
 import { Plus } from 'react-feather'
 import { StoreState } from '../store/store'
 
@@ -38,7 +38,7 @@ const FeatureLane = (props: FeatureLaneProps) => {
   const lanesColumns = lists.filter(list => list.lane === featureName)
 
   return (
-    <Container>
+    <GradientContainer>
       <Title>{featureName}</Title>
 
       <FlexContainer>
@@ -57,18 +57,9 @@ const FeatureLane = (props: FeatureLaneProps) => {
           <Plus/>
         </AddColumnButton>
       </FlexContainer>
-    </Container>
+    </GradientContainer>
   )
 }
-
-const Container = styled.div`
-  position: relative;
-  background: linear-gradient(to top left, rgb(221, 221, 221), rgb(250, 250, 250));
-  box-shadow: ${boxShadow};
-  padding: ${defaultMargin};
-  border-radius: ${borderRadius};
-  margin-bottom: calc(2 * ${defaultMargin});
-`
 
 const FlexContainer = styled.div`
   position: relative;

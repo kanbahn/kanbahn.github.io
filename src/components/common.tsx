@@ -34,3 +34,12 @@ export const Title = styled.h1`
   max-height: 100%;
   overflow: hidden;
 `
+
+export const GradientContainer = styled.div`
+  position: relative;
+  background: linear-gradient(to top left, rgb(221, 221, 221), rgb(250, 250, 250));
+  box-shadow: ${boxShadow};
+  padding: ${defaultMargin};
+  border-radius: ${borderRadius};
+  margin-bottom: calc(2 * ${defaultMargin});
+`

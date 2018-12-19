@@ -26,17 +26,17 @@ const App = (props: Props) => {
   }, [])
 
   return (
-    <Container>
+    <BackroundContainer>
       <Header>
         <Title>Project name</Title>
         <LoginButton user={user} />
       </Header>
       <FeatureLanes/>
-    </Container>
+    </BackroundContainer>
   )
 }
 
-const Container = styled.div`
+const BackroundContainer = styled.div`
   position: relative;
   display: block;
   background: white;

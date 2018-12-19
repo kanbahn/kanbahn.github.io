@@ -5,27 +5,56 @@ import { Task } from '../../src-common/entity/Task'
 import { List } from '../../src-common/entity/List'
 import { StoreState } from '../store/store'
 import { unique } from '../helpers'
+import styled from 'styled-components'
+import { GradientContainer, transparentButtonStyles } from './common'
+import { addList } from '../store/listReducer'
+import { Plus } from 'react-feather'
+
+interface FeatureLanesDispatchProps {
+  addList: typeof addList
+}
 
 interface FeatureLanesStoreProps {
   lists: List[]
   tasks: Task[]
 }
 
-const FeatureLanes = (props: FeatureLanesStoreProps) => {
+type Props = FeatureLanesDispatchProps & FeatureLanesStoreProps
 
-  const uniqueLanes = unique(props.tasks.map(task => task.list.lane))
+const FeatureLanes = (props: Props) => {
+
+  const uniqueLanes = unique(props.lists.map(list => list.lane))
+
+  const newLane = () => {
+    props.addList('feature' + (uniqueLanes.length + 1))
+  }
 
   return (
-    <div>
+    <Container>
       {uniqueLanes.map(lane => (
         <FeatureLane
           key={lane}
           featureName={lane}
         />
       ))}
-    </div>
+
+      <GradientContainer>
+        <AddLaneButton onClick={newLane}>
+          <Plus/>
+        </AddLaneButton>
+      </GradientContainer>
+    </Container>
   )
 }
+
+const Container = styled.div`
+`
+
+const AddLaneButton = styled.button`
+  width: calc(100% - calc(2 * 4px));
+  ${transparentButtonStyles}
+  margin: 4px;
+`
 
 const mapStateToProps = (state: StoreState) => {
   return {
@@ -34,6 +63,10 @@ const mapStateToProps = (state: StoreState) => {
   }
 }
 
-const ConnectedFeatureLanes = connect(mapStateToProps, undefined)(FeatureLanes)
+const mapDispatchToProps = {
+  addList
+}
+
+const ConnectedFeatureLanes = connect(mapStateToProps, mapDispatchToProps)(FeatureLanes)
 
 export default ConnectedFeatureLanes
