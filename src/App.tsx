@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Profile } from 'passport'
-import styled from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 import 'reset-css'
 import FeatureLane from './components/FeatureLane'
 import { getJSON } from './fetch'
@@ -8,6 +8,7 @@ import { receiveLists } from './store/listReducer'
 import { receiveTasks } from './store/taskReducer'
 import { connect } from 'react-redux'
 import { Title } from './components/common'
+import { useTheme } from './theme'
 
 interface DispatchProps {
   receiveLists: typeof receiveLists
@@ -18,6 +19,7 @@ type Props = DispatchProps
 
 const App = (props: Props) => {
   const [user, setUser] = useState<Profile | null | undefined>(undefined)
+  const { theme, changeTheme } = useTheme('minimal')
 
   useEffect(() => {
     getJSON('/api/auth/user').then(response => setUser(response.user)).catch(() => undefined)
@@ -26,13 +28,19 @@ const App = (props: Props) => {
   }, [])
 
   return (
-    <Container>
-      <Header>
-        <Title>Project name</Title>
-        <LoginButton user={user} />
-      </Header>
-      <FeatureLane featureName='featureX'/>
-    </Container>
+    <ThemeProvider theme={theme || {}}>
+      <Container>
+        <Header>
+          <Title>Project name</Title>
+          <HeaderButtons>
+            <a href='#' onClick={changeTheme}>Theme</a>
+            <LoginButton user={user} />
+          </HeaderButtons>
+        </Header>
+        <FeatureLane featureName='featureX' />
+        <FeatureLane featureName='featureY' />
+      </Container>
+    </ThemeProvider>
   )
 }
 
@@ -55,6 +63,12 @@ const Header = styled.header`
   justify-content: space-between;
 `
 
+const HeaderButtons = styled.div`
+  > * {
+    margin: 0 5px;
+  }
+`
+
 const LoginButton = (props: { user?: Profile | null }) => {
   switch (props.user) {
     case undefined:
@@ -68,7 +82,7 @@ const LoginButton = (props: { user?: Profile | null }) => {
 
 const mapDispatchToProps = {
   receiveLists,
-  receiveTasks
+  receiveTasks,
 }
 
 export default connect(undefined, mapDispatchToProps)(App)

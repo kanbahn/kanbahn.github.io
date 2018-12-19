@@ -7,14 +7,7 @@ import { Task } from '../../src-common/entity/Task'
 import { connect } from 'react-redux'
 import styled, { css } from 'styled-components'
 import { Plus } from 'react-feather'
-import {
-  borderRadius,
-  boxShadow,
-  defaultMargin,
-  lightGrayBackground,
-  Title,
-  transparentButtonStyles
-} from './common'
+import { defaultMargin, Title, transparentButtonStyles } from './common'
 import MenuButton, { menuButtonSize, MenuIcon } from './MenuButton'
 import Menu, { MenuItem } from './Menu'
 import { List } from '../../src-common/entity/List'
@@ -133,14 +126,13 @@ export const columnMargin = css`
 
 const Container = styled.div<ContainerProps>`
   ${columnMargin};
-  box-shadow: ${boxShadow};
-  background: ${lightGrayBackground};
-  border-radius: ${borderRadius};
   flex: ${props => props.columnSpan} 1 0;
 
   &:not(:hover) ${MenuIcon} {
     opacity: 0;
   }
+
+  ${props => props.theme.column}
 `
 
 const ColumnHeader = styled.div`

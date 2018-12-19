@@ -2,7 +2,7 @@ import React from 'react'
 import { ConnectDragSource, DragSource, DragSourceSpec, DragSourceCollector } from 'react-dnd'
 import TextAreaAutoSize from 'react-textarea-autosize'
 import styled from 'styled-components'
-import { borderRadius, boxShadow, cardPadding, defaultMargin } from './common'
+import { cardPadding, defaultMargin } from './common'
 import MenuButton, { menuButtonSize, MenuIcon } from './MenuButton'
 import Menu, { MenuItem } from './Menu'
 import { Task } from '../../src-common/entity/Task'
@@ -63,16 +63,14 @@ export const Container = styled.div<ContainerProps>`
   min-width: 175px;
   box-sizing: border-box;
   overflow-wrap: break-word;
-  background: linear-gradient(to top left, rgb(255, 246, 196), rgb(252, 247, 221));
-  border: 0 solid rgb(211, 204, 163);
-  box-shadow: ${boxShadow};
-  border-radius: ${borderRadius};
   display: flex;
   position: relative;
 
   &:not(:hover) ${MenuIcon} {
     opacity: 0;
   }
+
+  ${props => props.theme.card}
 `
 
 const TextArea = styled(TextAreaAutoSize)`
