@@ -19,12 +19,17 @@ interface DeleteList {
   list: List
 }
 
+interface DeleteLane {
+  type: 'DELETE-LANE'
+  laneName: string
+}
+
 interface ReceiveLists {
   type: 'RECEIVE-LISTS'
   lists: List[]
 }
 
-type ListAction = NewList | EditList | DeleteList | ReceiveLists
+type ListAction = NewList | EditList | DeleteList | DeleteLane | ReceiveLists
 export type ListsState = List[]
 
 const listReducer = (state: ListsState = [], action: ListAction) => {
@@ -37,6 +42,9 @@ const listReducer = (state: ListsState = [], action: ListAction) => {
 
     case 'DELETE-LIST':
       return state.filter(list => list.id !== action.list.id)
+
+    case 'DELETE-LANE':
+      return state.filter(list => list.lane !== action.laneName)
 
     case 'RECEIVE-LISTS':
       return action.lists
@@ -75,6 +83,15 @@ export const deleteList = (list: List) => {
     return dispatch({
       type: 'DELETE-LIST',
       list
+    })
+  }
+}
+
+export const deleteLane = (laneName: string) => {
+  return async (dispatch: Dispatch<ListAction>) => {
+    return dispatch({
+      type: 'DELETE-LANE',
+      laneName
     })
   }
 }

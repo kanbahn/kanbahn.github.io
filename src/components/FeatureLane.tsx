@@ -1,6 +1,6 @@
 import React from 'react'
 import TaskColumn, { columnMargin } from './TaskColumn'
-import { addList } from '../store/listReducer'
+import { addList, deleteLane } from '../store/listReducer'
 import { taskCreation, moveTask, deleteTask } from '../store/taskReducer'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
@@ -9,7 +9,7 @@ import styled from 'styled-components'
 import { Task } from '../../src-common/entity/Task'
 import { List } from '../../src-common/entity/List'
 import { GradientContainer, Title, transparentButtonStyles } from './common'
-import { Plus } from 'react-feather'
+import { Plus, X } from 'react-feather'
 import { StoreState } from '../store/store'
 
 interface FeatureLaneOwnProps {
@@ -20,6 +20,7 @@ interface FeatureLaneDispatchProps {
   addList: typeof addList
   taskCreation: typeof taskCreation
   moveTask: typeof moveTask
+  deleteLane: typeof deleteLane
 }
 
 interface FeatureLaneStoreProps {
@@ -31,7 +32,7 @@ type FeatureLaneProps = FeatureLaneOwnProps & FeatureLaneDispatchProps & Feature
 
 const FeatureLane = (props: FeatureLaneProps) => {
   const addList = () => props.addList(props.featureName)
-
+  const deleteThisLane = () => props.deleteLane(props.featureName)
   const { featureName, tasks, lists } = props
 
   const lanesTasks = tasks.filter(task => task.list.lane === featureName)
@@ -39,8 +40,12 @@ const FeatureLane = (props: FeatureLaneProps) => {
 
   return (
     <GradientContainer>
-      <Title>{featureName}</Title>
-
+      <FlexContainerHeader>
+        <Title>{featureName}</Title>
+        <DeleteLaneButton onClick={deleteThisLane}>
+          <X/>
+        </DeleteLaneButton>
+      </FlexContainerHeader>
       <FlexContainer>
         {lanesColumns.map(list => (
           <TaskColumn
@@ -68,9 +73,23 @@ const FlexContainer = styled.div`
   flex-wrap: wrap;
 `
 
+const FlexContainerHeader = styled.div`
+  justify-content: space-between;
+  position: relative;
+  display: flex;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+`
+
 const AddColumnButton = styled.button`
   ${transparentButtonStyles}
   ${columnMargin};
+`
+
+const DeleteLaneButton = styled.button`
+  ${transparentButtonStyles}
+  margin-right: 6px;
+  float: right;
 `
 
 const mapStateToProps = (state: StoreState) => {
@@ -84,7 +103,8 @@ const mapDispatchToProps = {
   taskCreation,
   moveTask,
   deleteTask,
-  addList
+  addList,
+  deleteLane
 }
 
 const ConnectedFeatureLane = connect(mapStateToProps, mapDispatchToProps)(FeatureLane)
