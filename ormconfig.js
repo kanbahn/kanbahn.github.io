@@ -1,5 +1,5 @@
 const development = process.env.NODE_ENV !== 'production'
-const testDbUrl = "postgres://kanbahner@localhost:5432/kanbahn_test"
+const testDbUrl = 'postgres://localhost:5432/kanbahn_test'
 
 module.exports = {
   name: 'default',

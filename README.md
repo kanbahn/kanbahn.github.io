@@ -1,4 +1,4 @@
-# Kanbahn
+# Kanbahn [![Build Status](https://travis-ci.org/kanbahn/kanbahn.github.io.svg?branch=master)](https://travis-ci.org/kanbahn/kanbahn.github.io)
 
 Kanban-board with multiple lanes. Tasks can be then grouped to different lanes e.g. one feature in one lane.
 
@@ -15,7 +15,7 @@ https://kanbahn.herokuapp.com
 - Go to project root `cd kanbahn`
 - Install dependencies `npm install`
 - Start local Postgres server `pg_ctl -D /usr/local/var/postgres start`
-  - Create a test db `createdb -O kanbahner kanbahn_test`
+  - Create a test db `createdb kanbahn_test`
 - Run development server `npm start`
 - Open browser [http://localhost:3000/](http://localhost:3000/)
 - Run tests `npm test` (the server must be running simultaneously)
