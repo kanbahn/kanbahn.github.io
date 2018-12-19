@@ -1,8 +1,11 @@
 const development = process.env.NODE_ENV !== 'production'
+const testDbUrl = "postgres://kanbahner@localhost:5432/kanbahn_test"
 
 module.exports = {
+  name: 'default',
   type: 'postgres',
-  url: process.env.DATABASE_URL,
+  url: development ? testDbUrl : process.env.DATABASE_URL,
+  synchronize: [development ? true : false],
   entities: [development ? 'src-common/entity/**/*.ts' : 'build-backend/src-common/entity/**/*.js'],
   migrations: [development ? 'src-backend/migration/**/*.ts' : 'build-backend/src-backend/migration/**/*.js'],
   subscribers: [development ? 'src-backend/subscriber/**/*.ts' : 'build-backend/src-backend/subscriber/**/*.js'],
