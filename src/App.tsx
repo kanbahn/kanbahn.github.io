@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Profile } from 'passport'
 import styled from 'styled-components'
 import 'reset-css'
-import FeatureLane from './components/FeatureLane'
+import FeatureLanes from './components/FeatureLanes'
 import { getJSON } from './fetch'
 import { receiveLists } from './store/listReducer'
 import { receiveTasks } from './store/taskReducer'
@@ -31,7 +31,7 @@ const App = (props: Props) => {
         <Title>Project name</Title>
         <LoginButton user={user} />
       </Header>
-      <FeatureLane featureName='featureX'/>
+      <FeatureLanes/>
     </Container>
   )
 }

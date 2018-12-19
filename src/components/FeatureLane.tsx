@@ -32,17 +32,17 @@ type FeatureLaneProps = FeatureLaneOwnProps & FeatureLaneDispatchProps & Feature
 const FeatureLane = (props: FeatureLaneProps) => {
   const addList = () => props.addList(props.featureName)
 
-  const { featureName, lists, tasks } = props
+  const { featureName, tasks, lists } = props
 
-  // TODO: FeatureLane should receive only its own tasks in the props.
   const lanesTasks = tasks.filter(task => task.list.lane === featureName)
+  const lanesColumns = lists.filter(list => list.lane === featureName)
 
   return (
     <Container>
       <Title>{featureName}</Title>
 
       <FlexContainer>
-        {lists.map(list => (
+        {lanesColumns.map(list => (
           <TaskColumn
             key={list.id}
             list={list}
