@@ -43,3 +43,12 @@ export async function deleteLists(laneName: string) {
     .where('lane = :laneToDelete', { laneToDelete: laneName })
     .execute()
 }
+
+export async function editLists(laneName: string, updates: Partial<List>) {
+  return await getConnection()
+    .createQueryBuilder()
+    .update(List)
+    .set(updates)
+    .where('lane = :laneToEdit', { laneToEdit: laneName })
+    .execute()
+}

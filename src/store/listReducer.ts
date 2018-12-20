@@ -14,6 +14,12 @@ interface EditList {
   edits: Partial<List>
 }
 
+interface EditLane {
+  type: 'EDIT-LANE'
+  oldName: string
+  newName: string
+}
+
 interface DeleteList {
   type: 'DELETE-LIST'
   list: List
@@ -29,7 +35,7 @@ interface ReceiveLists {
   lists: List[]
 }
 
-type ListAction = NewList | EditList | DeleteList | DeleteLane | ReceiveLists
+type ListAction = NewList | EditList | EditLane | DeleteList | DeleteLane | ReceiveLists
 export type ListsState = List[]
 
 const listReducer = (state: ListsState = [], action: ListAction) => {
@@ -39,6 +45,9 @@ const listReducer = (state: ListsState = [], action: ListAction) => {
 
     case 'EDIT-LIST':
       return state.map(list => list.id !== action.list.id ? list : { ...list, ...action.edits })
+
+    case 'EDIT-LANE':
+      return state.map(list => list.lane !== action.oldName ? list : { ...list, lane: action.newName })
 
     case 'DELETE-LIST':
       return state.filter(list => list.id !== action.list.id)
@@ -73,6 +82,18 @@ export const editList = (list: List, edits: Partial<List>) => {
       type: 'EDIT-LIST',
       list,
       edits
+    })
+  }
+}
+
+export const editLane = (oldName: string, newName: string) => {
+  return async (dispatch: Dispatch<ListAction>) => {
+    const updates = { lane: newName }
+    await patchJSON(`/api/lane/${oldName}`, updates)
+    return dispatch({
+      type: 'EDIT-LANE',
+      oldName,
+      newName
     })
   }
 }
