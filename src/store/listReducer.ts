@@ -35,7 +35,8 @@ interface ReceiveLists {
   lists: List[]
 }
 
-type ListAction = NewList | EditList | EditLane | DeleteList | DeleteLane | ReceiveLists
+type ListAction = NewList | EditList | EditLane | DeleteList | DeleteLane | ReceiveLists
+
 export type ListsState = List[]
 
 const listReducer = (state: ListsState = [], action: ListAction) => {

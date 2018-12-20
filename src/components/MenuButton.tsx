@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { MoreHorizontal } from 'react-feather'
 import OutsideClickHandler from 'react-outside-click-handler'
 import styled from 'styled-components'
-import { gray } from './common'
+import { gray, defaultMargin } from './common'
 
 const MenuButton = (props: {children: any}) => {
   const [isOpen, setOpen] = useState(false)
@@ -35,6 +35,7 @@ const Container = styled.div`
 
 const ChildrenWrapper = styled.div`
   position: absolute;
+  right: ${defaultMargin};
 `
 
 export const MenuIcon = styled.div`

@@ -103,12 +103,6 @@ const AddColumnButton = styled.button`
   ${columnMargin};
 `
 
-const DeleteLaneButton = styled.button`
-  ${transparentButtonStyles}
-  margin-right: 6px;
-  float: right;
-`
-
 const mapStateToProps = (state: StoreState) => {
   return {
     lists: state.lists,
