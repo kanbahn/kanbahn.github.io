@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Task } from '../../src-common/entity/Task'
 import { List } from '../../src-common/entity/List'
+import { Lane } from '../../src-common/entity/Lane'
 import { GradientContainer, Title, transparentButtonStyles } from './common'
 import { Plus } from 'react-feather'
 import { StoreState } from '../store/store'
@@ -17,6 +18,7 @@ import Menu, { MenuItem } from './Menu'
 
 interface FeatureLaneOwnProps {
   featureName: string
+  lane: Lane
 }
 
 interface FeatureLaneDispatchProps {
@@ -36,7 +38,7 @@ type FeatureLaneProps = FeatureLaneOwnProps & FeatureLaneDispatchProps & Feature
 
 const FeatureLane = (props: FeatureLaneProps) => {
   const [renaming, setRenaming] = useState(false)
-  const addList = () => props.addList(props.featureName)
+  const addList = () => props.addList(props.featureName, props.lane)
   const deleteThisLane = () => props.deleteLane(props.featureName)
   const { featureName, tasks, lists } = props
 

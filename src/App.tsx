@@ -6,12 +6,14 @@ import FeatureLanes from './components/FeatureLanes'
 import { getJSON } from './fetch'
 import { receiveLists } from './store/listReducer'
 import { receiveTasks } from './store/taskReducer'
+import { receiveLanes } from './store/laneReducer'
 import { connect } from 'react-redux'
 import { Title } from './components/common'
 
 interface DispatchProps {
   receiveLists: typeof receiveLists
   receiveTasks: typeof receiveTasks
+  receiveLanes: typeof receiveLanes
 }
 
 type Props = DispatchProps
@@ -23,6 +25,7 @@ const App = (props: Props) => {
     getJSON('/api/auth/user').then(response => setUser(response.user)).catch(() => undefined)
     getJSON('/api/lists').then(response => props.receiveLists(response.lists)).catch(() => undefined)
     getJSON('/api/tasks').then(response => props.receiveTasks(response.tasks)).catch(() => undefined)
+    getJSON('/api/lanes').then(response => props.receiveLanes(response.lanes)).catch(() => undefined)
   }, [])
 
   return (
@@ -68,7 +71,8 @@ const LoginButton = (props: { user?: Profile | null }) => {
 
 const mapDispatchToProps = {
   receiveLists,
-  receiveTasks
+  receiveTasks,
+  receiveLanes
 }
 
 export default connect(undefined, mapDispatchToProps)(App)

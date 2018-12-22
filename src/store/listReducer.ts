@@ -2,6 +2,7 @@ import { Omit } from 'ramda'
 import { Dispatch } from 'redux'
 import { deleteJSON, patchJSON, postJSON } from '../fetch'
 import { List } from '../../src-common/entity/List'
+import { Lane } from '../../src-common/entity/Lane'
 
 interface NewList {
   type: 'NEW-LIST'
@@ -64,8 +65,8 @@ const listReducer = (state: ListsState = [], action: ListAction) => {
   }
 }
 
-export const addList = (lane: string) => {
-  const body: Omit<List, 'id'> = { name: 'To do', lane, tasks: [] }
+export const addList = (lane: string, laneId: Lane ) => {
+  const body: Omit<List, 'id'> = { name: 'To do', lane, laneId, tasks: [] }
 
   return async (dispatch: Dispatch<ListAction>) => {
     const list: List = await postJSON('/api/lists', body)
