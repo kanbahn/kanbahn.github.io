@@ -9,6 +9,10 @@ Preview:
 
 https://kanbahn.herokuapp.com
 
+## Työaikakirjanpito
+
+[Työaikakirjanpito (Emil)](https://github.com/kanbahn/kanbahn.github.io/wiki/Ty%C3%B6aikakirjanpito-(Emil))
+
 ## Installation
 
 - Clone project `git clone git@github.com:kanbahn/kanbahn.github.io.git kanbahn`
