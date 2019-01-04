@@ -31,7 +31,6 @@ export async function updateList(id: number, updates: Partial<List>) {
 
 export async function deleteList(id: number) {
   const listRepository = getRepository(List)
-  console.log(listRepository)
   await listRepository.delete({ id })
 }
 
@@ -41,14 +40,5 @@ export async function deleteLists(laneName: string) {
     .delete()
     .from(List)
     .where('lane = :laneToDelete', { laneToDelete: laneName })
-    .execute()
-}
-
-export async function editLists(laneName: string, updates: Partial<List>) {
-  return await getConnection()
-    .createQueryBuilder()
-    .update(List)
-    .set(updates)
-    .where('lane = :laneToEdit', { laneToEdit: laneName })
     .execute()
 }

@@ -15,20 +15,9 @@ interface EditList {
   edits: Partial<List>
 }
 
-interface EditLane {
-  type: 'EDIT-LANE'
-  oldName: string
-  newName: string
-}
-
 interface DeleteList {
   type: 'DELETE-LIST'
   list: List
-}
-
-interface DeleteLane {
-  type: 'DELETE-LANE'
-  laneName: string
 }
 
 interface ReceiveLists {
@@ -36,7 +25,7 @@ interface ReceiveLists {
   lists: List[]
 }
 
-type ListAction = NewList | EditList | EditLane | DeleteList | DeleteLane | ReceiveLists
+type ListAction = NewList | EditList | DeleteList | ReceiveLists
 
 export type ListsState = List[]
 
@@ -48,14 +37,8 @@ const listReducer = (state: ListsState = [], action: ListAction) => {
     case 'EDIT-LIST':
       return state.map(list => list.id !== action.list.id ? list : { ...list, ...action.edits })
 
-    case 'EDIT-LANE':
-      return state.map(list => list.lane !== action.oldName ? list : { ...list, lane: action.newName })
-
     case 'DELETE-LIST':
       return state.filter(list => list.id !== action.list.id)
-
-    case 'DELETE-LANE':
-      return state.filter(list => list.lane !== action.laneName)
 
     case 'RECEIVE-LISTS':
       return action.lists
@@ -88,34 +71,12 @@ export const editList = (list: List, edits: Partial<List>) => {
   }
 }
 
-export const editLane = (oldName: string, newName: string) => {
-  return async (dispatch: Dispatch<ListAction>) => {
-    const updates = { lane: newName }
-    await patchJSON(`/api/lane/${oldName}`, updates)
-    return dispatch({
-      type: 'EDIT-LANE',
-      oldName,
-      newName
-    })
-  }
-}
-
 export const deleteList = (list: List) => {
   return async (dispatch: Dispatch<ListAction>) => {
     await deleteJSON(`/api/lists/${list.id}`)
     return dispatch({
       type: 'DELETE-LIST',
       list
-    })
-  }
-}
-
-export const deleteLane = (laneName: string) => {
-  return async (dispatch: Dispatch<ListAction>) => {
-    await deleteJSON(`/api/lane/${laneName}`)
-    return dispatch({
-      type: 'DELETE-LANE',
-      laneName
     })
   }
 }

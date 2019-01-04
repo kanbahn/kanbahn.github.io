@@ -35,7 +35,6 @@ const FeatureLanes = (props: Props) => {
       {props.lanes.map(lane => (
         <FeatureLane
           key={lane.name}
-          featureName={lane.name}
           lane={lane}
         />
       ))}

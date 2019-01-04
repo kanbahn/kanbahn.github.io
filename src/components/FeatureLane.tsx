@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import TaskColumn, { columnMargin } from './TaskColumn'
-import { addList, deleteLane, editLane } from '../store/listReducer'
+import { addList } from '../store/listReducer'
+import { deleteLane, editLane } from '../store/laneReducer'
 import { taskCreation, moveTask, deleteTask } from '../store/taskReducer'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
@@ -17,7 +18,6 @@ import EditableText from './EditableText'
 import Menu, { MenuItem } from './Menu'
 
 interface FeatureLaneOwnProps {
-  featureName: string
   lane: Lane
 }
 
@@ -38,26 +38,26 @@ type FeatureLaneProps = FeatureLaneOwnProps & FeatureLaneDispatchProps & Feature
 
 const FeatureLane = (props: FeatureLaneProps) => {
   const [renaming, setRenaming] = useState(false)
-  const addList = () => props.addList(props.featureName, props.lane)
-  const deleteThisLane = () => props.deleteLane(props.featureName)
-  const { featureName, tasks, lists } = props
+  const addList = () => props.addList(props.lane.name, props.lane)
+  const deleteThisLane = () => props.deleteLane(props.lane.id)
+  const { lane, tasks, lists } = props
 
-  const lanesTasks = tasks.filter(task => task.list.lane === featureName)
-  const lanesColumns = lists.filter(list => list.lane === featureName)
+  const lanesTasks = tasks.filter(task => task.list.lane === lane.name)
+  const lanesColumns = lists.filter(list => list.lane === lane.name)
 
   const startRenaming = () => {
     setRenaming(true)
   }
 
   const renameFeature = async (newName: string) => {
-    await props.editLane(featureName, newName)
+    await props.editLane(lane.id, newName)
     setRenaming(false)
   }
 
   return (
     <GradientContainer>
       <FlexContainerHeader>
-        <Title><EditableText text={featureName} editing={renaming} done={renameFeature}/></Title>
+        <Title><EditableText text={lane.name} editing={renaming} done={renameFeature}/></Title>
         <MenuButton>
           <Menu>
             <MenuItem onClick={startRenaming}>Rename</MenuItem>
@@ -71,7 +71,7 @@ const FeatureLane = (props: FeatureLaneProps) => {
             key={list.id}
             list={list}
             columnSpan={1}
-            laneName={featureName}
+            laneName={lane.name}
             tasks={lanesTasks.filter(task => task.list.id === list.id)}
             moveTask={props.moveTask}
           />
