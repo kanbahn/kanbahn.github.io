@@ -3,38 +3,39 @@ import FeatureLane from './FeatureLane'
 import { connect } from 'react-redux'
 import { Task } from '../../src-common/entity/Task'
 import { List } from '../../src-common/entity/List'
+import { Lane } from '../../src-common/entity/Lane'
 import { StoreState } from '../store/store'
-import { unique } from '../helpers'
 import styled from 'styled-components'
 import { GradientContainer, transparentButtonStyles } from './common'
 import { addList } from '../store/listReducer'
+import { addLane } from '../store/laneReducer'
 import { Plus } from 'react-feather'
 
 interface FeatureLanesDispatchProps {
   addList: typeof addList
+  addLane: typeof addLane
 }
 
 interface FeatureLanesStoreProps {
   lists: List[]
   tasks: Task[]
+  lanes: Lane[]
 }
 
 type Props = FeatureLanesDispatchProps & FeatureLanesStoreProps
 
 const FeatureLanes = (props: Props) => {
-
-  const uniqueLanes = unique(props.lists.map(list => list.lane))
-
   const newLane = () => {
-    props.addList('feature' + (uniqueLanes.length + 1))
+    // props.addList('feature', =//(uniqueLanes.length + 1))
+    props.addLane('feature' + props.lanes.length)
   }
 
   return (
     <Container>
-      {uniqueLanes.map(lane => (
+      {props.lanes.map(lane => (
         <FeatureLane
-          key={lane}
-          featureName={lane}
+          key={lane.name}
+          lane={lane}
         />
       ))}
 
@@ -59,12 +60,14 @@ const AddLaneButton = styled.button`
 const mapStateToProps = (state: StoreState) => {
   return {
     lists: state.lists,
-    tasks: state.tasks
+    tasks: state.tasks,
+    lanes: state.lanes
   }
 }
 
 const mapDispatchToProps = {
-  addList
+  addList,
+  addLane
 }
 
 const ConnectedFeatureLanes = connect(mapStateToProps, mapDispatchToProps)(FeatureLanes)

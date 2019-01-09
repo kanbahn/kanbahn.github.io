@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express'
-import { createList, deleteList, getLists, updateList, deleteLists, editLists } from '../database/listQueries'
+import { createList, deleteList, getLists, updateList } from '../database/listQueries'
 
 const router = Router()
 
@@ -18,15 +18,6 @@ router.patch('/api/lists/:id', async (request: Request, response: Response) => {
 router.delete('/api/lists/:id', async (request: Request, response: Response) => {
   await deleteList(Number(request.params.id))
   response.send({})
-})
-
-router.delete('/api/lane/:laneName', async (request: Request, response: Response) => {
-  await deleteLists(String(request.params.laneName))
-  response.send({})
-})
-
-router.patch('/api/lane/:laneName', async (request: Request, response: Response) => {
-  response.send(await editLists(String(request.params.laneName), request.body))
 })
 
 export default router

@@ -1,5 +1,6 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, OneToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Task } from './Task'
+import { Lane } from './Lane'
 
 @Entity()
 export class List {
@@ -7,4 +8,5 @@ export class List {
   @Column() name: string
   @Column() lane: string
   @OneToMany(type => Task, task => task.list) tasks: Task[]
+  @ManyToOne(type => Lane, lane => lane.lists, { eager: true, onDelete: 'CASCADE', nullable: true }) laneId: Lane
 }
