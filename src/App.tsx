@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { Profile } from 'passport'
 import styled from 'styled-components'
 import 'reset-css'
-import FeatureLanes from './components/FeatureLanes'
+import BoardView from './components/BoardView'
 import { getJSON } from './fetch'
 import { receiveLists } from './store/listReducer'
 import { receiveTasks } from './store/taskReducer'
 import { receiveLanes } from './store/laneReducer'
+import { receiveBoards } from './store/boardReducer'
+import { addBoard } from './store/boardReducer'
 import { connect } from 'react-redux'
 import { Title } from './components/common'
 
@@ -14,6 +16,8 @@ interface DispatchProps {
   receiveLists: typeof receiveLists
   receiveTasks: typeof receiveTasks
   receiveLanes: typeof receiveLanes
+  receiveBoards: typeof receiveBoards
+  addBoard: typeof addBoard
 }
 
 type Props = DispatchProps
@@ -26,15 +30,21 @@ const App = (props: Props) => {
     getJSON('/api/lists').then(response => props.receiveLists(response.lists)).catch(() => undefined)
     getJSON('/api/tasks').then(response => props.receiveTasks(response.tasks)).catch(() => undefined)
     getJSON('/api/lanes').then(response => props.receiveLanes(response.lanes)).catch(() => undefined)
+    getJSON('/api/boards').then(response => props.receiveBoards(response.boards)).catch(() => undefined)
   }, [])
+
+  const newBoard = () => {
+    props.addBoard()
+  }
 
   return (
     <BackroundContainer>
       <Header>
         <Title>Project name</Title>
+        <button onClick={newBoard}>New Board</button>
         <LoginButton user={user} />
       </Header>
-      <FeatureLanes/>
+      <BoardView />
     </BackroundContainer>
   )
 }
@@ -72,7 +82,9 @@ const LoginButton = (props: { user?: Profile | null }) => {
 const mapDispatchToProps = {
   receiveLists,
   receiveTasks,
-  receiveLanes
+  receiveLanes,
+  receiveBoards,
+  addBoard
 }
 
 export default connect(undefined, mapDispatchToProps)(App)
