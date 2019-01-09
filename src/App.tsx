@@ -10,7 +10,7 @@ import { receiveLanes } from './store/laneReducer'
 import { receiveBoards } from './store/boardReducer'
 import { addBoard } from './store/boardReducer'
 import { connect } from 'react-redux'
-import { Title } from './components/common'
+import Select from 'react-select'
 
 interface DispatchProps {
   receiveLists: typeof receiveLists
@@ -37,14 +37,28 @@ const App = (props: Props) => {
     props.addBoard()
   }
 
+  const projectNames = [
+    { value: 'project', label: 'ProjectName' },
+  ]
+
+  const boards = [
+    { value: '1', label: 'Board 1' },
+    { value: '2', label: 'Board 2' }
+  ]
+
   return (
     <BackroundContainer>
       <Header>
-        <Title>Project name</Title>
-        <button onClick={newBoard}>New Board</button>
+        <div style={{ width: '200px', marginBottom: '8px' }}>
+          <Select options={projectNames} isClearable={false} defaultValue={projectNames[0]}/>
+        </div>
+        <div style={{ width: '200px', marginBottom: '8px' }}>
+          <Select options={boards} isClearable={false} defaultValue={boards[0]}/>
+        </div>
         <LoginButton user={user} />
       </Header>
       <BoardView />
+      <button onClick={newBoard}>New Board</button>
     </BackroundContainer>
   )
 }
@@ -65,7 +79,7 @@ const BackroundContainer = styled.div`
 
 const Header = styled.header`
   display: flex;
-  justify-content: space-between;
+  justify-content: left;
 `
 
 const LoginButton = (props: { user?: Profile | null }) => {
@@ -73,9 +87,9 @@ const LoginButton = (props: { user?: Profile | null }) => {
     case undefined:
       return null
     case null:
-      return <a href='/api/auth/google'>Sign in</a>
+      return <a style={{ marginLeft: 'auto' }} href='/api/auth/google'>Sign in</a>
     default:
-      return <div>{props.user.displayName} (<a href='/api/auth/logout'>Logout</a>)</div>
+      return <div style={{ marginLeft: 'auto' }}>{props.user.displayName} (<a href='/api/auth/logout'>Logout</a>)</div>
   }
 }
 
