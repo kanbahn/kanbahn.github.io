@@ -36,13 +36,15 @@ const FeatureLanes = (props: Props) => {
 
   return (
     <Container>
-      {props.lanes.map(lane => (
-        <FeatureLane
-          key={lane.name}
-          lane={lane}
-        />
-      ))}
-
+      {props.lanes
+        .filter(lane => lane.board.id === props.board.id)
+        .map(lane => (
+          <FeatureLane
+            key={lane.name}
+            lane={lane}
+          />
+        ))
+      }
       <GradientContainer>
         <AddLaneButton onClick={newLane}>
           <Plus/>

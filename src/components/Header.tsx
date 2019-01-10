@@ -39,13 +39,15 @@ const Header = (props: Props) => {
   }
 
   const getCurrentBoard = () => {
-    return boardsOptionFormatted.find(board => board.value === props.ui.activeBoard)
+    const currentBoard = boardsOptionFormatted.find(board => board.value === props.ui.activeBoard)
+    // Warning: if no current board is set (in UiState) the first board is taken as default (2/2)
+    return currentBoard ? currentBoard : boardsOptionFormatted[0]
   }
 
   return (
     <HeaderContainer>
       <SelectContainer>
-        <Select 
+        <Select
           options={projectNames}
           isClearable={false}
           defaultValue={projectNames[0]}
