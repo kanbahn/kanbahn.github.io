@@ -39,7 +39,7 @@ const App = (props: Props) => {
 
   return (
     <BackroundContainer>
-      <Header user={user}/>
+      <Header user={user ? user : null}/>
       <BoardContainer />
       <button onClick={newBoard}>New Board</button>
     </BackroundContainer>

@@ -3,25 +3,61 @@ import styled from 'styled-components'
 import Select from 'react-select'
 import LoginButton from './LoginButton'
 import { Profile } from 'passport'
+import { StoreState } from '../store/store'
+import { connect } from 'react-redux'
+import { Board } from '../../src-common/entity/Board'
+import { setActiveBoard, UiState } from '../store/uiReducer'
 
-const Header = (props: { user?: Profile | null }) => {
+interface HeaderOwnProps {
+  user: Profile | null
+}
+
+interface HeaderDispatchProps {
+  setActiveBoard: typeof setActiveBoard
+}
+
+interface HeaderStoreProps {
+  boards: Board[]
+  ui: UiState
+}
+
+type Props = HeaderStoreProps & HeaderDispatchProps & HeaderOwnProps // { user?: Profile | null }
+
+const Header = (props: Props) => {
+
   // TODO: use real data from state
   const projectNames = [
     { value: 'project', label: 'ProjectName' },
   ]
 
-  const boards = [
-    { value: '1', label: 'Board 1' },
-    { value: '2', label: 'Board 2' }
-  ]
+  const boardsOptionFormatted = props.boards.map(board => {
+    return { value: board.id, label: board.name }
+  })
+
+  const handleChange = async (selected: any) => {
+    props.setActiveBoard(selected.value)
+  }
+
+  const getCurrentBoard = () => {
+    return boardsOptionFormatted.find(board => board.value === props.ui.activeBoard)
+  }
 
   return (
     <HeaderContainer>
       <SelectContainer>
-        <Select options={projectNames} isClearable={false} defaultValue={projectNames[0]}/>
+        <Select 
+          options={projectNames}
+          isClearable={false}
+          defaultValue={projectNames[0]}
+        />
       </SelectContainer>
       <SelectContainer>
-        <Select options={boards} isClearable={false} defaultValue={boards[0]}/>
+        <Select
+          options={boardsOptionFormatted}
+          isClearable={false}
+          value={getCurrentBoard()}
+          onChange={handleChange}
+        />
       </SelectContainer>
       <LoginButton user={props.user} />
     </HeaderContainer>
@@ -37,4 +73,18 @@ const SelectContainer = styled.div`
   width: 200px;
   margin-bottom: 8px;
 `
-export default Header
+
+const mapStateToProps = (state: StoreState) => {
+  return {
+    boards: state.boards,
+    ui: state.ui
+  }
+}
+
+const mapDispatchToProps = {
+  setActiveBoard
+}
+
+const ConnectedHeader = connect(mapStateToProps, mapDispatchToProps)(Header)
+
+export default ConnectedHeader
