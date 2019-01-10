@@ -6,9 +6,9 @@ export async function getBoards() {
   return boardRepository.find()
 }
 
-export async function createBoard() {
+export async function createBoard(board: Board) {
   const boardRepository = getRepository(Board)
-  const entity = boardRepository.create({ name: 'newBoard' })
+  const entity = boardRepository.create(board)
   await boardRepository.insert(entity)
   return entity
 }

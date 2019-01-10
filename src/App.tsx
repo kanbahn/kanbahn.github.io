@@ -8,7 +8,7 @@ import { receiveLists } from './store/listReducer'
 import { receiveTasks } from './store/taskReducer'
 import { receiveLanes } from './store/laneReducer'
 import { receiveBoards } from './store/boardReducer'
-import { addBoard } from './store/boardReducer'
+import { receiveProjects } from './store/projectReducer'
 import { connect } from 'react-redux'
 import Header from './components/Header'
 
@@ -17,7 +17,7 @@ interface DispatchProps {
   receiveTasks: typeof receiveTasks
   receiveLanes: typeof receiveLanes
   receiveBoards: typeof receiveBoards
-  addBoard: typeof addBoard
+  receiveProjects: typeof receiveProjects
 }
 
 type Props = DispatchProps
@@ -31,17 +31,13 @@ const App = (props: Props) => {
     getJSON('/api/tasks').then(response => props.receiveTasks(response.tasks)).catch(() => undefined)
     getJSON('/api/lanes').then(response => props.receiveLanes(response.lanes)).catch(() => undefined)
     getJSON('/api/boards').then(response => props.receiveBoards(response.boards)).catch(() => undefined)
+    getJSON('/api/projects').then(response => props.receiveProjects(response.projects)).catch(() => undefined)
   }, [])
-
-  const newBoard = () => {
-    props.addBoard()
-  }
 
   return (
     <BackroundContainer>
       <Header user={user ? user : null}/>
       <BoardContainer />
-      <button onClick={newBoard}>New Board</button>
     </BackroundContainer>
   )
 }
@@ -65,7 +61,7 @@ const mapDispatchToProps = {
   receiveTasks,
   receiveLanes,
   receiveBoards,
-  addBoard
+  receiveProjects
 }
 
 export default connect(undefined, mapDispatchToProps)(App)

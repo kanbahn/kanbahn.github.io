@@ -10,6 +10,7 @@ import lists from './routes/lists'
 import tasks from './routes/tasks'
 import lanes from './routes/lanes'
 import boards from './routes/boards'
+import projects from './routes/projects'
 import { connectToDatabase } from './database/connection'
 
 connectToDatabase().then(() => {
@@ -37,6 +38,7 @@ connectToDatabase().then(() => {
   app.use(tasks)
   app.use(lanes)
   app.use(boards)
+  app.use(projects)
 
   app.listen(process.env.PORT || 8001)
 }).catch(error => {

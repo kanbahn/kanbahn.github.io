@@ -7,10 +7,14 @@ interface SetActiveBoard {
 
 type UiAction = SetActiveBoard
 
-export interface UiState { activeBoard: number }
+export interface UiState {
+  activeBoard: number
+  activeProject: number
+}
 
 const initialState = {
-  activeBoard: 0
+  activeBoard: 0,
+  activeProject: 1
 }
 
 const uiReducer = (state: UiState = initialState, action: UiAction) => {

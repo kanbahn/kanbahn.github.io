@@ -8,7 +8,7 @@ router.get('/api/boards', async (request: Request, response: Response) => {
 })
 
 router.post('/api/boards', async (request: Request, response: Response) => {
-  response.send(await createBoard())
+  response.send(await createBoard(request.body))
 })
 
 export default router
