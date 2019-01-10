@@ -2,18 +2,22 @@ import React, { useEffect, useState } from 'react'
 import { Profile } from 'passport'
 import styled from 'styled-components'
 import 'reset-css'
-import FeatureLanes from './components/FeatureLanes'
+import BoardContainer from './components/BoardContainer'
 import { getJSON } from './fetch'
 import { receiveLists } from './store/listReducer'
 import { receiveTasks } from './store/taskReducer'
 import { receiveLanes } from './store/laneReducer'
+import { receiveBoards } from './store/boardReducer'
+import { receiveProjects } from './store/projectReducer'
 import { connect } from 'react-redux'
-import { Title } from './components/common'
+import Header from './components/Header'
 
 interface DispatchProps {
   receiveLists: typeof receiveLists
   receiveTasks: typeof receiveTasks
   receiveLanes: typeof receiveLanes
+  receiveBoards: typeof receiveBoards
+  receiveProjects: typeof receiveProjects
 }
 
 type Props = DispatchProps
@@ -26,15 +30,14 @@ const App = (props: Props) => {
     getJSON('/api/lists').then(response => props.receiveLists(response.lists)).catch(() => undefined)
     getJSON('/api/tasks').then(response => props.receiveTasks(response.tasks)).catch(() => undefined)
     getJSON('/api/lanes').then(response => props.receiveLanes(response.lanes)).catch(() => undefined)
+    getJSON('/api/boards').then(response => props.receiveBoards(response.boards)).catch(() => undefined)
+    getJSON('/api/projects').then(response => props.receiveProjects(response.projects)).catch(() => undefined)
   }, [])
 
   return (
     <BackroundContainer>
-      <Header>
-        <Title>Project name</Title>
-        <LoginButton user={user} />
-      </Header>
-      <FeatureLanes/>
+      <Header user={user ? user : null}/>
+      <BoardContainer />
     </BackroundContainer>
   )
 }
@@ -53,26 +56,12 @@ const BackroundContainer = styled.div`
   color: #333333;
 `
 
-const Header = styled.header`
-  display: flex;
-  justify-content: space-between;
-`
-
-const LoginButton = (props: { user?: Profile | null }) => {
-  switch (props.user) {
-    case undefined:
-      return null
-    case null:
-      return <a href='/api/auth/google'>Sign in</a>
-    default:
-      return <div>{props.user.displayName} (<a href='/api/auth/logout'>Logout</a>)</div>
-  }
-}
-
 const mapDispatchToProps = {
   receiveLists,
   receiveTasks,
-  receiveLanes
+  receiveLanes,
+  receiveBoards,
+  receiveProjects
 }
 
 export default connect(undefined, mapDispatchToProps)(App)

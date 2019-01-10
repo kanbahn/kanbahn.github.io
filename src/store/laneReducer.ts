@@ -2,6 +2,7 @@ import { Omit } from 'ramda'
 import { Dispatch } from 'redux'
 import { postJSON, deleteJSON, patchJSON } from '../fetch'
 import { Lane } from '../../src-common/entity/Lane'
+import { Board } from '../../src-common/entity/Board'
 
 interface ReceiveLanes {
   type: 'RECEIVE-LANES'
@@ -55,8 +56,8 @@ export const receiveLanes = (lanes: Lane[]): ReceiveLanes => {
   }
 }
 
-export const addLane = (laneName: string) => {
-  const body: Omit<Lane, 'id'> = { name: laneName, lists: [] }
+export const addLane = (laneName: string, board: Board) => {
+  const body: Omit<Lane, 'id'> = { name: laneName, board, lists: [] }
 
   return async (dispatch: Dispatch<LaneAction>) => {
     const lane: Lane = await postJSON('/api/lanes', body)

@@ -4,12 +4,17 @@ import { connect } from 'react-redux'
 import { Task } from '../../src-common/entity/Task'
 import { List } from '../../src-common/entity/List'
 import { Lane } from '../../src-common/entity/Lane'
+import { Board } from '../../src-common/entity/Board'
 import { StoreState } from '../store/store'
 import styled from 'styled-components'
 import { GradientContainer, transparentButtonStyles } from './common'
 import { addList } from '../store/listReducer'
 import { addLane } from '../store/laneReducer'
 import { Plus } from 'react-feather'
+
+interface FeatureLanesOwnProps {
+  board: Board
+}
 
 interface FeatureLanesDispatchProps {
   addList: typeof addList
@@ -22,23 +27,24 @@ interface FeatureLanesStoreProps {
   lanes: Lane[]
 }
 
-type Props = FeatureLanesDispatchProps & FeatureLanesStoreProps
+type Props = FeatureLanesOwnProps & FeatureLanesDispatchProps & FeatureLanesStoreProps
 
 const FeatureLanes = (props: Props) => {
   const newLane = () => {
-    // props.addList('feature', =//(uniqueLanes.length + 1))
-    props.addLane('feature' + props.lanes.length)
+    props.addLane('feature' + props.lanes.length, props.board)
   }
 
   return (
     <Container>
-      {props.lanes.map(lane => (
-        <FeatureLane
-          key={lane.name}
-          lane={lane}
-        />
-      ))}
-
+      {props.lanes
+        .filter(lane => lane.board.id === props.board.id)
+        .map(lane => (
+          <FeatureLane
+            key={lane.name}
+            lane={lane}
+          />
+        ))
+      }
       <GradientContainer>
         <AddLaneButton onClick={newLane}>
           <Plus/>
