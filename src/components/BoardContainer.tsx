@@ -10,7 +10,7 @@ interface BoardStoreProps {
 
 type Props = BoardStoreProps
 
-const BoardView = (props: Props) => {
+const BoardContainer = (props: Props) => {
   const currentBoard = props.boards.find(board => board.id === 1)
 
   if (currentBoard) {
@@ -36,6 +36,6 @@ const mapStateToProps = (state: StoreState) => {
 const mapDispatchToProps = {
 }
 
-const ConnectedBoard = connect(mapStateToProps, mapDispatchToProps)(BoardView)
+const ConnectedBoardContainer = connect(mapStateToProps, mapDispatchToProps)(BoardContainer)
 
-export default ConnectedBoard
+export default ConnectedBoardContainer

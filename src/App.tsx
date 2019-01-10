@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Profile } from 'passport'
 import styled from 'styled-components'
 import 'reset-css'
-import BoardView from './components/BoardView'
+import BoardContainer from './components/BoardContainer'
 import { getJSON } from './fetch'
 import { receiveLists } from './store/listReducer'
 import { receiveTasks } from './store/taskReducer'
@@ -10,7 +10,7 @@ import { receiveLanes } from './store/laneReducer'
 import { receiveBoards } from './store/boardReducer'
 import { addBoard } from './store/boardReducer'
 import { connect } from 'react-redux'
-import Select from 'react-select'
+import Header from './components/Header'
 
 interface DispatchProps {
   receiveLists: typeof receiveLists
@@ -37,27 +37,10 @@ const App = (props: Props) => {
     props.addBoard()
   }
 
-  const projectNames = [
-    { value: 'project', label: 'ProjectName' },
-  ]
-
-  const boards = [
-    { value: '1', label: 'Board 1' },
-    { value: '2', label: 'Board 2' }
-  ]
-
   return (
     <BackroundContainer>
-      <Header>
-        <div style={{ width: '200px', marginBottom: '8px' }}>
-          <Select options={projectNames} isClearable={false} defaultValue={projectNames[0]}/>
-        </div>
-        <div style={{ width: '200px', marginBottom: '8px' }}>
-          <Select options={boards} isClearable={false} defaultValue={boards[0]}/>
-        </div>
-        <LoginButton user={user} />
-      </Header>
-      <BoardView />
+      <Header user={user}/>
+      <BoardContainer />
       <button onClick={newBoard}>New Board</button>
     </BackroundContainer>
   )
@@ -76,22 +59,6 @@ const BackroundContainer = styled.div`
   font-size: 14px;
   color: #333333;
 `
-
-const Header = styled.header`
-  display: flex;
-  justify-content: left;
-`
-
-const LoginButton = (props: { user?: Profile | null }) => {
-  switch (props.user) {
-    case undefined:
-      return null
-    case null:
-      return <a style={{ marginLeft: 'auto' }} href='/api/auth/google'>Sign in</a>
-    default:
-      return <div style={{ marginLeft: 'auto' }}>{props.user.displayName} (<a href='/api/auth/logout'>Logout</a>)</div>
-  }
-}
 
 const mapDispatchToProps = {
   receiveLists,
