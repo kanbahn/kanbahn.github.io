@@ -56,11 +56,18 @@ const Header = (props: Props) => {
   }
 
   const newBoard = () => {
-    props.addBoard( 'New Board', getCurrentProject())
+    const boardName = window.prompt('Create new board', 'Board name')
+    if (boardName) {
+      props.addBoard( boardName, getCurrentProject())
+      // TODO: get the id of newly created board and set it as active i.e. set ui.activeProject
+    }
   }
 
   const newProject = () => {
-    props.addProject( 'New Project' )
+    const projectName = window.prompt('Create new project', 'Project name')
+    if (projectName) {
+      props.addProject( projectName )
+    }
   }
 
   return (
