@@ -5,7 +5,7 @@ module.exports = {
   name: 'default',
   type: 'postgres',
   url: development ? testDbUrl : process.env.DATABASE_URL,
-  synchronize: [development ? true : false],
+  synchronize: [development ? true : true],
   entities: [development ? 'src-common/entity/**/*.ts' : 'build-backend/src-common/entity/**/*.js'],
   migrations: [development ? 'src-backend/migration/**/*.ts' : 'build-backend/src-backend/migration/**/*.js'],
   subscribers: [development ? 'src-backend/subscriber/**/*.ts' : 'build-backend/src-backend/subscriber/**/*.js'],
