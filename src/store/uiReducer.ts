@@ -1,11 +1,17 @@
 import { Dispatch } from 'redux'
+import { Board } from '../../src-common/entity/Board'
 
 interface SetActiveBoard {
   type: 'SET-ACTIVE-BOARD'
   boardId: number
 }
 
-type UiAction = SetActiveBoard
+interface AddBoard {
+  type: 'ADD-BOARD'
+  board: Board
+}
+
+type UiAction = SetActiveBoard | AddBoard
 
 export interface UiState {
   activeBoard: number
@@ -20,8 +26,10 @@ const initialState = {
 const uiReducer = (state: UiState = initialState, action: UiAction) => {
   switch (action.type) {
     case 'SET-ACTIVE-BOARD':
-      const newState = { ...state, activeBoard: action.boardId }
-      return newState
+      return { ...state, activeBoard: action.boardId }
+
+    case 'ADD-BOARD':
+      return { ...state, activeBoard: action.board.id }
 
     default:
       return state
