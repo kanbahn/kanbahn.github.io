@@ -46,7 +46,7 @@ const uiReducer = (state: UiState = initialState, action: UiAction) => {
       return { ...state, activeProject: action.projectId }
 
     case 'ADD-PROJECT':
-      return { ...state, activeProject: action.project.id }
+      return { ...state, activeProject: action.project.id, activeBoard: 0 }
 
     default:
       return state

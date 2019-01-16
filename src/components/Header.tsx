@@ -32,7 +32,7 @@ type Props = HeaderStoreProps & HeaderDispatchProps & HeaderOwnProps // { user?:
 
 const Header = (props: Props) => {
 
-  const selectFormatBoard = (board: Board) => {
+  const selectFormatBoard = (board: Board | undefined) => {
     return board ? { value: board.id, label: board.name } : undefined
   }
 
@@ -51,7 +51,7 @@ const Header = (props: Props) => {
   const getCurrentBoard = () => {
     const currentBoard = props.boards.find(board => board.id === props.ui.activeBoard)
     // Warning: if no current board is set (in UiState) the first board is taken as default (2/2)
-    return currentBoard ? currentBoard : props.boards[0]
+    return currentBoard ? currentBoard : props.boards.find(board => board.project.id === getCurrentProjectId())
   }
 
   const getCurrentProject = () => {
@@ -84,6 +84,21 @@ const Header = (props: Props) => {
     console.log(props.projects)
   }
 
+  const projectsLoaded = () => {
+    return props.projects.filter(project => project.id === getCurrentProjectId()).length === 1
+  }
+
+  const getCurrentBoards = () => {
+    if (props.projects.length > 0 && projectsLoaded) {
+      const boards = props.boards
+        .filter(board => board.project.id === getCurrentProjectId())
+        .map(board => selectFormatBoard(board))
+      return boards
+    } else {
+      return undefined
+    }
+  }
+
   return (
     <HeaderContainer>
       <SelectContainer>
@@ -96,10 +111,7 @@ const Header = (props: Props) => {
       </SelectContainer>
       <SelectContainer>
         <Select
-          options={props.boards
-            .filter(board => board.project.id
-              === getCurrentProjectId())
-            .map(board => selectFormatBoard(board))}
+          options={getCurrentBoards()}
           isClearable={false}
           value={selectFormatBoard(getCurrentBoard())}
           onChange={handleBoardChange}
