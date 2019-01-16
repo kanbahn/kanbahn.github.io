@@ -6,8 +6,7 @@ import { Profile } from 'passport'
 import { StoreState } from '../store/store'
 import { connect } from 'react-redux'
 import { Board } from '../../src-common/entity/Board'
-// import { User } from '../../src-common/entity/User'
-import { setActiveBoard, UiState } from '../store/uiReducer'
+import { setActiveBoard, UiState, setActiveProject } from '../store/uiReducer'
 import { addBoard } from '../store/boardReducer'
 import { Project } from '../../src-common/entity/Project'
 import { addProject } from '../store/projectReducer'
@@ -17,6 +16,7 @@ interface HeaderOwnProps {
 }
 
 interface HeaderDispatchProps {
+  setActiveProject: typeof setActiveProject
   setActiveBoard: typeof setActiveBoard
   addBoard: typeof addBoard
   addProject: typeof addProject
@@ -40,7 +40,11 @@ const Header = (props: Props) => {
     return project ? { value: project.id, label: project.name } : undefined
   }
 
-  const handleChange = async (selected: any) => {
+  const handleProjectChange = async (selected: any) => {
+    props.setActiveProject(selected.value)
+  }
+
+  const handleBoardChange = async (selected: any) => {
     props.setActiveBoard(selected.value)
   }
 
@@ -65,12 +69,8 @@ const Header = (props: Props) => {
   }
 
   const newProject = () => {
-    console.log('NEW PROJECT')
     const projectName = window.prompt('Create new project', 'Project name')
     if (projectName && props.user) {
-      console.log(props.user)
-      // const user = new User()
-      // user.googleId = props.user.id
       props.addProject( projectName, props.user.id)
     }
   }
@@ -86,6 +86,7 @@ const Header = (props: Props) => {
           options={props.projects.map(project => selectFormatProject(project))}
           isClearable={false}
           value={selectFormatProject(getCurrentProject())}
+          onChange={handleProjectChange}
         />
       </SelectContainer>
       <SelectContainer>
@@ -93,7 +94,7 @@ const Header = (props: Props) => {
           options={props.boards.map(board => selectFormatBoard(board))}
           isClearable={false}
           value={selectFormatBoard(getCurrentBoard())}
-          onChange={handleChange}
+          onChange={handleBoardChange}
         />
       </SelectContainer>
       <button onClick={newBoard}>New Board</button>
@@ -123,6 +124,7 @@ const mapStateToProps = (state: StoreState) => {
 }
 
 const mapDispatchToProps = {
+  setActiveProject,
   setActiveBoard,
   addBoard,
   addProject
