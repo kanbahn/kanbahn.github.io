@@ -6,13 +6,11 @@ export async function getProjects() {
 }
 
 export async function getUsersProjects(userId: string) {
-  // NOTE: Columnnames quoted for casesensitivity.
-  // "o.projectId" does not work
-  return await  getRepository(Project)
+  return await getRepository(Project)
     .query(
       'SELECT p.id, p.name ' +
       'FROM project as p, project_owners_user AS o ' +
-      'WHERE id = "projectId" ' +
+      'WHERE p.id = o."projectId" ' +
       'AND "userGoogleId" = $1', [userId])
 }
 

@@ -1,9 +1,16 @@
 import { getRepository } from 'typeorm'
 import { Board } from '../../src-common/entity/Board'
 
-export async function getBoards() {
-  const boardRepository = getRepository(Board)
-  return boardRepository.find()
+export async function getBoards(userId: string) {
+  return await getRepository(Board)
+    .query(
+      'SELECT b.* ' +
+      'FROM project_owners_user AS o, project AS p, board AS b ' +
+      'WHERE o."projectId" = p.id ' +
+      'AND o."projectId" = b."projectId" ' +
+      'AND o."userGoogleId" = $1'
+    , [userId]
+    )
 }
 
 export async function createBoard(board: Board) {
