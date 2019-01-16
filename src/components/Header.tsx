@@ -6,6 +6,7 @@ import { Profile } from 'passport'
 import { StoreState } from '../store/store'
 import { connect } from 'react-redux'
 import { Board } from '../../src-common/entity/Board'
+// import { User } from '../../src-common/entity/User'
 import { setActiveBoard, UiState } from '../store/uiReducer'
 import { addBoard } from '../store/boardReducer'
 import { Project } from '../../src-common/entity/Project'
@@ -64,10 +65,18 @@ const Header = (props: Props) => {
   }
 
   const newProject = () => {
+    console.log('NEW PROJECT')
     const projectName = window.prompt('Create new project', 'Project name')
-    if (projectName) {
-      props.addProject( projectName )
+    if (projectName && props.user) {
+      console.log(props.user)
+      // const user = new User()
+      // user.googleId = props.user.id
+      props.addProject( projectName, props.user.id)
     }
+  }
+
+  const printProjects = () => {
+    console.log(props.projects)
   }
 
   return (
@@ -89,6 +98,7 @@ const Header = (props: Props) => {
       </SelectContainer>
       <button onClick={newBoard}>New Board</button>
       <button onClick={newProject}>New Project</button>
+      <button onClick={printProjects}>Show projects</button>
       <LoginButton user={props.user} />
     </HeaderContainer>
   )

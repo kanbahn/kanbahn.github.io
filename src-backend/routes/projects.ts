@@ -1,10 +1,15 @@
 import { Request, Response, Router } from 'express'
-import { getProjects, createProject } from '../database/projectQueries'
+import { createProject, getUsersProjects } from '../database/projectQueries'
 
 const router = Router()
 
 router.get('/api/projects', async (request: Request, response: Response) => {
-  response.send({ projects: await getProjects() })
+  if (request.user) {
+    const projects = await getUsersProjects(request.user.id)
+    response.send({ projects })
+  } else {
+    response.send({ projects: [] })
+  }
 })
 
 router.post('/api/project', async (request: Request, response: Response) => {
