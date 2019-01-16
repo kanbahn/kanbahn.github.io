@@ -9,5 +9,5 @@ export class Project {
   @OneToMany(type => Board, board => board.project) boards: Board[]
   @ManyToMany(type => User)
   @JoinTable()
-  owners: User[]
+  owners: User[] // TODO: design sensible eager loading strategy
 }
