@@ -6,6 +6,7 @@ import boardReducer, { BoardsState } from './boardReducer'
 import thunk from 'redux-thunk'
 import uiReducer, { UiState } from './uiReducer'
 import projectReducer, { ProjectsState } from './projectReducer'
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 export interface StoreState {
   lists: ListsState
@@ -25,4 +26,6 @@ const rootReducer: Reducer<StoreState> = combineReducers({
   ui: uiReducer
 })
 
-export const store = createStore(rootReducer, applyMiddleware(thunk))
+export const store = createStore(rootReducer, 
+  composeWithDevTools(applyMiddleware(thunk)),
+)

@@ -51,7 +51,7 @@ const Header = (props: Props) => {
   const getCurrentBoard = () => {
     const currentBoard = props.boards.find(board => board.id === props.ui.activeBoard)
     // Warning: if no current board is set (in UiState) the first board is taken as default (2/2)
-    return currentBoard ? currentBoard : props.boards.find(board => board.project.id === getCurrentProjectId())
+    return currentBoard //? currentBoard : props.boards.find(board => board.project.id === getCurrentProjectId())
   }
 
   const getCurrentProject = () => {

@@ -21,7 +21,6 @@
     "react-redux": "^5.0.7",
     "react-textarea-autosize": "^7.0.4",
     "redux": "^4.0.0",
-    "redux-devtools-extension": "^2.13.7",
     "redux-thunk": "^2.3.0",
     "reflect-metadata": "^0.1.12",
     "reset-css": "^4.0.1",
@@ -58,6 +57,7 @@
     "react-scripts": "^2.1.0",
     "react-select": "^2.2.0",
     "react-test-renderer": "^16.7.0-alpha.2",
+    "redux-devtools-extension": "^2.13.7",
     "tslint": "^5.10.0",
     "tslint-eslint-rules-recommended": "^1.1.0",
     "tslint-react": "^3.6.0"

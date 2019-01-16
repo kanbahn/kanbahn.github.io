@@ -5,6 +5,10 @@ export async function getProjects() {
   return getRepository(Project).find({ relations: ['owners'] })
 }
 
+export async function getUsersProjectsNested(userId: string) {
+  return getRepository(Project).find() //todo: filter by user
+}
+
 export async function getUsersProjects(userId: string) {
   return await getRepository(Project)
     .query(

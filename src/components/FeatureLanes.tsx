@@ -31,13 +31,14 @@ type Props = FeatureLanesOwnProps & FeatureLanesDispatchProps & FeatureLanesStor
 
 const FeatureLanes = (props: Props) => {
   const newLane = () => {
-    props.addLane('feature' + props.lanes.length, props.board)
+    console.log(props.lanes.length)
+    props.addLane('feature' + (props.lanes.length + 1), props.board)
   }
 
   return (
     <Container>
       {props.lanes
-        .filter(lane => lane.board.id === props.board.id)
+        //.filter(lane => lane.board.id === props.board.id)
         .map(lane => (
           <FeatureLane
             key={lane.name}

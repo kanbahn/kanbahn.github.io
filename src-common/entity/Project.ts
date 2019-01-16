@@ -6,7 +6,7 @@ import { User } from './User'
 export class Project {
   @PrimaryGeneratedColumn() id: number
   @Column() name: string
-  @OneToMany(type => Board, board => board.project) boards: Board[]
+  @OneToMany(type => Board, board => board.project, { eager: true }) boards: Board[]
   @ManyToMany(type => User)
   @JoinTable()
   owners: User[] // TODO: design sensible eager loading strategy

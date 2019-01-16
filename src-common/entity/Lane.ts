@@ -6,6 +6,6 @@ import { Board } from './Board'
 export class Lane {
   @PrimaryGeneratedColumn() id: number
   @Column() name: string
-  @ManyToOne(type => Board, board => board.lanes, { eager: true, onDelete: 'CASCADE', nullable: true }) board: Board
-  @OneToMany(type => List, list => list.laneId) lists: List[]
+  @ManyToOne(type => Board, board => board.lanes, { eager: false, onDelete: 'CASCADE', nullable: true }) board: Board
+  @OneToMany(type => List, list => list.laneId,  { eager: true }) lists: List[]
 }

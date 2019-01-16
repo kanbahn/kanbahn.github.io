@@ -6,7 +6,7 @@ import { Project } from './Project'
 export class Board {
   @PrimaryGeneratedColumn() id: number
   @Column() name: string
-  @OneToMany(type => Lane, lane => lane.board) lanes: Lane[]
+  @OneToMany(type => Lane, lane => lane.board, { eager: true }) lanes: Lane[]
   @ManyToOne(type => Project, project => project.boards,
-    { eager: true, onDelete: 'CASCADE', nullable: false }) project: Project
+    { eager: false, onDelete: 'CASCADE', nullable: false }) project: Project
 }

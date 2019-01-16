@@ -1,11 +1,12 @@
 import { Request, Response, Router } from 'express'
-import { createProject, getUsersProjects } from '../database/projectQueries'
+import { createProject, getUsersProjectsNested } from '../database/projectQueries'
 
 const router = Router()
 
 router.get('/api/projects', async (request: Request, response: Response) => {
   if (request.user) {
-    const projects = await getUsersProjects(request.user.id)
+    const projects = await getUsersProjectsNested(request.user.id)
+    console.log(projects)
     response.send({ projects })
   } else {
     response.send({ projects: [] })

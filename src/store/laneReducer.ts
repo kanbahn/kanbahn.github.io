@@ -61,6 +61,7 @@ export const addLane = (laneName: string, board: Board) => {
 
   return async (dispatch: Dispatch<LaneAction>) => {
     const lane: Lane = await postJSON('/api/lanes', body)
+    console.log(lane)
     return dispatch({
       type: 'ADD-LANE',
       lane
