@@ -60,6 +60,11 @@ const Header = (props: Props) => {
     return currentProject ? currentProject : props.projects[0]
   }
 
+  const getCurrentProjectId = () => {
+    const project = getCurrentProject()
+    return project ? project.id : undefined
+  }
+
   const newBoard = () => {
     const boardName = window.prompt('Create new board', 'Board name')
     if (boardName) {
@@ -91,7 +96,10 @@ const Header = (props: Props) => {
       </SelectContainer>
       <SelectContainer>
         <Select
-          options={props.boards.map(board => selectFormatBoard(board))}
+          options={props.boards
+            .filter(board => board.project.id
+              === getCurrentProjectId())
+            .map(board => selectFormatBoard(board))}
           isClearable={false}
           value={selectFormatBoard(getCurrentBoard())}
           onChange={handleBoardChange}

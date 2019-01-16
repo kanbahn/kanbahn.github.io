@@ -31,7 +31,7 @@ export interface UiState {
 
 const initialState = {
   activeBoard: 0,
-  activeProject: 1
+  activeProject: 0
 }
 
 const uiReducer = (state: UiState = initialState, action: UiAction) => {
@@ -46,7 +46,7 @@ const uiReducer = (state: UiState = initialState, action: UiAction) => {
       return { ...state, activeProject: action.projectId }
 
     case 'ADD-PROJECT':
-      return { ...state, activeBoard: action.project.id }
+      return { ...state, activeProject: action.project.id }
 
     default:
       return state

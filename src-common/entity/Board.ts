@@ -8,5 +8,5 @@ export class Board {
   @Column() name: string
   @OneToMany(type => Lane, lane => lane.board) lanes: Lane[]
   @ManyToOne(type => Project, project => project.boards,
-    { eager: true, onDelete: 'CASCADE', nullable: true }) project: Project
+    { eager: true, onDelete: 'CASCADE', nullable: false }) project: Project
 }
