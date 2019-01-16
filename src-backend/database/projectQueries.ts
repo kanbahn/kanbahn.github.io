@@ -6,7 +6,7 @@ export async function getProjects() {
 }
 
 export async function getUsersProjectsNested(userId: string) {
-  return getRepository(Project).find() //todo: filter by user
+  return getRepository(Project).find() // todo: filter by user
 }
 
 export async function getUsersProjects(userId: string) {

@@ -38,7 +38,7 @@ const FeatureLanes = (props: Props) => {
   return (
     <Container>
       {props.lanes
-        //.filter(lane => lane.board.id === props.board.id)
+        // .filter(lane => lane.board.id === props.board.id)
         .map(lane => (
           <FeatureLane
             key={lane.name}
