@@ -1,11 +1,11 @@
 import { Request, Response, Router } from 'express'
-import { createBoard, getBoards } from '../database/boardQueries'
+import { createBoard, getBoardsByUser } from '../database/boardQueries'
 
 const router = Router()
 
 router.get('/api/boards', async (request: Request, response: Response) => {
   if (request.user) {
-    response.send({ boards: await getBoards(request.user.id) })
+    response.send({ boards: await getBoardsByUser(request.user.id) })
   } else {
     response.send({ boards: [] })
   }

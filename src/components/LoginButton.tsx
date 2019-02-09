@@ -8,6 +8,7 @@ const LoginButton = (props: { user?: Profile | null }) => {
     case null:
       return <a style={{ marginLeft: 'auto' }} href='/api/auth/google'>Sign in</a>
     default:
+      console.log(props.user.id)
       return <div style={{ marginLeft: 'auto' }}>{props.user.displayName} (<a href='/api/auth/logout'>Logout</a>)</div>
   }
 }

@@ -1,17 +1,17 @@
-import { getRepository } from 'typeorm'
+import { getRepository, getConnection } from 'typeorm'
 import { Board } from '../../src-common/entity/Board'
+const sql = require('yesql')('./src-backend/database/sql/',  {type: 'pg'})
 
 export async function getBoards(userId: string) {
   return await getRepository(Board).find()
-  /*return await getRepository(Board)
+}
+
+export async function getBoardsByUser(userId: string) {
+  return await getConnection()
     .query(
-      'SELECT b.* ' +
-      'FROM project_owners_user AS o, project AS p, board AS b ' +
-      'WHERE o."projectId" = p.id ' +
-      'AND o."projectId" = b."projectId" ' +
-      'AND o."userGoogleId" = $1'
-    , [userId]
-    )*/
+      sql.getBoardsByUser().text,
+      [userId]
+    )
 }
 
 export async function createBoard(board: Board) {

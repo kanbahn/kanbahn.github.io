@@ -100,6 +100,10 @@ const Header = (props: Props) => {
   }
 
   return (
+    <LoginButton user={props.user} />
+  )
+  /*
+  return (
     <HeaderContainer>
       <SelectContainer>
         <Select
@@ -122,7 +126,7 @@ const Header = (props: Props) => {
       <button onClick={printProjects}>Show projects</button>
       <LoginButton user={props.user} />
     </HeaderContainer>
-  )
+  )*/
 }
 
 const HeaderContainer = styled.header`

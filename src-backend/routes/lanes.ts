@@ -1,9 +1,13 @@
 import { Request, Response, Router } from 'express'
-import { getLanes, createLane, deleteLane, editLane } from '../database/laneQueries'
+import { getLanesByUser, createLane, deleteLane, editLane } from '../database/laneQueries'
 const router = Router()
 
 router.get('/api/lanes', async (request: Request, response: Response) => {
-  response.send({ lanes: await getLanes() })
+  if (request.user) {
+    response.send({ lanes: await getLanesByUser(request.user.id) })
+  } else {
+    response.send({ lanes: [] })
+  }
 })
 
 router.post('/api/lanes', async (request: Request, response: Response) => {

@@ -37,9 +37,9 @@ const App = (props: Props) => {
   return (
     <BackroundContainer>
       <Header user={user ? user : null}/>
-      <BoardContainer />
+      
     </BackroundContainer>
-  )
+  ) //<BoardContainer />
 }
 
 const BackroundContainer = styled.div`
