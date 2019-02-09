@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import Select from 'react-select'
 import LoginButton from './LoginButton'
 import { Profile } from 'passport'
 import { StoreState } from '../store/store'

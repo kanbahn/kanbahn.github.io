@@ -1,13 +1,13 @@
 import { getRepository, getConnection } from 'typeorm'
 import { Project } from '../../src-common/entity/Project'
-const sql = require('yesql')('./src-backend/database/sql/',  {type: 'pg'})
+const sql = require('yesql')('./src-backend/database/sql/',  { type: 'pg' })
 
 export async function getProjects() {
   return getRepository(Project).find({ relations: ['owners'] })
 }
 
 export async function getUsersProjectsNested(userId: string) {
-  console.log("User id", userId)
+  console.log('User id', userId)
   return getRepository(Project).find() // todo: filter by user
 }
 

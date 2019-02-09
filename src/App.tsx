@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Profile } from 'passport'
 import styled from 'styled-components'
 import 'reset-css'
-import BoardContainer from './components/BoardContainer'
 import { getJSON } from './fetch'
 import { receiveLists } from './store/listReducer'
 import { receiveTasks } from './store/taskReducer'
@@ -37,9 +36,9 @@ const App = (props: Props) => {
   return (
     <BackroundContainer>
       <Header user={user ? user : null}/>
-      
+
     </BackroundContainer>
-  ) //<BoardContainer />
+  ) // <BoardContainer />
 }
 
 const BackroundContainer = styled.div`

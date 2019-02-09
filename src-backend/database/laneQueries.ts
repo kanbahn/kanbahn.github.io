@@ -1,6 +1,6 @@
 import { getRepository, getConnection } from 'typeorm'
 import { Lane } from '../../src-common/entity/Lane'
-const sql = require('yesql')('./src-backend/database/sql/',  {type: 'pg'})
+const sql = require('yesql')('./src-backend/database/sql/',  { type: 'pg' })
 
 export async function getLanes() {
   const laneRepository = getRepository(Lane)

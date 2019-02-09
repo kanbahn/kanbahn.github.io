@@ -1,6 +1,6 @@
 import { getRepository, getConnection } from 'typeorm'
 import { Board } from '../../src-common/entity/Board'
-const sql = require('yesql')('./src-backend/database/sql/',  {type: 'pg'})
+const sql = require('yesql')('./src-backend/database/sql/',  { type: 'pg' })
 
 export async function getBoards(userId: string) {
   return await getRepository(Board).find()
