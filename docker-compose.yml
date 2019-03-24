@@ -1,0 +1,18 @@
+version: '3.5'
+
+services:
+  postgres:
+    container_name: postgres_container
+    image: postgres:9.6
+    environment:
+      POSTGRES_DB: kanbahn_test
+      POSTGRES_USER: kanbahner
+      POSTGRES_PASSWORD: passwd
+    ports:
+      - "5433:5432"
+    restart: unless-stopped
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:

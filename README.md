@@ -19,9 +19,12 @@ https://kanbahn.herokuapp.com
 - Go to project root `cd kanbahn`
 - Install dependencies `npm install`
 - Start database
-  - `docker build .`
-  - `docker run -d --name kanbahn-test-postgres -p 5433:5432 <container-id>`
-  - (TODO: use docker-compose)
+  - start a container with empty database `docker-compose up -d`
+    - check `psql "postgres://kanbahner:passwd@localhost:5433/kanbahn_test" -c "\l"`
+  - create database schema `psql "postgres://kanbahner:passwd@localhost:5433/kanbahn_test" --file ddl_full.sql`
+    - check `psql "postgres://kanbahner:passwd@localhost:5433/kanbahn_test" -c "\dt"`
+  - seed the database `psql "postgres://kanbahner:passwd@localhost:5433/kanbahn_test" --file seen-db.sql`
+    - check `psql "postgres://kanbahner:passwd@localhost:5433/kanbahn_test" -c "SELECT * FROM public.flatall"`
 - Run development server `npm start`
 - Open browser [http://localhost:3000/](http://localhost:3000/)
 - Run tests `npm test` (the server must be running simultaneously)
