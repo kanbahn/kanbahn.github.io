@@ -44,3 +44,10 @@ VALUES
 INSERT INTO lane ("id", "name", "boardId")
 VALUES
 (1, 'Feature 1', 1);
+
+--Lists
+INSERT INTO list ("id", "name", "laneId", "lane")
+VALUES
+(1, 'Todo', 1, 'Feature 1'),
+(2, 'In progress', 1, 'Feature 1'),
+(3, 'Done', 1, 'Feature 1')

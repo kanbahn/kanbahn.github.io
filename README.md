@@ -23,7 +23,7 @@ https://kanbahn.herokuapp.com
     - check `psql "postgres://kanbahner:passwd@localhost:5433/kanbahn_test" -c "\l"`
   - create database schema `psql "postgres://kanbahner:passwd@localhost:5433/kanbahn_test" --file ddl_full.sql`
     - check `psql "postgres://kanbahner:passwd@localhost:5433/kanbahn_test" -c "\dt"`
-  - seed the database `psql "postgres://kanbahner:passwd@localhost:5433/kanbahn_test" --file seen-db.sql`
+  - seed the database `psql "postgres://kanbahner:passwd@localhost:5433/kanbahn_test" --file seed-db.sql`
     - check `psql "postgres://kanbahner:passwd@localhost:5433/kanbahn_test" -c "SELECT * FROM public.flatall"`
 - Run development server `npm start`
 - Open browser [http://localhost:3000/](http://localhost:3000/)

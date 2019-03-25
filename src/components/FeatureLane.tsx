@@ -42,8 +42,8 @@ const FeatureLane = (props: FeatureLaneProps) => {
   const deleteThisLane = () => props.deleteLane(props.lane.id)
   const { lane, tasks, lists } = props
 
-  const lanesTasks = tasks.filter(task => task.list.lane === lane.name)
-  const lanesColumns = lists.filter(list => list.lane === lane.name)
+  const lanesTasks = tasks// .filter(task => task.list.laneId === lane.id) //TODO fix laneId
+  const lanesColumns = lists// .filter(list => list.lane === lane.name)
 
   const startRenaming = () => {
     setRenaming(true)

@@ -1,9 +1,18 @@
 import { getConnection, getManager, getRepository } from 'typeorm'
 import { List } from '../../src-common/entity/List'
+const sql = require('yesql')('./src-backend/database/sql/',  { type: 'pg' })
 
 export async function getLists() {
   const listRepository = getRepository(List)
   return listRepository.find()
+}
+
+export async function getListsByUser(userId: string) {
+  return await getConnection()
+    .query(
+      sql.listsByUser().text,
+      [userId]
+    )
 }
 
 export async function createList(list: List) {
@@ -21,9 +30,9 @@ export async function updateList(id: number, updates: Partial<List>) {
       await listRepository.save({ id, name: updates.name })
     }
 
-    if (updates.lane !== undefined) {
+    /*if (updates.lane !== undefined) {
       await listRepository.save({ id, lane: updates.lane })
-    }
+    }*/
 
     return await listRepository.findOneOrFail({ id })
   })

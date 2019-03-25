@@ -38,6 +38,9 @@ SET default_tablespace = '';
 
 SET default_with_oids = false;
 
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+
 --
 -- TOC entry 187 (class 1259 OID 16417)
 -- Name: board; Type: TABLE; Schema: public; Owner: kanbahner
@@ -99,7 +102,7 @@ CREATE TABLE public.list (
     id integer NOT NULL,
     name character varying NOT NULL,
     lane character varying NOT NULL,
-    "laneIdId" integer
+    "laneId" integer
 );
 
 
@@ -168,7 +171,7 @@ CREATE VIEW public.flatall AS
      LEFT JOIN public.project_owners_user o ON ((p.id = o."projectId")))
      LEFT JOIN public.board b ON ((p.id = b."projectId")))
      LEFT JOIN public.lane l ON ((b.id = l."boardId")))
-     LEFT JOIN public.list c ON ((l.id = c."laneIdId")))
+     LEFT JOIN public.list c ON ((l.id = c."laneId")))
      LEFT JOIN public.task t ON ((c.id = t."listId")));
 
 
@@ -436,7 +439,7 @@ ALTER TABLE ONLY public.task
 --
 
 ALTER TABLE ONLY public.list
-    ADD CONSTRAINT "FK_dd36bbcf6b3d188fe3d11958323" FOREIGN KEY ("laneIdId") REFERENCES public.lane(id) ON DELETE CASCADE;
+    ADD CONSTRAINT "FK_dd36bbcf6b3d188fe3d11958324" FOREIGN KEY ("laneId") REFERENCES public.lane(id) ON DELETE CASCADE;
 
 
 --

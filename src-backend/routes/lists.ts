@@ -1,10 +1,16 @@
 import { Request, Response, Router } from 'express'
-import { createList, deleteList, getLists, updateList } from '../database/listQueries'
+import { createList, deleteList, updateList, getListsByUser } from '../database/listQueries'
 
 const router = Router()
 
 router.get('/api/lists', async (request: Request, response: Response) => {
-  response.send({ lists: await getLists() })
+  if (request.user) {
+    const usersLists = await getListsByUser(request.user.id)
+    response.send({ lists: usersLists })
+  } else {
+    response.send({ lists: [] })
+  }
+
 })
 
 router.post('/api/lists', async (request: Request, response: Response) => {
