@@ -51,3 +51,12 @@ VALUES
 (1, 'Todo', 1, 'Feature 1'),
 (2, 'In progress', 1, 'Feature 1'),
 (3, 'Done', 1, 'Feature 1')
+
+--Tasks
+
+INSERT INTO task ("id", "title", "index", "listId")
+VALUES
+(1, 'Tests', 1, 1),
+(1, 'APIs', 2, 1),
+(2, 'UI code', 1, 2),
+(3, 'SQL code', 1, 3)

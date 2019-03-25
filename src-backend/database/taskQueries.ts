@@ -1,9 +1,18 @@
-import { getManager, getRepository, MoreThan } from 'typeorm'
+import { getManager, getRepository, getConnection, MoreThan } from 'typeorm'
 import { Task } from '../../src-common/entity/Task'
+const sql = require('yesql')('./src-backend/database/sql/',  { type: 'pg' })
 
 export async function getTasks() {
   const tasksRepository = getRepository(Task)
   return tasksRepository.find({ order: { list: 'ASC', index: 'ASC' } })
+}
+
+export async function getTasksByUser(userId: string) {
+  return await getConnection()
+    .query(
+      sql.tasksByUser().text,
+      [userId]
+    )
 }
 
 export async function createTask(task: Task) {

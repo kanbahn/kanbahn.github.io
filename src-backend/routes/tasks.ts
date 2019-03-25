@@ -1,10 +1,16 @@
 import { Request, Response, Router } from 'express'
-import { createTask, deleteTask, getTasks, updateTask } from '../database/taskQueries'
+import { createTask, deleteTask, getTasksByUser, updateTask } from '../database/taskQueries'
 
 const router = Router()
 
 router.get('/api/tasks', async (request: Request, response: Response) => {
-  response.send({ tasks: await getTasks() })
+  if (request.user) {
+    const usersTasks = await getTasksByUser(request.user.id)
+    console.log('usersTasks', usersTasks)
+    response.send({ tasks: usersTasks })
+  } else {
+    response.send({ tasks: [] })
+  }
 })
 
 router.post('/api/tasks', async (request: Request, response: Response) => {
