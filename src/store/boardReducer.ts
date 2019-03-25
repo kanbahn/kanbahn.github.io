@@ -1,8 +1,13 @@
 import { Dispatch } from 'redux'
 import { Board } from '../../src-common/entity/Board'
 import { postJSON } from '../fetch'
-import { Omit } from 'ramda'
+import { Omit, assoc } from 'ramda'
 import { Project } from '../../src-common/entity/Project'
+import { arrayToByIdObject } from '../helpers/helpers';
+
+interface BoardById {
+  [key: string]: Board
+}
 
 interface ReceiveBoards {
   type: 'RECEIVE-BOARDS'
@@ -16,16 +21,17 @@ interface AddBoard {
 
 type BoardAction = ReceiveBoards | AddBoard
 
-export type BoardsState = Board[]
+export type BoardsState = BoardById
 
-const boardReducer = (state: BoardsState = [], action: BoardAction) => {
+const boardReducer = (state: BoardsState = {}, action: BoardAction) => {
   switch (action.type) {
 
     case 'RECEIVE-BOARDS':
-      return action.boards
+      return arrayToByIdObject( action.boards )
 
     case 'ADD-BOARD':
-      return state.concat(action.board)
+      const id: string = action.board.id.toString()
+      return assoc(id, action.board, state)
 
     default:
       return state

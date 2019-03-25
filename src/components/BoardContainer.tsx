@@ -5,25 +5,30 @@ import { Board } from '../../src-common/entity/Board'
 import { StoreState } from '../store/store'
 import { UiState } from '../store/uiReducer'
 
+interface BoardsById {
+  [key:string]: Board
+}
+
 interface BoardStoreProps {
-  boards: Board[]
+  boards: BoardsById
   uiState: UiState
 }
 
 type Props = BoardStoreProps
 
 const BoardContainer = (props: Props) => {
-  const currentBoard = props.boards.find(board => board.id === props.uiState.activeBoard)
+  const currentBoard = props.boards[props.uiState.activeBoard.toString()]
 
   if (currentBoard) {
     console.log(currentBoard)
     return (
       <FeatureLanes board={currentBoard} />
     )
-  } else if (props.boards.length > 0) {
+  } else if (Object.keys(props.boards).length > 0) {
     // Warning: if no current board is set (in UiState) the first board is taken as default (1/2)
+    const firstBoard = props.boards[Object.keys(props.boards)[0]]
     return (
-      <FeatureLanes board={props.boards[0]} />
+      <FeatureLanes board={ firstBoard } />
     )
   } else {
     return (
