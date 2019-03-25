@@ -1,8 +1,13 @@
-import { Omit } from 'ramda'
+import { Omit, assoc, dissoc } from 'ramda'
 import { Dispatch } from 'redux'
 import { postJSON, deleteJSON, patchJSON } from '../fetch'
 import { Lane } from '../../src-common/entity/Lane'
 import { Board } from '../../src-common/entity/Board'
+import { arrayToByIdObject } from '../helpers/helpers'
+
+interface LanesById {
+  [key: string]: Lane
+}
 
 interface ReceiveLanes {
   type: 'RECEIVE-LANES'
@@ -27,22 +32,28 @@ interface EditLane {
 
 type LaneAction = ReceiveLanes | AddLane | DeleteLane | EditLane
 
-export type LanesState = Lane[]
+export type LanesState = LanesById
 
-const laneReducer = (state: LanesState = [], action: LaneAction) => {
+const laneReducer = (state: LanesState = {}, action: LaneAction) => {
   switch (action.type) {
 
     case 'RECEIVE-LANES':
-      return action.lanes
+      return arrayToByIdObject( action.lanes )
 
     case 'ADD-LANE':
-      return state.concat(action.lane)
+      const addId: string = action.lane.id.toString()
+      return assoc(addId, action.lane, state)
 
     case 'DELETE-LANE':
-      return state.filter(lane => lane.id !== action.laneId)
+      const deleteId: string = action.laneId.toString()
+      const newState: LanesById = dissoc(deleteId, state)
+      return newState
 
     case 'EDIT-LANE':
-      return state.map(lane => lane.id !== action.laneId ? lane : { ...lane, name: action.newName })
+      const editId: string = action.laneId.toString()
+      const editLane: Lane = state[editId]
+      const editedState: LanesById = { ...state, editId: { ...editLane, name: action.newName } }
+      return editedState
 
     default:
       return state
