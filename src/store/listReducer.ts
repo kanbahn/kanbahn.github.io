@@ -1,8 +1,13 @@
-import { Omit } from 'ramda'
+import { Omit, assoc, dissoc } from 'ramda'
 import { Dispatch } from 'redux'
 import { deleteJSON, patchJSON, postJSON } from '../fetch'
 import { List } from '../../src-common/entity/List'
 import { Lane } from '../../src-common/entity/Lane'
+import { arrayToByIdObject } from '../helpers/helpers'
+
+interface ListById {
+  [key: string]: List
+}
 
 interface NewList {
   type: 'NEW-LIST'
@@ -27,21 +32,27 @@ interface ReceiveLists {
 
 type ListAction = NewList | EditList | DeleteList | ReceiveLists
 
-export type ListsState = List[]
+export type ListsState = ListById
 
-const listReducer = (state: ListsState = [], action: ListAction) => {
+const listReducer = (state: ListsState = {}, action: ListAction) => {
   switch (action.type) {
     case 'NEW-LIST':
-      return state.concat(action.list)
+      const newId: string = action.list.id.toString()
+      const newState: ListById = assoc(newId, action.list, state)
+      return newState
 
     case 'EDIT-LIST':
-      return state.map(list => list.id !== action.list.id ? list : { ...list, ...action.edits })
+      const editId = action.list.id.toString()
+      const editList = state[editId]
+      return { ...state, editId: { ...editList, ...action.edits } }
 
     case 'DELETE-LIST':
-      return state.filter(list => list.id !== action.list.id)
+      const deleteId: string = action.list.id.toString()
+      const deletedState: ListById = dissoc(deleteId, state)
+      return deletedState
 
     case 'RECEIVE-LISTS':
-      return action.lists
+      return arrayToByIdObject( action.lists )
 
     default:
       return state
