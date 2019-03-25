@@ -2,7 +2,7 @@ import { Dispatch } from 'redux'
 import { postJSON } from '../fetch'
 import { Omit, assoc } from 'ramda'
 import { Project } from '../../src-common/entity/Project'
-import { arrayToByIdObject } from '../helpers/helpers';
+import { arrayToByIdObject } from '../helpers/helpers'
 
 interface ProjectById {
   [key: string]: Project
