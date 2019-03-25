@@ -25,7 +25,7 @@ const columnTarget: DropTargetSpec<OwnProps> = {
   drop(props, monitor) {
     if (!monitor) return
     const task = monitor.getItem() as Task
-    if (task.list.id === props.list.id) return
+    if (task.list === props.list.id) return
     props.moveTask(task, props.list)
   }
 }

@@ -59,7 +59,7 @@ const taskReducer = (state: TasksState = {}, action: TaskAction) => {
 }
 
 export const taskCreation = (list: List) => {
-  const newTaskObject: Omit<Task, 'id' | 'index'> = { title: '', list }
+  const newTaskObject: Omit<Task, 'id' | 'index'> = { title: '', list: list.id }
 
   return async (dispatch: Dispatch<TaskAction>) => {
     const newTask: Task = await postJSON('/api/tasks', newTaskObject)

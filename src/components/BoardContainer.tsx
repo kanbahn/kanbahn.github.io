@@ -22,7 +22,8 @@ const BoardContainer = (props: Props) => {
   if (currentBoard) {
     console.log(currentBoard)
     return (
-      <FeatureLanes board={currentBoard} />
+      <p>current Board</p>
+      //<FeatureLanes board={currentBoard} />
     )
   } else if (Object.keys(props.boards).length > 0) {
     // Warning: if no current board is set (in UiState) the first board is taken as default (1/2)

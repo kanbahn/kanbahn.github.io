@@ -21,28 +21,40 @@ interface FeatureLanesDispatchProps {
   addLane: typeof addLane
 }
 
+interface LaneById {
+  [key: string]: Lane
+}
+
+interface ListById {
+  [key: string]: List
+}
+
+interface TaskById {
+  [key: string]: Task
+}
+
 interface FeatureLanesStoreProps {
-  lists: List[]
-  tasks: Task[]
-  lanes: Lane[]
+  lists: ListById
+  tasks: TaskById
+  lanes: LaneById
 }
 
 type Props = FeatureLanesOwnProps & FeatureLanesDispatchProps & FeatureLanesStoreProps
 
 const FeatureLanes = (props: Props) => {
+  const laneIds = Object.keys(props.lanes)
   const newLane = () => {
     console.log(props.lanes.length)
-    props.addLane('feature' + (props.lanes.length + 1), props.board)
+    props.addLane('feature' + (laneIds.length + 1), props.board)
   }
 
   return (
     <Container>
-      {props.lanes
-        // .filter(lane => lane.board.id === props.board.id)
-        .map(lane => (
+      {
+        laneIds.map(laneId => (
           <FeatureLane
-            key={lane.name}
-            lane={lane}
+            key={laneId}
+            lane={props.lanes[laneId]}
           />
         ))
       }

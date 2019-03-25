@@ -29,9 +29,17 @@ interface FeatureLaneDispatchProps {
   editLane: typeof editLane
 }
 
+interface TaskById {
+  [key: string]: Task
+}
+
+interface ListById {
+  [key: string]: List
+}
+
 interface FeatureLaneStoreProps {
-  lists: List[]
-  tasks: Task[]
+  lists: ListById
+  tasks: TaskById
 }
 
 type FeatureLaneProps = FeatureLaneOwnProps & FeatureLaneDispatchProps & FeatureLaneStoreProps
@@ -42,8 +50,17 @@ const FeatureLane = (props: FeatureLaneProps) => {
   const deleteThisLane = () => props.deleteLane(props.lane.id)
   const { lane, tasks, lists } = props
 
-  const lanesTasks = tasks// .filter(task => task.list.laneId === lane.id) //TODO fix laneId
-  const lanesColumns = lists// .filter(list => list.lane === lane.name)
+  const listIds =  Object.keys(lists)
+
+  const lanesTasks = Object.keys(tasks)
+    .map(key => tasks[Number(key)])
+    .filter(task => listIds.indexOf(task.list.toString()) > -1 )
+
+  const lanesColumns = Object.keys(lists)
+    .map(key => lists[Number(key)])
+    .filter(list => Number(list.lane) === lane.id);
+
+  console.log(lanesColumns[0])
 
   const startRenaming = () => {
     setRenaming(true)
@@ -72,7 +89,7 @@ const FeatureLane = (props: FeatureLaneProps) => {
             list={list}
             columnSpan={1}
             laneName={lane.name}
-            tasks={lanesTasks.filter(task => task.list.id === list.id)}
+            tasks={lanesTasks.filter(task => task.list === list.id)}
             moveTask={props.moveTask}
           />
         ))}

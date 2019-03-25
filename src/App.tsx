@@ -10,6 +10,7 @@ import { receiveBoards } from './store/boardReducer'
 import { receiveProjects } from './store/projectReducer'
 import { connect } from 'react-redux'
 import Header from './components/Header'
+import BoardContainer from './components/BoardContainer';
 
 interface DispatchProps {
   receiveLists: typeof receiveLists
@@ -36,7 +37,7 @@ const App = (props: Props) => {
   return (
     <BackroundContainer>
       <Header user={user ? user : null}/>
-
+      <BoardContainer />
     </BackroundContainer>
   ) // <BoardContainer />
 }
