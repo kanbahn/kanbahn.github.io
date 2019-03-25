@@ -1,8 +1,13 @@
-import { Omit } from 'ramda'
+import { Omit, assoc, dissoc } from 'ramda'
 import { Dispatch } from 'redux'
 import { Task } from '../../src-common/entity/Task'
 import { debouncedPatchJSON, deleteJSON, getJSON, patchJSON, postJSON } from '../fetch'
 import { List } from '../../src-common/entity/List'
+import { arrayToByIdObject } from '../helpers/helpers'
+
+interface TaskById {
+  [key: string]: Task
+}
 
 interface NewTask {
   type: 'NEW-TASK'
@@ -26,24 +31,27 @@ interface ReceiveTasks {
 }
 
 type TaskAction = NewTask | EditTask | DeleteTask | ReceiveTasks
-export type TasksState = Task[]
 
-const taskReducer = (state: TasksState = [], action: TaskAction) => {
+export type TasksState = TaskById
+
+const taskReducer = (state: TasksState = {}, action: TaskAction) => {
   switch (action.type) {
     case 'NEW-TASK':
-      return state.concat(action.newTask)
+      const newId: string = action.newTask.id.toString()
+      return assoc( newId, action.newTask, state )
 
     case 'EDIT-TASK':
-      const taskToEdit = state.find(task => task.id === action.id)
-      if (!taskToEdit) return state
-      const editedTask: Task = { ...taskToEdit, title: action.title }
-      return state.map(task => task.id !== action.id ? task : editedTask)
+      const editId: string = action.id.toString()
+      const editTask: Task = state[editId]
+      return { ...state, editId: { ...editTask, title: action.title } }
 
     case 'DELETE-TASK':
-      return state.filter(task => task.id !== action.id)
+      const deleteId: string = action.id.toString()
+      const deletedState: TaskById = dissoc( deleteId, state )
+      return deletedState
 
     case 'RECEIVE-TASKS':
-      return action.tasks
+      return arrayToByIdObject( action.tasks )
 
     default:
       return state
