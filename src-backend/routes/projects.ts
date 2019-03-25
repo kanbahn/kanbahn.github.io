@@ -7,7 +7,7 @@ router.get('/api/projects', async (request: Request, response: Response) => {
   if (request.user) {
     const projects = await getUsersProjects(request.user.id)
     console.log(projects)
-    response.send({ projects })
+    response.send({ projects: projects })
   } else {
     response.send({ projects: [] })
   }

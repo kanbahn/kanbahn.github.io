@@ -1,7 +1,12 @@
 import { Dispatch } from 'redux'
 import { postJSON } from '../fetch'
-import { Omit } from 'ramda'
+import { Omit, assoc } from 'ramda'
 import { Project } from '../../src-common/entity/Project'
+import { arrayToByIdObject } from '../helpers/helpers';
+
+interface ProjectById {
+  [key: string]: Project
+}
 
 interface ReceiveProjects {
   type: 'RECEIVE-PROJECTS'
@@ -15,16 +20,16 @@ interface AddProject {
 
 type ProjectAction = ReceiveProjects | AddProject
 
-export type ProjectsState = Project[]
+export type ProjectsState = ProjectById
 
-const projectReducer = (state: ProjectsState = [], action: ProjectAction) => {
+const projectReducer = (state: ProjectsState = {}, action: ProjectAction) => {
   switch (action.type) {
 
     case 'RECEIVE-PROJECTS':
-      return action.projects
+      return arrayToByIdObject(action.projects)
 
     case 'ADD-PROJECT':
-      return state.concat(action.project)
+      return assoc(action.project.id.toString(), action.project, state)
 
     default:
       return state
