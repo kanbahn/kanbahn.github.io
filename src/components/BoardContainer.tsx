@@ -6,7 +6,7 @@ import { StoreState } from '../store/store'
 import { UiState } from '../store/uiReducer'
 
 interface BoardsById {
-  [key:string]: Board
+  [key: string]: Board
 }
 
 interface BoardStoreProps {
@@ -28,7 +28,7 @@ const BoardContainer = (props: Props) => {
     // Warning: if no current board is set (in UiState) the first board is taken as default (1/2)
     const firstBoard = props.boards[Object.keys(props.boards)[0]]
     return (
-      <FeatureLanes board={ firstBoard } />
+      <FeatureLanes board={firstBoard} />
     )
   } else {
     return (
