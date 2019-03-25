@@ -4,7 +4,8 @@ const router = Router()
 
 router.get('/api/lanes', async (request: Request, response: Response) => {
   if (request.user) {
-    response.send({ lanes: await getLanesByUser(request.user.id) })
+    const usersLanes = await getLanesByUser(request.user.id)
+    response.send({ lanes: usersLanes })
   } else {
     response.send({ lanes: [] })
   }
